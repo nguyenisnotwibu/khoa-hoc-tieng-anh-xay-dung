@@ -20,6 +20,8 @@
     body { font-size: 11px; }
     .page-break { page-break-before: always; }
     .no-print { display: none; }
+    .btn-check, .btn-speak, .result-box { display: none !important; }
+    .interactive-select { border: none; background: none; appearance: none; }
   }
 
   .page {
@@ -28,7 +30,6 @@
     padding: 12mm 15mm;
   }
 
-  /* Header */
   .header {
     background: linear-gradient(135deg, #1F4E79, #2980B9);
     color: white;
@@ -38,311 +39,195 @@
   }
   .header table { width: 100%; }
   .header td { vertical-align: middle; }
-  .header-icon {
-    font-size: 40px;
-    width: 50px;
-    text-align: center;
-  }
-  .header h1 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 2px;
-    color: white;
-  }
-  .header p {
-    font-size: 12px;
-    opacity: 0.9;
-    color: white;
-  }
+  .header-icon { font-size: 40px; width: 50px; text-align: center; }
+  .header h1 { font-size: 20px; font-weight: 700; margin-bottom: 2px; color: white; }
+  .header p { font-size: 12px; opacity: 0.9; color: white; }
 
-  /* Info bar as table */
   .info-bar-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 12px 0;
-    margin-bottom: 14px;
-    margin-left: -12px;
+    width: 100%; border-collapse: separate; border-spacing: 12px 0;
+    margin-bottom: 14px; margin-left: -12px;
   }
   .info-item {
-    background: #EBF5FB;
-    border-left: 3px solid #2980B9;
-    padding: 6px 12px;
-    border-radius: 0 6px 6px 0;
-    font-size: 11px;
+    background: #EBF5FB; border-left: 3px solid #2980B9;
+    padding: 6px 12px; border-radius: 0 6px 6px 0; font-size: 11px;
   }
   .info-item strong { color: #1F4E79; }
 
-  /* Section */
-  .section {
-    margin-bottom: 16px;
-  }
+  .section { margin-bottom: 16px; }
   .section-title {
-    background: #1F4E79;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px 8px 0 0;
-    font-size: 14px;
-    font-weight: 700;
+    background: #1F4E79; color: white; padding: 8px 14px;
+    border-radius: 8px 8px 0 0; font-size: 14px; font-weight: 700;
   }
   .section-body {
-    border: 2px solid #D6EAF8;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    padding: 12px;
+    border: 2px solid #D6EAF8; border-top: none;
+    border-radius: 0 0 8px 8px; padding: 12px;
   }
 
-  /* Vocab cards — TABLE layout */
-  .vocab-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 8px;
-  }
-  .vocab-table td {
-    width: 50%;
-    vertical-align: top;
-    padding: 0;
-  }
+  .vocab-table { width: 100%; border-collapse: separate; border-spacing: 8px; }
+  .vocab-table td { width: 50%; vertical-align: top; padding: 0; }
   .vocab-card {
-    border: 1.5px solid #BDC3C7;
-    border-radius: 8px;
-    padding: 8px 10px;
-    background: #FAFAFA;
+    border: 1.5px solid #BDC3C7; border-radius: 8px; padding: 8px 10px;
+    background: #FAFAFA; cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .vocab-card:hover {
+    background: #EBF5FB; border-color: #2980B9;
+    box-shadow: 0 2px 8px rgba(41,128,185,0.15);
+  }
+  .vocab-card:active { background: #D6EAF8; }
+  .vocab-card.speaking {
+    border-color: #27AE60; background: #D5F5E3;
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.2);
   }
   .vocab-card table { width: 100%; }
   .vocab-card td { vertical-align: top; border: none; padding: 0; }
   .vocab-icon-cell {
-    width: 32px;
-    font-size: 24px;
-    text-align: center;
-    line-height: 1.2;
-    padding-right: 8px !important;
+    width: 32px; font-size: 24px; text-align: center;
+    line-height: 1.2; padding-right: 8px !important;
   }
   .vocab-en { font-weight: 700; color: #1F4E79; font-size: 13px; }
   .vocab-pron { color: #7F8C8D; font-size: 10px; font-style: italic; }
   .vocab-vi { color: #E67E22; font-size: 11px; font-weight: 600; }
   .vocab-ex { color: #555; font-size: 10px; margin-top: 2px; }
 
-  /* Exercise boxes */
-  .exercise {
-    margin-bottom: 14px;
-  }
+  .exercise { margin-bottom: 14px; }
   .exercise-title {
-    background: #27AE60;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px 6px 0 0;
-    font-size: 13px;
-    font-weight: 700;
+    background: #27AE60; color: white; padding: 6px 12px;
+    border-radius: 6px 6px 0 0; font-size: 13px; font-weight: 700;
   }
   .exercise-title.orange { background: #E67E22; }
   .exercise-title.blue { background: #2980B9; }
   .exercise-title.purple { background: #8E44AD; }
   .exercise-body {
-    border: 2px solid #D5F5E3;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-    padding: 10px 12px;
+    border: 2px solid #D5F5E3; border-top: none;
+    border-radius: 0 0 6px 6px; padding: 10px 12px;
   }
   .exercise-body.orange-border { border-color: #FDEBD0; }
   .exercise-body.blue-border { border-color: #D6EAF8; }
   .exercise-body.purple-border { border-color: #E8DAEF; }
 
-  /* Lines for writing */
   .write-line {
-    border-bottom: 1px dashed #BDC3C7;
-    padding: 6px 0;
-    min-height: 28px;
+    border-bottom: 1px dashed #BDC3C7; padding: 6px 0; min-height: 28px;
   }
-  .write-line-label {
-    font-weight: 600;
-    color: #1F4E79;
-    font-size: 11px;
-  }
+  .write-line-label { font-weight: 600; color: #1F4E79; font-size: 11px; }
 
-  /* Matching */
-  .match-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .match-table td {
-    padding: 6px 10px;
-    border: 1px solid #D6EAF8;
-    font-size: 12px;
-  }
-  .match-table .col-a {
-    background: #EBF5FB;
-    font-weight: 600;
-    width: 40%;
-    color: #1F4E79;
-  }
-  .match-table .col-b {
-    background: #FEF9E7;
-    width: 10%;
-    text-align: center;
-    font-size: 16px;
-  }
-  .match-table .col-c {
-    width: 50%;
-  }
+  .match-table { width: 100%; border-collapse: collapse; }
+  .match-table td { padding: 6px 10px; border: 1px solid #D6EAF8; font-size: 12px; }
+  .match-table .col-a { background: #EBF5FB; font-weight: 600; width: 40%; color: #1F4E79; }
+  .match-table .col-b { background: #FEF9E7; width: 10%; text-align: center; font-size: 16px; }
+  .match-table .col-c { width: 50%; }
 
-  /* Dialogue */
-  .dialogue {
-    background: #F8F9FA;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin: 8px 0;
+  .interactive-select {
+    border: 1.5px solid #2980B9; border-radius: 4px; padding: 2px 6px;
+    font-size: 13px; font-weight: 700; color: #2980B9; background: white;
+    cursor: pointer; min-width: 40px; text-align: center;
   }
-  .dialogue-line {
-    margin-bottom: 6px;
+  .interactive-select:focus { outline: 2px solid #3498DB; outline-offset: 1px; }
+
+  .dialogue-input {
+    border: none; border-bottom: 2px solid #2980B9; background: #F8F9FA;
+    padding: 2px 6px; font-size: 12px; font-family: 'Inter', Arial, sans-serif;
+    color: #2C3E50; min-width: 80px; transition: border-color 0.2s;
   }
-  .dialogue-line table { width: 100%; }
-  .dialogue-line td { vertical-align: top; border: none; padding: 0; }
-  .speaker {
-    font-weight: 700;
-    color: #2980B9;
-    width: 70px;
-  }
+  .dialogue-input:focus { outline: none; border-bottom-color: #E67E22; background: #FEF9E7; }
+  .dialogue-input.correct { border-bottom-color: #27AE60; background: #D5F5E3; color: #27AE60; font-weight: 600; }
+  .dialogue-input.wrong { border-bottom-color: #E74C3C; background: #FDEDEC; color: #E74C3C; }
+
+  .dialogue { background: #F8F9FA; border-radius: 8px; padding: 10px 14px; margin: 8px 0; }
+  .speaker { font-weight: 700; color: #2980B9; width: 70px; }
   .speaker.b { color: #E67E22; }
 
-  /* Construction visual */
   .site-scene {
     background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 30%, #DEB887 30%, #DEB887 35%, #8B7355 35%, #8B7355 100%);
-    border-radius: 10px;
-    padding: 14px;
-    text-align: center;
-    color: white;
-    font-weight: 700;
-    font-size: 14px;
-    margin: 8px 0;
-    min-height: 80px;
+    border-radius: 10px; padding: 14px; text-align: center; color: white;
+    font-weight: 700; font-size: 14px; margin: 8px 0; min-height: 80px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   }
   .site-scene .emoji-row { font-size: 28px; letter-spacing: 8px; text-shadow: none; }
 
-  /* Tips box */
   .tips-box {
-    background: #FEF9E7;
-    border: 2px solid #F1C40F;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin: 10px 0;
+    background: #FEF9E7; border: 2px solid #F1C40F; border-radius: 8px;
+    padding: 10px 14px; margin: 10px 0;
   }
-  .tips-box h4 {
-    color: #D4AC0D;
-    margin-bottom: 4px;
-    font-size: 12px;
-  }
-  .tips-box ul {
-    list-style: none;
-    padding: 0;
-  }
-  .tips-box li {
-    font-size: 11px;
-    padding: 2px 0;
-  }
+  .tips-box h4 { color: #D4AC0D; margin-bottom: 4px; font-size: 12px; }
+  .tips-box ul { list-style: none; padding: 0; }
+  .tips-box li { font-size: 11px; padding: 2px 0; }
 
-  /* Checklist */
-  .checklist {
-    list-style: none;
-    padding: 0;
-  }
-  .checklist li {
-    padding: 4px 0;
-    font-size: 12px;
-  }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { padding: 4px 0; font-size: 12px; }
   .checkbox {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #2980B9;
-    border-radius: 3px;
-    vertical-align: middle;
-    margin-right: 6px;
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid #2980B9; border-radius: 3px;
+    vertical-align: middle; margin-right: 6px;
   }
 
-  /* Self-assessment */
-  .rating-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .rating-table td {
-    padding: 4px 2px;
-    border: none;
-    vertical-align: middle;
-  }
+  .rating-table { width: 100%; border-collapse: collapse; }
+  .rating-table td { padding: 4px 2px; border: none; vertical-align: middle; }
   .rating-label { font-weight: 600; font-size: 11px; color: #1F4E79; width: 160px; }
   .star {
-    display: inline-block;
-    width: 18px; height: 18px;
-    border: 1.5px solid #F1C40F;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 15px;
-    font-size: 10px;
-    color: #F1C40F;
+    display: inline-block; width: 18px; height: 18px;
+    border: 1.5px solid #F1C40F; border-radius: 50%; text-align: center;
+    line-height: 15px; font-size: 10px; color: #F1C40F;
   }
 
   .footer {
-    text-align: center;
-    color: #95A5A6;
-    font-size: 10px;
-    margin-top: 12px;
-    padding-top: 8px;
-    border-top: 1px solid #ECF0F1;
+    text-align: center; color: #95A5A6; font-size: 10px;
+    margin-top: 12px; padding-top: 8px; border-top: 1px solid #ECF0F1;
   }
 
-  /* Scenario card */
   .scenario {
-    background: #EBF5FB;
-    border-left: 4px solid #2980B9;
-    padding: 10px 14px;
-    border-radius: 0 8px 8px 0;
-    margin: 8px 0;
+    background: #EBF5FB; border-left: 4px solid #2980B9;
+    padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 8px 0;
   }
-  .scenario h4 {
-    color: #2980B9;
-    font-size: 12px;
-    margin-bottom: 4px;
-  }
+  .scenario h4 { color: #2980B9; font-size: 12px; margin-bottom: 4px; }
   .scenario p { font-size: 11px; }
 
-  /* Number label */
   .num-badge {
-    display: inline-block;
-    width: 22px; height: 22px;
-    background: #2980B9;
-    color: white;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 22px;
-    font-weight: 700;
-    font-size: 11px;
+    display: inline-block; width: 22px; height: 22px; background: #2980B9;
+    color: white; border-radius: 50%; text-align: center; line-height: 22px;
+    font-weight: 700; font-size: 11px;
   }
 
-  /* Grammar & monologue 2-col table */
-  .two-col-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 8px;
-  }
-  .two-col-table td {
-    width: 50%;
-    vertical-align: top;
-    padding: 0;
-  }
-  .grammar-box {
-    background: #F4ECF7;
-    padding: 8px;
-    border-radius: 6px;
-  }
+  .two-col-table { width: 100%; border-collapse: separate; border-spacing: 8px; }
+  .two-col-table td { width: 50%; vertical-align: top; padding: 0; }
+  .grammar-box { background: #F4ECF7; padding: 8px; border-radius: 6px; }
   .grammar-box strong { color: #8E44AD; }
   .grammar-box em { color: #555; }
+  .mono-box { padding: 8px; border-radius: 6px; text-align: center; }
 
-  .mono-box {
-    padding: 8px;
-    border-radius: 6px;
-    text-align: center;
+  .btn-check {
+    display: inline-block; background: linear-gradient(135deg, #27AE60, #2ECC71);
+    color: white; border: none; border-radius: 8px; padding: 10px 24px;
+    font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 12px;
+    font-family: 'Inter', Arial, sans-serif;
+    transition: transform 0.1s, box-shadow 0.2s;
   }
+  .btn-check:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(39,174,96,0.3); }
+  .btn-check:active { transform: translateY(0); }
+  .btn-reset { background: linear-gradient(135deg, #95A5A6, #BDC3C7); margin-left: 8px; }
+  .btn-reset:hover { box-shadow: 0 4px 12px rgba(149,165,166,0.3); }
+
+  .result-box {
+    margin-top: 12px; padding: 12px 16px; border-radius: 8px;
+    font-size: 12px; display: none;
+  }
+  .result-box.show { display: block; }
+  .result-box.perfect { background: #D5F5E3; border: 2px solid #27AE60; }
+  .result-box.has-errors { background: #FEF9E7; border: 2px solid #F39C12; }
+  .result-item { padding: 4px 0; display: flex; align-items: flex-start; gap: 6px; }
+  .result-icon { font-size: 16px; flex-shrink: 0; }
+  .result-text { font-size: 12px; }
+  .result-text .correct-answer { color: #27AE60; font-weight: 700; }
+  .result-text .wrong-answer { color: #E74C3C; text-decoration: line-through; }
+  .result-score { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .result-score.perfect { color: #27AE60; }
+  .result-score.partial { color: #F39C12; }
+
+  .audio-hint {
+    text-align: center; font-size: 10px; color: #95A5A6;
+    margin-top: 6px; margin-bottom: 8px; font-style: italic;
+  }
+  .audio-hint span { color: #2980B9; }
 </style>
 </head>
 <body>
@@ -365,7 +250,6 @@
     <td class="info-item"><strong>Giai đoạn:</strong> GĐ1 — Xây nền</td>
   </tr></table>
 
-  <!-- BUỔI 1 HEADER -->
   <div class="section">
     <div class="section-title">&#x1F4D6; BUỔI 1 — CHÀO HỎI &amp; GIỚI THIỆU BẢN THÂN</div>
     <div class="section-body">
@@ -380,213 +264,193 @@
   <div class="section">
     <div class="section-title">&#x1F4DD; TỪ VỰNG: Chào hỏi &amp; Giới thiệu</div>
     <div class="section-body">
+      <p class="audio-hint no-print">&#x1F50A; <span>Nhấn vào thẻ từ vựng</span> để nghe phát âm tiếng Anh</p>
       <table class="vocab-table">
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F44B;</td>
-              <td>
-                <div class="vocab-en">Hello / Hi</div>
-                <div class="vocab-pron">/həˈloʊ/ /haɪ/</div>
-                <div class="vocab-vi">Xin chào</div>
-                <div class="vocab-ex">"Hello! My name is Minh."</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F305;</td>
-              <td>
-                <div class="vocab-en">Good morning</div>
-                <div class="vocab-pron">/ɡʊd ˈmɔːrnɪŋ/</div>
-                <div class="vocab-vi">Chào buổi sáng</div>
-                <div class="vocab-ex">"Good morning, Mr. Smith."</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('Hello. Hi',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F44B;</td>
+            <td>
+              <div class="vocab-en">Hello / Hi</div>
+              <div class="vocab-pron">/həˈloʊ/ /haɪ/</div>
+              <div class="vocab-vi">Xin chào</div>
+              <div class="vocab-ex">"Hello! My name is Minh."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('Good morning',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F305;</td>
+            <td>
+              <div class="vocab-en">Good morning</div>
+              <div class="vocab-pron">/ɡʊd ˈmɔːrnɪŋ/</div>
+              <div class="vocab-vi">Chào buổi sáng</div>
+              <div class="vocab-ex">"Good morning, Mr. Smith."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F324;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">Good afternoon</div>
-                <div class="vocab-pron">/ɡʊd ˌæftərˈnuːn/</div>
-                <div class="vocab-vi">Chào buổi chiều</div>
-                <div class="vocab-ex">"Good afternoon, welcome!"</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F91D;</td>
-              <td>
-                <div class="vocab-en">Nice to meet you</div>
-                <div class="vocab-pron">/naɪs tuː miːt juː/</div>
-                <div class="vocab-vi">Rất vui gặp bạn</div>
-                <div class="vocab-ex">"Nice to meet you!"</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('Good afternoon',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F324;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">Good afternoon</div>
+              <div class="vocab-pron">/ɡʊd ˌæftərˈnuːn/</div>
+              <div class="vocab-vi">Chào buổi chiều</div>
+              <div class="vocab-ex">"Good afternoon, welcome to the site!"</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('Nice to meet you',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F91D;</td>
+            <td>
+              <div class="vocab-en">Nice to meet you</div>
+              <div class="vocab-pron">/naɪs tuː miːt juː/</div>
+              <div class="vocab-vi">Rất vui gặp bạn</div>
+              <div class="vocab-ex">"Nice to meet you! I'm the site manager."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x2753;</td>
-              <td>
-                <div class="vocab-en">How are you?</div>
-                <div class="vocab-pron">/haʊ ɑːr juː/</div>
-                <div class="vocab-vi">Bạn khỏe không?</div>
-                <div class="vocab-ex">"Hi, how are you today?"</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F60A;</td>
-              <td>
-                <div class="vocab-en">I'm fine, thank you</div>
-                <div class="vocab-pron">/aɪm faɪn θæŋk juː/</div>
-                <div class="vocab-vi">Tôi khỏe, cảm ơn</div>
-                <div class="vocab-ex">"I'm fine, thank you."</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('How are you?',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x2753;</td>
+            <td>
+              <div class="vocab-en">How are you?</div>
+              <div class="vocab-pron">/haʊ ɑːr juː/</div>
+              <div class="vocab-vi">Bạn khỏe không?</div>
+              <div class="vocab-ex">"Hi, how are you today?"</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('I am fine, thank you',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F60A;</td>
+            <td>
+              <div class="vocab-en">I'm fine, thank you</div>
+              <div class="vocab-pron">/aɪm faɪn θæŋk juː/</div>
+              <div class="vocab-vi">Tôi khỏe, cảm ơn</div>
+              <div class="vocab-ex">"I'm fine, thank you. And you?"</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3F7;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">My name is...</div>
-                <div class="vocab-pron">/maɪ neɪm ɪz/</div>
-                <div class="vocab-vi">Tên tôi là...</div>
-                <div class="vocab-ex">"My name is Minh Nguyen."</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3E2;</td>
-              <td>
-                <div class="vocab-en">I work at...</div>
-                <div class="vocab-pron">/aɪ wɜːrk æt/</div>
-                <div class="vocab-vi">Tôi làm việc tại...</div>
-                <div class="vocab-ex">"I work at ABC Construction."</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('My name is',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3F7;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">My name is...</div>
+              <div class="vocab-pron">/maɪ neɪm ɪz/</div>
+              <div class="vocab-vi">Tên tôi là...</div>
+              <div class="vocab-ex">"My name is Minh Nguyen."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('I work at',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3E2;</td>
+            <td>
+              <div class="vocab-en">I work at...</div>
+              <div class="vocab-pron">/aɪ wɜːrk æt/</div>
+              <div class="vocab-vi">Tôi làm việc tại...</div>
+              <div class="vocab-ex">"I work at ABC Construction."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F477;</td>
-              <td>
-                <div class="vocab-en">constructor / builder</div>
-                <div class="vocab-pron">/kənˈstrʌktər/</div>
-                <div class="vocab-vi">Nhà thầu xây dựng</div>
-                <div class="vocab-ex">"I'm a constructor in Hanoi."</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3A8;</td>
-              <td>
-                <div class="vocab-en">interior designer</div>
-                <div class="vocab-pron">/ɪnˈtɪriər dɪˈzaɪnər/</div>
-                <div class="vocab-vi">NTK nội thất</div>
-                <div class="vocab-ex">"I'm an interior designer."</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('constructor, builder',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F477;</td>
+            <td>
+              <div class="vocab-en">constructor / builder</div>
+              <div class="vocab-pron">/kənˈstrʌktər/</div>
+              <div class="vocab-vi">Nhà thầu xây dựng</div>
+              <div class="vocab-ex">"I'm a constructor in Hanoi."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('interior designer',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3A8;</td>
+            <td>
+              <div class="vocab-en">interior designer</div>
+              <div class="vocab-pron">/ɪnˈtɪriər dɪˈzaɪnər/</div>
+              <div class="vocab-vi">NTK nội thất</div>
+              <div class="vocab-ex">"She is an interior designer for luxury apartments."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F44B;</td>
-              <td>
-                <div class="vocab-en">Goodbye / See you</div>
-                <div class="vocab-pron">/ɡʊdˈbaɪ/ /siː juː/</div>
-                <div class="vocab-vi">Tạm biệt</div>
-                <div class="vocab-ex">"Goodbye, see you next week!"</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3A9;</td>
-              <td>
-                <div class="vocab-en">How do you do?</div>
-                <div class="vocab-pron">/haʊ duː juː duː/</div>
-                <div class="vocab-vi">Xin chào (trang trọng)</div>
-                <div class="vocab-ex">"How do you do? I'm the PM."</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('Goodbye. See you',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F44B;</td>
+            <td>
+              <div class="vocab-en">Goodbye / See you</div>
+              <div class="vocab-pron">/ɡʊdˈbaɪ/ /siː juː/</div>
+              <div class="vocab-vi">Tạm biệt</div>
+              <div class="vocab-ex">"Goodbye, see you next week!"</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('How do you do?',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3A9;</td>
+            <td>
+              <div class="vocab-en">How do you do?</div>
+              <div class="vocab-pron">/haʊ duː juː duː/</div>
+              <div class="vocab-vi">Xin chào (trang trọng)</div>
+              <div class="vocab-ex">"How do you do? I'm the project manager."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
       </table>
     </div>
   </div>
 
-  <!-- EXERCISE 1: MATCHING -->
+  <!-- EXERCISE 1: MATCHING (Interactive) -->
   <div class="exercise">
     <div class="exercise-title">&#x270F;&#xFE0F; Bài 1: Nối câu chào hỏi với nghĩa phù hợp</div>
     <div class="exercise-body">
       <table class="match-table">
         <tr>
           <td class="col-a">1. Good morning!</td>
-          <td class="col-b">&rarr; ___</td>
+          <td class="col-b">&rarr; <select class="interactive-select" id="match1"><option value="">___</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></td>
           <td class="col-c">a. Rất vui gặp bạn</td>
         </tr>
         <tr>
           <td class="col-a">2. Nice to meet you!</td>
-          <td class="col-b">&rarr; ___</td>
+          <td class="col-b">&rarr; <select class="interactive-select" id="match2"><option value="">___</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></td>
           <td class="col-c">b. Bạn khỏe không?</td>
         </tr>
         <tr>
           <td class="col-a">3. How are you?</td>
-          <td class="col-b">&rarr; ___</td>
+          <td class="col-b">&rarr; <select class="interactive-select" id="match3"><option value="">___</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></td>
           <td class="col-c">c. Chào buổi sáng!</td>
         </tr>
         <tr>
           <td class="col-a">4. I work at ABC Construction.</td>
-          <td class="col-b">&rarr; ___</td>
+          <td class="col-b">&rarr; <select class="interactive-select" id="match4"><option value="">___</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></td>
           <td class="col-c">d. Tạm biệt, hẹn gặp lại!</td>
         </tr>
         <tr>
           <td class="col-a">5. Goodbye, see you!</td>
-          <td class="col-b">&rarr; ___</td>
+          <td class="col-b">&rarr; <select class="interactive-select" id="match5"><option value="">___</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></td>
           <td class="col-c">e. Tôi làm việc tại Cty ABC.</td>
         </tr>
       </table>
+      <div class="no-print" style="text-align:center;">
+        <button class="btn-check" onclick="checkBai1()">&#x2705; Kiểm tra đáp án Bài 1</button>
+        <button class="btn-check btn-reset" onclick="resetBai1()">&#x1F504; Làm lại</button>
+      </div>
+      <div class="result-box" id="result-bai1"></div>
     </div>
   </div>
 
-  <!-- EXERCISE 2: FILL IN -->
+  <!-- EXERCISE 2: FILL IN (Personal) -->
   <div class="exercise">
     <div class="exercise-title orange">&#x270F;&#xFE0F; Bài 2: Điền vào chỗ trống — Tự giới thiệu</div>
     <div class="exercise-body orange-border">
       <p style="font-size:11px; color:#7F8C8D; margin-bottom:8px;">Điền thông tin thật của bạn vào các chỗ trống:</p>
-      <div class="write-line">
-        <span class="write-line-label">1.</span> My name is _________________________________.
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">2.</span> I'm _________ years old.
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">3.</span> I'm a/an _________________________________ (nghề nghiệp).
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">4.</span> I work at _________________________________ (tên công ty).
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">5.</span> I live in _________________________________ (thành phố).
+      <div class="write-line"><span class="write-line-label">1.</span> My name is _________________________________.</div>
+      <div class="write-line"><span class="write-line-label">2.</span> I'm _________ years old.</div>
+      <div class="write-line"><span class="write-line-label">3.</span> I'm a/an _________________________________ (nghề nghiệp).</div>
+      <div class="write-line"><span class="write-line-label">4.</span> I work at _________________________________ (tên công ty).</div>
+      <div class="write-line"><span class="write-line-label">5.</span> I live in _________________________________ (thành phố).</div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"My name is Tran Van Minh. I'm 32 years old."</li>
+          <li>"I'm a site supervisor. I work at Hoa Phat Construction."</li>
+          <li>"I live in Hanoi."</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- DIALOGUE PRACTICE -->
+  <!-- DIALOGUE PRACTICE (Interactive) -->
   <div class="exercise">
     <div class="exercise-title blue">&#x1F3AD; Bài 3: Luyện hội thoại — Gặp đối tác tại công trình</div>
     <div class="exercise-body blue-border">
@@ -596,14 +460,29 @@
       </div>
       <div class="dialogue">
         <table cellpadding="0" cellspacing="0" border="0" width="100%">
-          <tr><td class="speaker" style="width:70px; padding:3px 0;">You:</td><td style="padding:3px 0;">Good _____________, Mr. Smith! I'm _____________ .</td></tr>
+          <tr><td class="speaker" style="width:70px; padding:3px 0;">You:</td><td style="padding:3px 0;">Good <input type="text" class="dialogue-input" id="d1" placeholder="___________" style="width:90px;">, Mr. Smith! I'm <input type="text" class="dialogue-input" id="d2" placeholder="(tên bạn)" style="width:90px;"> .</td></tr>
           <tr><td class="speaker b" style="padding:3px 0;">Mr. Smith:</td><td style="padding:3px 0;">Hello! Nice to meet you. I'm John Smith from Global Materials.</td></tr>
-          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">Nice to _____________ you too! I _____________ at _____________ .</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">Nice to <input type="text" class="dialogue-input" id="d3" placeholder="___________" style="width:70px;"> you too! I <input type="text" class="dialogue-input" id="d4" placeholder="___________" style="width:60px;"> at <input type="text" class="dialogue-input" id="d5" placeholder="(tên công ty)" style="width:100px;"> .</td></tr>
           <tr><td class="speaker b" style="padding:3px 0;">Mr. Smith:</td><td style="padding:3px 0;">Great! How are you today?</td></tr>
-          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">I'm _____________, thank you. And _____________?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">I'm <input type="text" class="dialogue-input" id="d6" placeholder="___________" style="width:60px;">, thank you. And <input type="text" class="dialogue-input" id="d7" placeholder="___________" style="width:60px;">?</td></tr>
           <tr><td class="speaker b" style="padding:3px 0;">Mr. Smith:</td><td style="padding:3px 0;">I'm good, thanks! Nice to be here.</td></tr>
         </table>
       </div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:4px;">
+        <h4>&#x1F4AC; Gợi ý từ cần điền:</h4>
+        <ul>
+          <li><strong>Ô 1:</strong> morning / afternoon (tùy giờ gặp)</li>
+          <li><strong>Ô 3:</strong> meet</li>
+          <li><strong>Ô 4:</strong> work</li>
+          <li><strong>Ô 6:</strong> fine / good / great</li>
+          <li><strong>Ô 7:</strong> you</li>
+        </ul>
+      </div>
+      <div class="no-print" style="text-align:center;">
+        <button class="btn-check" onclick="checkBai3()">&#x2705; Kiểm tra đáp án Bài 3</button>
+        <button class="btn-check btn-reset" onclick="resetBai3()">&#x1F504; Làm lại</button>
+      </div>
+      <div class="result-box" id="result-bai3"></div>
     </div>
   </div>
 
@@ -631,200 +510,167 @@
     </tr></table>
   </div>
 
-  <!-- VOCAB: COMPANY -->
   <div class="section">
     <div class="section-title" style="background:#27AE60;">&#x1F4DD; TỪ VỰNG: Công ty &amp; Công việc</div>
     <div class="section-body">
+      <p class="audio-hint no-print">&#x1F50A; <span>Nhấn vào thẻ từ vựng</span> để nghe phát âm tiếng Anh</p>
       <table class="vocab-table">
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3E2;</td>
-              <td>
-                <div class="vocab-en">company</div>
-                <div class="vocab-pron">/ˈkʌmpəni/</div>
-                <div class="vocab-vi">Công ty</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3D7;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">construction company</div>
-                <div class="vocab-pron">/kənˈstrʌkʃn ˈkʌmpəni/</div>
-                <div class="vocab-vi">Công ty xây dựng</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('company',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3E2;</td>
+            <td>
+              <div class="vocab-en">company</div>
+              <div class="vocab-pron">/ˈkʌmpəni/</div>
+              <div class="vocab-vi">Công ty</div>
+              <div class="vocab-ex">"Our company has 50 employees."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('construction company',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3D7;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">construction company</div>
+              <div class="vocab-pron">/kənˈstrʌkʃn ˈkʌmpəni/</div>
+              <div class="vocab-vi">Công ty xây dựng</div>
+              <div class="vocab-ex">"I work for a construction company in Hanoi."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3A8;</td>
-              <td>
-                <div class="vocab-en">interior design firm</div>
-                <div class="vocab-pron">/ɪnˈtɪriər dɪˈzaɪn fɜːrm/</div>
-                <div class="vocab-vi">Công ty TK nội thất</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F4CB;</td>
-              <td>
-                <div class="vocab-en">project</div>
-                <div class="vocab-pron">/ˈprɒdʒekt/</div>
-                <div class="vocab-vi">Dự án</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('interior design firm',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3A8;</td>
+            <td>
+              <div class="vocab-en">interior design firm</div>
+              <div class="vocab-pron">/ɪnˈtɪriər dɪˈzaɪn fɜːrm/</div>
+              <div class="vocab-vi">Công ty TK nội thất</div>
+              <div class="vocab-ex">"This interior design firm is very famous."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('project',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F4CB;</td>
+            <td>
+              <div class="vocab-en">project</div>
+              <div class="vocab-pron">/ˈprɒdʒekt/</div>
+              <div class="vocab-vi">Dự án</div>
+              <div class="vocab-ex">"We have a new project in District 2."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F935;</td>
-              <td>
-                <div class="vocab-en">client / customer</div>
-                <div class="vocab-pron">/ˈklaɪənt/</div>
-                <div class="vocab-vi">Khách hàng</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F465;</td>
-              <td>
-                <div class="vocab-en">employee</div>
-                <div class="vocab-pron">/ɪmˈplɔɪiː/</div>
-                <div class="vocab-vi">Nhân viên</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('client, customer',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F935;</td>
+            <td>
+              <div class="vocab-en">client / customer</div>
+              <div class="vocab-pron">/ˈklaɪənt/</div>
+              <div class="vocab-vi">Khách hàng</div>
+              <div class="vocab-ex">"The client wants to see the design today."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('employee',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F465;</td>
+            <td>
+              <div class="vocab-en">employee</div>
+              <div class="vocab-pron">/ɪmˈplɔɪiː/</div>
+              <div class="vocab-vi">Nhân viên</div>
+              <div class="vocab-ex">"We have 30 employees on this site."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F3D7;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">construction site</div>
-                <div class="vocab-pron">/kənˈstrʌkʃn saɪt/</div>
-                <div class="vocab-vi">Công trường</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F441;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">supervise</div>
-                <div class="vocab-pron">/ˈsuːpərvaɪz/</div>
-                <div class="vocab-vi">Giám sát</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('construction site',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F3D7;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">construction site</div>
+              <div class="vocab-pron">/kənˈstrʌkʃn saɪt/</div>
+              <div class="vocab-vi">Công trường</div>
+              <div class="vocab-ex">"The construction site is very busy today."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('supervise',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F441;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">supervise</div>
+              <div class="vocab-pron">/ˈsuːpərvaɪz/</div>
+              <div class="vocab-vi">Giám sát</div>
+              <div class="vocab-ex">"I supervise 15 workers every day."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F4CA;</td>
-              <td>
-                <div class="vocab-en">manage</div>
-                <div class="vocab-pron">/ˈmænɪdʒ/</div>
-                <div class="vocab-vi">Quản lý</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x270F;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">design</div>
-                <div class="vocab-pron">/dɪˈzaɪn/</div>
-                <div class="vocab-vi">Thiết kế</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('manage',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F4CA;</td>
+            <td>
+              <div class="vocab-en">manage</div>
+              <div class="vocab-pron">/ˈmænɪdʒ/</div>
+              <div class="vocab-vi">Quản lý</div>
+              <div class="vocab-ex">"She manages three projects at the same time."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('design',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x270F;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">design</div>
+              <div class="vocab-pron">/dɪˈzaɪn/</div>
+              <div class="vocab-vi">Thiết kế</div>
+              <div class="vocab-ex">"We design modern offices and apartments."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F9F1;</td>
-              <td>
-                <div class="vocab-en">build</div>
-                <div class="vocab-pron">/bɪld/</div>
-                <div class="vocab-vi">Xây dựng</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F454;</td>
-              <td>
-                <div class="vocab-en">project manager</div>
-                <div class="vocab-pron">/ˈprɒdʒekt ˈmænɪdʒər/</div>
-                <div class="vocab-vi">Quản lý dự án</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('build',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F9F1;</td>
+            <td>
+              <div class="vocab-en">build</div>
+              <div class="vocab-pron">/bɪld/</div>
+              <div class="vocab-vi">Xây dựng</div>
+              <div class="vocab-ex">"We build houses and commercial buildings."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('project manager',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F454;</td>
+            <td>
+              <div class="vocab-en">project manager</div>
+              <div class="vocab-pron">/ˈprɒdʒekt ˈmænɪdʒər/</div>
+              <div class="vocab-vi">Quản lý dự án</div>
+              <div class="vocab-ex">"The project manager checks the schedule daily."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
       </table>
     </div>
   </div>
 
-  <!-- GRAMMAR BOX — replaced grid with table -->
   <div class="exercise">
     <div class="exercise-title" style="background:#8E44AD;">&#x1F4D0; Ngữ pháp: Present Simple (Thì hiện tại đơn)</div>
     <div class="exercise-body purple-border">
       <table class="two-col-table" style="margin-bottom:8px;">
         <tr>
-          <td>
-            <div class="grammar-box">
-              <strong>&#x2705; Khẳng định:</strong><br>
-              I/We/They + V<br>
-              <em>I <strong>build</strong> houses.</em><br>
-              <em>We <strong>design</strong> offices.</em>
-            </div>
-          </td>
-          <td>
-            <div class="grammar-box">
-              <strong>&#x274C; Phủ định:</strong><br>
-              I/We/They + don't + V<br>
-              <em>I <strong>don't work</strong> on weekends.</em><br>
-              <em>We <strong>don't build</strong> bridges.</em>
-            </div>
-          </td>
+          <td><div class="grammar-box"><strong>&#x2705; Khẳng định:</strong><br>I/We/They + V<br><em>I <strong>build</strong> houses.</em><br><em>We <strong>design</strong> offices.</em></div></td>
+          <td><div class="grammar-box"><strong>&#x274C; Phủ định:</strong><br>I/We/They + don't + V<br><em>I <strong>don't work</strong> on weekends.</em><br><em>We <strong>don't build</strong> bridges.</em></div></td>
         </tr>
       </table>
-      <div class="grammar-box">
-        <strong>&#x2753; Câu hỏi:</strong> Do you + V...? &rarr; <em>Do you <strong>design</strong> apartments?</em> — Yes, I do. / No, I don't.
-      </div>
+      <div class="grammar-box"><strong>&#x2753; Câu hỏi:</strong> Do you + V...? &rarr; <em>Do you <strong>design</strong> apartments?</em> — Yes, I do. / No, I don't.</div>
     </div>
   </div>
 
-  <!-- EXERCISE: COMPANY INTRO -->
   <div class="exercise">
     <div class="exercise-title orange">&#x270F;&#xFE0F; Bài 4: Viết bài giới thiệu công ty (điền thông tin thật)</div>
     <div class="exercise-body orange-border">
-      <div class="write-line">
-        <span class="write-line-label">1.</span> My company is _________________________________.
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">2.</span> We are a _________________________________ company. (construction / interior design / ...)
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">3.</span> We _________________________________ . (build / design / ...)
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">4.</span> We have _________ employees.
-      </div>
-      <div class="write-line">
-        <span class="write-line-label">5.</span> I'm the _________________________________ . (project manager / designer / ...)
+      <div class="write-line"><span class="write-line-label">1.</span> My company is _________________________________.</div>
+      <div class="write-line"><span class="write-line-label">2.</span> We are a _________________________________ company. (construction / interior design / ...)</div>
+      <div class="write-line"><span class="write-line-label">3.</span> We _________________________________ . (build / design / ...)</div>
+      <div class="write-line"><span class="write-line-label">4.</span> We have _________ employees.</div>
+      <div class="write-line"><span class="write-line-label">5.</span> I'm the _________________________________ . (project manager / designer / ...)</div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"My company is Hoa Phat Construction. We are a construction company."</li>
+          <li>"We build apartments and office buildings. We have 120 employees."</li>
+          <li>"I'm the site supervisor."</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- EXERCISE: DESCRIBE YOUR DAY -->
   <div class="exercise">
     <div class="exercise-title blue">&#x270F;&#xFE0F; Bài 5: Viết 5 câu mô tả công việc hàng ngày (Present Simple)</div>
     <div class="exercise-body blue-border">
@@ -834,10 +680,19 @@
       <div class="write-line"><span class="write-line-label">3.</span> I _______________________________________________</div>
       <div class="write-line"><span class="write-line-label">4.</span> I don't _______________________________________________</div>
       <div class="write-line"><span class="write-line-label">5.</span> Do I _______________________________________________? &rarr; Yes / No</div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"I check the construction materials every morning."</li>
+          <li>"I supervise the workers at the site."</li>
+          <li>"I meet clients on Monday and Wednesday."</li>
+          <li>"I don't work on Sundays."</li>
+          <li>"Do I need to check the schedule? — Yes."</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- ROLEPLAY -->
   <div class="exercise">
     <div class="exercise-title" style="background:#E74C3C;">&#x1F3AD; Bài 6: Roleplay — Gặp kiến trúc sư tại công trình</div>
     <div class="exercise-body" style="border-color:#FADBD8;">
@@ -855,6 +710,15 @@
           <tr><td class="speaker b" style="padding:3px 0;">Architect:</td><td style="padding:3px 0;">How many people are on your team?</td></tr>
           <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (trả lời)</td></tr>
         </table>
+      </div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"Good morning, Mr. Lee! Welcome to our site. My name is Minh."</li>
+          <li>"I'm the project manager at Hoa Phat Construction."</li>
+          <li>"I supervise the workers and manage the schedule."</li>
+          <li>"We have 20 people on our team."</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -874,101 +738,92 @@
     </tr></table>
   </div>
 
-  <!-- VOCAB: FAMILY + TIME -->
   <div class="section">
     <div class="section-title" style="background:#E67E22;">&#x1F4DD; TỪ VỰNG: Gia đình &amp; Thời gian</div>
     <div class="section-body">
+      <p class="audio-hint no-print">&#x1F50A; <span>Nhấn vào thẻ từ vựng</span> để nghe phát âm tiếng Anh</p>
       <table class="vocab-table">
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F468;&zwj;&#x1F469;&zwj;&#x1F467;&zwj;&#x1F466;</td>
-              <td>
-                <div class="vocab-en">family</div>
-                <div class="vocab-pron">/ˈfæməli/</div>
-                <div class="vocab-vi">Gia đình</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F491;</td>
-              <td>
-                <div class="vocab-en">wife / husband</div>
-                <div class="vocab-pron">/waɪf/ /ˈhʌzbənd/</div>
-                <div class="vocab-vi">Vợ / Chồng</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('family',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F468;&zwj;&#x1F469;&zwj;&#x1F467;&zwj;&#x1F466;</td>
+            <td>
+              <div class="vocab-en">family</div>
+              <div class="vocab-pron">/ˈfæməli/</div>
+              <div class="vocab-vi">Gia đình</div>
+              <div class="vocab-ex">"My family lives in Hanoi."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('wife. husband',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F491;</td>
+            <td>
+              <div class="vocab-en">wife / husband</div>
+              <div class="vocab-pron">/waɪf/ /ˈhʌzbənd/</div>
+              <div class="vocab-vi">Vợ / Chồng</div>
+              <div class="vocab-ex">"My wife is a teacher."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F466;</td>
-              <td>
-                <div class="vocab-en">son / daughter</div>
-                <div class="vocab-pron">/sʌn/ /ˈdɔːtər/</div>
-                <div class="vocab-vi">Con trai / gái</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F476;</td>
-              <td>
-                <div class="vocab-en">children</div>
-                <div class="vocab-pron">/ˈtʃɪldrən/</div>
-                <div class="vocab-vi">Con cái</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('son. daughter',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F466;</td>
+            <td>
+              <div class="vocab-en">son / daughter</div>
+              <div class="vocab-pron">/sʌn/ /ˈdɔːtər/</div>
+              <div class="vocab-vi">Con trai / gái</div>
+              <div class="vocab-ex">"My son is 5 years old."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('children',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F476;</td>
+            <td>
+              <div class="vocab-en">children</div>
+              <div class="vocab-pron">/ˈtʃɪldrən/</div>
+              <div class="vocab-vi">Con cái</div>
+              <div class="vocab-ex">"I have two children."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F5D3;&#xFE0F;</td>
-              <td>
-                <div class="vocab-en">Monday – Sunday</div>
-                <div class="vocab-vi">Thứ Hai – Chủ nhật</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x23F0;</td>
-              <td>
-                <div class="vocab-en">o'clock / half past</div>
-                <div class="vocab-vi">Giờ đúng / Giờ rưỡi</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F5D3;&#xFE0F;</td>
+            <td>
+              <div class="vocab-en">Monday – Sunday</div>
+              <div class="vocab-vi">Thứ Hai – Chủ nhật</div>
+              <div class="vocab-ex">"I work from Monday to Saturday."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('seven o clock. half past seven',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x23F0;</td>
+            <td>
+              <div class="vocab-en">o'clock / half past</div>
+              <div class="vocab-vi">Giờ đúng / Giờ rưỡi</div>
+              <div class="vocab-ex">"I start work at 7 o'clock."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F514;</td>
-              <td>
-                <div class="vocab-en">start work / finish work</div>
-                <div class="vocab-vi">Bắt đầu / Kết thúc LV</div>
-              </td>
-            </tr></table></div>
-          </td>
-          <td>
-            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td class="vocab-icon-cell">&#x1F4C5;</td>
-              <td>
-                <div class="vocab-en">schedule / day off</div>
-                <div class="vocab-pron">/ˈskedʒuːl/ /deɪ ɒf/</div>
-                <div class="vocab-vi">Lịch trình / Ngày nghỉ</div>
-              </td>
-            </tr></table></div>
-          </td>
+          <td><div class="vocab-card" onclick="speakWord('start work. finish work',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F514;</td>
+            <td>
+              <div class="vocab-en">start work / finish work</div>
+              <div class="vocab-vi">Bắt đầu / Kết thúc LV</div>
+              <div class="vocab-ex">"I start work at 7 AM and finish at 5 PM."</div>
+            </td>
+          </tr></table></div></td>
+          <td><div class="vocab-card" onclick="speakWord('schedule. day off',this)"><table cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="vocab-icon-cell">&#x1F4C5;</td>
+            <td>
+              <div class="vocab-en">schedule / day off</div>
+              <div class="vocab-pron">/ˈskedʒuːl/ /deɪ ɒf/</div>
+              <div class="vocab-vi">Lịch trình / Ngày nghỉ</div>
+              <div class="vocab-ex">"Sunday is my day off."</div>
+            </td>
+          </tr></table></div></td>
         </tr>
       </table>
     </div>
   </div>
 
-  <!-- EXERCISE: FAMILY -->
   <div class="exercise">
     <div class="exercise-title orange">&#x270F;&#xFE0F; Bài 7: Viết về gia đình bạn</div>
     <div class="exercise-body orange-border">
@@ -976,10 +831,18 @@
       <div class="write-line"><span class="write-line-label">2.</span> My _____________ is a/an _____________. (wife/husband + nghề)</div>
       <div class="write-line"><span class="write-line-label">3.</span> My son/daughter is _________ years old.</div>
       <div class="write-line"><span class="write-line-label">4.</span> My parents live in _____________.</div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"I have 2 children — one son and one daughter."</li>
+          <li>"My wife is a nurse at Bach Mai Hospital."</li>
+          <li>"My son is 8 years old. He is in grade 3."</li>
+          <li>"My parents live in Hai Phong."</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- EXERCISE: SCHEDULE -->
   <div class="exercise">
     <div class="exercise-title blue">&#x270F;&#xFE0F; Bài 8: Mô tả lịch làm việc của bạn</div>
     <div class="exercise-body blue-border">
@@ -988,52 +851,36 @@
       <div class="write-line"><span class="write-line-label">3.</span> I work from _________ to _________. (thứ mấy)</div>
       <div class="write-line"><span class="write-line-label">4.</span> _________ is my day off.</div>
       <div class="write-line"><span class="write-line-label">5.</span> I go to the construction _________ every _________. (site + morning/afternoon)</div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"I start work at 7 o'clock in the morning."</li>
+          <li>"I finish work at half past five."</li>
+          <li>"I work from Monday to Saturday."</li>
+          <li>"Sunday is my day off."</li>
+          <li>"I go to the construction site every morning."</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- REVIEW: 2-MIN MONOLOGUE — replaced grid with table -->
   <div class="exercise">
     <div class="exercise-title purple">&#x1F3A4; Bài 9: Ôn tập — Bài nói 2 phút (ghi âm gửi GV)</div>
     <div class="exercise-body purple-border">
       <p style="font-size:11px; color:#7F8C8D; margin-bottom:8px;">Nói liên tục 2 phút theo 4 phần dưới đây. Dùng ghi âm điện thoại, gửi file cho GV.</p>
       <table class="two-col-table">
         <tr>
-          <td>
-            <div class="mono-box" style="background:#EBF5FB;">
-              <div class="num-badge">1</div><br>
-              <strong style="color:#2980B9;">Giới thiệu bản thân</strong><br>
-              <span style="font-size:10px; color:#555;">Tên, tuổi, nghề, TP</span>
-            </div>
-          </td>
-          <td>
-            <div class="mono-box" style="background:#D5F5E3;">
-              <div class="num-badge" style="background:#27AE60;">2</div><br>
-              <strong style="color:#27AE60;">Giới thiệu công ty</strong><br>
-              <span style="font-size:10px; color:#555;">Tên, ngành, dịch vụ, NV</span>
-            </div>
-          </td>
+          <td><div class="mono-box" style="background:#EBF5FB;"><div class="num-badge">1</div><br><strong style="color:#2980B9;">Giới thiệu bản thân</strong><br><span style="font-size:10px; color:#555;">Tên, tuổi, nghề, TP</span></div></td>
+          <td><div class="mono-box" style="background:#D5F5E3;"><div class="num-badge" style="background:#27AE60;">2</div><br><strong style="color:#27AE60;">Giới thiệu công ty</strong><br><span style="font-size:10px; color:#555;">Tên, ngành, dịch vụ, NV</span></div></td>
         </tr>
         <tr>
-          <td>
-            <div class="mono-box" style="background:#FDEBD0;">
-              <div class="num-badge" style="background:#E67E22;">3</div><br>
-              <strong style="color:#E67E22;">Gia đình</strong><br>
-              <span style="font-size:10px; color:#555;">Vợ/chồng, con, nghề</span>
-            </div>
-          </td>
-          <td>
-            <div class="mono-box" style="background:#E8DAEF;">
-              <div class="num-badge" style="background:#8E44AD;">4</div><br>
-              <strong style="color:#8E44AD;">Lịch làm việc</strong><br>
-              <span style="font-size:10px; color:#555;">Giờ, ngày, công trường</span>
-            </div>
-          </td>
+          <td><div class="mono-box" style="background:#FDEBD0;"><div class="num-badge" style="background:#E67E22;">3</div><br><strong style="color:#E67E22;">Gia đình</strong><br><span style="font-size:10px; color:#555;">Vợ/chồng, con, nghề</span></div></td>
+          <td><div class="mono-box" style="background:#E8DAEF;"><div class="num-badge" style="background:#8E44AD;">4</div><br><strong style="color:#8E44AD;">Lịch làm việc</strong><br><span style="font-size:10px; color:#555;">Giờ, ngày, công trường</span></div></td>
         </tr>
       </table>
     </div>
   </div>
 
-  <!-- ROLEPLAY: LUNCH WITH PARTNER -->
   <div class="exercise">
     <div class="exercise-title" style="background:#E74C3C;">&#x1F3AD; Bài 10: Roleplay — Ăn trưa với đối tác (tổng hợp Tuần 1)</div>
     <div class="exercise-body" style="border-color:#FADBD8;">
@@ -1053,35 +900,30 @@
           <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (trả lời)</td></tr>
         </table>
       </div>
+      <div class="tips-box" style="margin-top:8px; margin-bottom:0;">
+        <h4>&#x1F4AC; Câu mẫu tham khảo:</h4>
+        <ul>
+          <li>"My name is Minh. I'm 35 years old. I'm a site supervisor."</li>
+          <li>"Yes, I have a family. My wife is a teacher and I have two children."</li>
+          <li>"I usually start work at 7 o'clock in the morning."</li>
+          <li>"No, I don't work on Sundays. Sunday is my day off."</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- WEEKLY SELF-ASSESSMENT -->
   <div class="section">
     <div class="section-title" style="background:#2C3E50;">&#x2B50; TỰ ĐÁNH GIÁ TUẦN 1 (Học viên tự chấm)</div>
     <div class="section-body">
       <table class="rating-table">
-        <tr>
-          <td class="rating-label">Phát âm rõ ràng</td>
-          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
-        </tr>
-        <tr>
-          <td class="rating-label">Nhớ từ vựng mới</td>
-          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
-        </tr>
-        <tr>
-          <td class="rating-label">Nói liên tục, ít ngập ngừng</td>
-          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
-        </tr>
-        <tr>
-          <td class="rating-label">Tự tin giao tiếp</td>
-          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
-        </tr>
+        <tr><td class="rating-label">Phát âm rõ ràng</td><td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td></tr>
+        <tr><td class="rating-label">Nhớ từ vựng mới</td><td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td></tr>
+        <tr><td class="rating-label">Nói liên tục, ít ngập ngừng</td><td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td></tr>
+        <tr><td class="rating-label">Tự tin giao tiếp</td><td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td></tr>
       </table>
     </div>
   </div>
 
-  <!-- WEEKLY CHECKLIST -->
   <div class="section">
     <div class="section-title" style="background:#2C3E50;">&#x2705; CHECKLIST TUẦN 1 — Tôi đã làm được</div>
     <div class="section-body">
@@ -1108,6 +950,116 @@
 
   <div class="footer">Worksheet Tuần 1, Buổi 3 &bull; Trang 3/3</div>
 </div>
+
+<script>
+// ========== TEXT-TO-SPEECH ==========
+function speakWord(text, cardEl) {
+  if (!window.speechSynthesis) {
+    return;
+  }
+  window.speechSynthesis.cancel();
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+  var voices = window.speechSynthesis.getVoices();
+  for (var i = 0; i < voices.length; i++) {
+    if (voices[i].lang.indexOf('en') === 0 && voices[i].name.indexOf('Google') >= 0) {
+      utter.voice = voices[i]; break;
+    }
+  }
+  if (!utter.voice) {
+    for (var i = 0; i < voices.length; i++) {
+      if (voices[i].lang.indexOf('en-US') === 0) { utter.voice = voices[i]; break; }
+    }
+  }
+  if (cardEl) {
+    cardEl.classList.add('speaking');
+    utter.onend = function() { cardEl.classList.remove('speaking'); };
+    utter.onerror = function() { cardEl.classList.remove('speaking'); };
+  }
+  window.speechSynthesis.speak(utter);
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.getVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+  }
+}
+
+// ========== BÀI 1: MATCHING ==========
+var bai1Answers = { match1: 'c', match2: 'a', match3: 'b', match4: 'e', match5: 'd' };
+var bai1Labels = { match1: 'Good morning!', match2: 'Nice to meet you!', match3: 'How are you?', match4: 'I work at ABC Construction.', match5: 'Goodbye, see you!' };
+var bai1Meanings = { a: 'Rất vui gặp bạn', b: 'Bạn khỏe không?', c: 'Chào buổi sáng!', d: 'Tạm biệt, hẹn gặp lại!', e: 'Tôi làm việc tại Cty ABC.' };
+
+function checkBai1() {
+  var correctCount = 0, total = 5, html = '';
+  var ids = ['match1','match2','match3','match4','match5'];
+  for (var i = 0; i < ids.length; i++) {
+    var id = ids[i], sel = document.getElementById(id);
+    var userVal = sel.value, correctVal = bai1Answers[id], qNum = i + 1, qText = bai1Labels[id];
+    if (userVal === '') {
+      html += '<div class="result-item"><span class="result-icon">&#x26A0;&#xFE0F;</span><span class="result-text"><strong>' + qNum + '. ' + qText + '</strong> — Chưa chọn! Đáp án đúng: <span class="correct-answer">' + correctVal + ' (' + bai1Meanings[correctVal] + ')</span></span></div>';
+      sel.style.borderColor = '#F39C12';
+    } else if (userVal === correctVal) {
+      correctCount++;
+      html += '<div class="result-item"><span class="result-icon">&#x2705;</span><span class="result-text"><strong>' + qNum + '. ' + qText + '</strong> &rarr; ' + userVal + ' — <span class="correct-answer">Chính xác!</span></span></div>';
+      sel.style.borderColor = '#27AE60';
+    } else {
+      html += '<div class="result-item"><span class="result-icon">&#x274C;</span><span class="result-text"><strong>' + qNum + '. ' + qText + '</strong> &rarr; <span class="wrong-answer">' + userVal + ' (' + bai1Meanings[userVal] + ')</span> — Đáp án đúng: <span class="correct-answer">' + correctVal + ' (' + bai1Meanings[correctVal] + ')</span></span></div>';
+      sel.style.borderColor = '#E74C3C';
+    }
+  }
+  var box = document.getElementById('result-bai1');
+  box.innerHTML = '<div class="result-score ' + (correctCount === total ? 'perfect' : 'partial') + '">' + (correctCount === total ? '&#x1F389; Xuất sắc! ' : '&#x1F4DD; Kết quả: ') + correctCount + '/' + total + ' câu đúng' + (correctCount === total ? '!' : '') + '</div>' + html;
+  box.className = 'result-box show ' + (correctCount === total ? 'perfect' : 'has-errors');
+}
+function resetBai1() {
+  ['match1','match2','match3','match4','match5'].forEach(function(id) {
+    var s = document.getElementById(id); s.value = ''; s.style.borderColor = '#2980B9';
+  });
+  var b = document.getElementById('result-bai1'); b.className = 'result-box'; b.innerHTML = '';
+}
+
+// ========== BÀI 3: DIALOGUE ==========
+var bai3Checks = [
+  { id: 'd1', answers: ['morning','afternoon'], label: 'Good ___' },
+  { id: 'd3', answers: ['meet'], label: 'Nice to ___ you too' },
+  { id: 'd4', answers: ['work'], label: 'I ___ at...' },
+  { id: 'd6', answers: ['fine','good','great','well'], label: "I'm ___" },
+  { id: 'd7', answers: ['you'], label: 'And ___?' }
+];
+function checkBai3() {
+  var correctCount = 0, total = bai3Checks.length, html = '';
+  for (var i = 0; i < bai3Checks.length; i++) {
+    var c = bai3Checks[i], input = document.getElementById(c.id);
+    var userVal = input.value.trim().toLowerCase(), qNum = i + 1;
+    if (userVal === '') {
+      html += '<div class="result-item"><span class="result-icon">&#x26A0;&#xFE0F;</span><span class="result-text"><strong>Ô ' + qNum + ':</strong> ' + c.label + ' — Chưa điền! Đáp án: <span class="correct-answer">' + c.answers.join(' / ') + '</span></span></div>';
+      input.className = 'dialogue-input wrong';
+    } else if (c.answers.indexOf(userVal) >= 0) {
+      correctCount++;
+      html += '<div class="result-item"><span class="result-icon">&#x2705;</span><span class="result-text"><strong>Ô ' + qNum + ':</strong> ' + c.label + ' &rarr; "' + input.value.trim() + '" — <span class="correct-answer">Chính xác!</span></span></div>';
+      input.className = 'dialogue-input correct';
+    } else {
+      html += '<div class="result-item"><span class="result-icon">&#x274C;</span><span class="result-text"><strong>Ô ' + qNum + ':</strong> ' + c.label + ' &rarr; <span class="wrong-answer">"' + input.value.trim() + '"</span> — Đáp án đúng: <span class="correct-answer">' + c.answers.join(' / ') + '</span></span></div>';
+      input.className = 'dialogue-input wrong';
+    }
+  }
+  var d2V = document.getElementById('d2').value.trim(), d5V = document.getElementById('d5').value.trim();
+  if (d2V) html += '<div class="result-item"><span class="result-icon">&#x1F464;</span><span class="result-text"><strong>Tên:</strong> "' + d2V + '" — Thông tin cá nhân, không chấm đúng/sai.</span></div>';
+  if (d5V) html += '<div class="result-item"><span class="result-icon">&#x1F3E2;</span><span class="result-text"><strong>Công ty:</strong> "' + d5V + '" — Thông tin cá nhân, không chấm đúng/sai.</span></div>';
+  var box = document.getElementById('result-bai3');
+  box.innerHTML = '<div class="result-score ' + (correctCount === total ? 'perfect' : 'partial') + '">' + (correctCount === total ? '&#x1F389; Xuất sắc! ' : '&#x1F4DD; Kết quả: ') + correctCount + '/' + total + ' ô đúng' + (correctCount === total ? '!' : '') + '</div>' + html;
+  box.className = 'result-box show ' + (correctCount === total ? 'perfect' : 'has-errors');
+}
+function resetBai3() {
+  ['d1','d2','d3','d4','d5','d6','d7'].forEach(function(id) {
+    var inp = document.getElementById(id); inp.value = ''; inp.className = 'dialogue-input';
+  });
+  var b = document.getElementById('result-bai3'); b.className = 'result-box'; b.innerHTML = '';
+}
+</script>
 
 </body>
 </html>
