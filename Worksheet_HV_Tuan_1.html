@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Worksheet Học Viên — Tuần 1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    color: #2C3E50;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  @media print {
+    body { font-size: 11px; }
+    .page-break { page-break-before: always; }
+    .no-print { display: none; }
+  }
+
+  .page {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 12mm 15mm;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1F4E79, #2980B9);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  .header table { width: 100%; }
+  .header td { vertical-align: middle; }
+  .header-icon {
+    font-size: 40px;
+    width: 50px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: white;
+  }
+  .header p {
+    font-size: 12px;
+    opacity: 0.9;
+    color: white;
+  }
+
+  /* Info bar as table */
+  .info-bar-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 12px 0;
+    margin-bottom: 14px;
+    margin-left: -12px;
+  }
+  .info-item {
+    background: #EBF5FB;
+    border-left: 3px solid #2980B9;
+    padding: 6px 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 11px;
+  }
+  .info-item strong { color: #1F4E79; }
+
+  /* Section */
+  .section {
+    margin-bottom: 16px;
+  }
+  .section-title {
+    background: #1F4E79;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px 8px 0 0;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .section-body {
+    border: 2px solid #D6EAF8;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 12px;
+  }
+
+  /* Vocab cards — TABLE layout */
+  .vocab-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 8px;
+  }
+  .vocab-table td {
+    width: 50%;
+    vertical-align: top;
+    padding: 0;
+  }
+  .vocab-card {
+    border: 1.5px solid #BDC3C7;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: #FAFAFA;
+  }
+  .vocab-card table { width: 100%; }
+  .vocab-card td { vertical-align: top; border: none; padding: 0; }
+  .vocab-icon-cell {
+    width: 32px;
+    font-size: 24px;
+    text-align: center;
+    line-height: 1.2;
+    padding-right: 8px !important;
+  }
+  .vocab-en { font-weight: 700; color: #1F4E79; font-size: 13px; }
+  .vocab-pron { color: #7F8C8D; font-size: 10px; font-style: italic; }
+  .vocab-vi { color: #E67E22; font-size: 11px; font-weight: 600; }
+  .vocab-ex { color: #555; font-size: 10px; margin-top: 2px; }
+
+  /* Exercise boxes */
+  .exercise {
+    margin-bottom: 14px;
+  }
+  .exercise-title {
+    background: #27AE60;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px 6px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .exercise-title.orange { background: #E67E22; }
+  .exercise-title.blue { background: #2980B9; }
+  .exercise-title.purple { background: #8E44AD; }
+  .exercise-body {
+    border: 2px solid #D5F5E3;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 10px 12px;
+  }
+  .exercise-body.orange-border { border-color: #FDEBD0; }
+  .exercise-body.blue-border { border-color: #D6EAF8; }
+  .exercise-body.purple-border { border-color: #E8DAEF; }
+
+  /* Lines for writing */
+  .write-line {
+    border-bottom: 1px dashed #BDC3C7;
+    padding: 6px 0;
+    min-height: 28px;
+  }
+  .write-line-label {
+    font-weight: 600;
+    color: #1F4E79;
+    font-size: 11px;
+  }
+
+  /* Matching */
+  .match-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .match-table td {
+    padding: 6px 10px;
+    border: 1px solid #D6EAF8;
+    font-size: 12px;
+  }
+  .match-table .col-a {
+    background: #EBF5FB;
+    font-weight: 600;
+    width: 40%;
+    color: #1F4E79;
+  }
+  .match-table .col-b {
+    background: #FEF9E7;
+    width: 10%;
+    text-align: center;
+    font-size: 16px;
+  }
+  .match-table .col-c {
+    width: 50%;
+  }
+
+  /* Dialogue */
+  .dialogue {
+    background: #F8F9FA;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 8px 0;
+  }
+  .dialogue-line {
+    margin-bottom: 6px;
+  }
+  .dialogue-line table { width: 100%; }
+  .dialogue-line td { vertical-align: top; border: none; padding: 0; }
+  .speaker {
+    font-weight: 700;
+    color: #2980B9;
+    width: 70px;
+  }
+  .speaker.b { color: #E67E22; }
+
+  /* Construction visual */
+  .site-scene {
+    background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 30%, #DEB887 30%, #DEB887 35%, #8B7355 35%, #8B7355 100%);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    margin: 8px 0;
+    min-height: 80px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  .site-scene .emoji-row { font-size: 28px; letter-spacing: 8px; text-shadow: none; }
+
+  /* Tips box */
+  .tips-box {
+    background: #FEF9E7;
+    border: 2px solid #F1C40F;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  .tips-box h4 {
+    color: #D4AC0D;
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
+  .tips-box ul {
+    list-style: none;
+    padding: 0;
+  }
+  .tips-box li {
+    font-size: 11px;
+    padding: 2px 0;
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+  .checklist li {
+    padding: 4px 0;
+    font-size: 12px;
+  }
+  .checkbox {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #2980B9;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  /* Self-assessment */
+  .rating-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .rating-table td {
+    padding: 4px 2px;
+    border: none;
+    vertical-align: middle;
+  }
+  .rating-label { font-weight: 600; font-size: 11px; color: #1F4E79; width: 160px; }
+  .star {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 1.5px solid #F1C40F;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    font-size: 10px;
+    color: #F1C40F;
+  }
+
+  .footer {
+    text-align: center;
+    color: #95A5A6;
+    font-size: 10px;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid #ECF0F1;
+  }
+
+  /* Scenario card */
+  .scenario {
+    background: #EBF5FB;
+    border-left: 4px solid #2980B9;
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 8px 0;
+  }
+  .scenario h4 {
+    color: #2980B9;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .scenario p { font-size: 11px; }
+
+  /* Number label */
+  .num-badge {
+    display: inline-block;
+    width: 22px; height: 22px;
+    background: #2980B9;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    font-weight: 700;
+    font-size: 11px;
+  }
+
+  /* Grammar & monologue 2-col table */
+  .two-col-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 8px;
+  }
+  .two-col-table td {
+    width: 50%;
+    vertical-align: top;
+    padding: 0;
+  }
+  .grammar-box {
+    background: #F4ECF7;
+    padding: 8px;
+    border-radius: 6px;
+  }
+  .grammar-box strong { color: #8E44AD; }
+  .grammar-box em { color: #555; }
+
+  .mono-box {
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1: SESSION 1 ==================== -->
+<div class="page">
+  <div class="header">
+    <table cellpadding="0" cellspacing="0" border="0"><tr>
+      <td class="header-icon">&#x1F3D7;&#xFE0F;</td>
+      <td>
+        <h1>WORKSHEET H&#x1ECC;C VI&Ecirc;N &mdash; TU&#x1EA6;N 1</h1>
+        <p>Ti&#x1EBF;ng Anh Giao ti&#x1EBF;p ng&agrave;nh X&acirc;y d&#x1EF1;ng &amp; N&#x1ED9;i th&#x1EA5;t</p>
+      </td>
+    </tr></table>
+  </div>
+
+  <table class="info-bar-table"><tr>
+    <td class="info-item"><strong>Họ tên:</strong> ________________</td>
+    <td class="info-item"><strong>Ngày:</strong> ____/____/______</td>
+    <td class="info-item"><strong>Giai đoạn:</strong> GĐ1 — Xây nền</td>
+  </tr></table>
+
+  <!-- BUỔI 1 HEADER -->
+  <div class="section">
+    <div class="section-title">&#x1F4D6; BUỔI 1 — CHÀO HỎI &amp; GIỚI THIỆU BẢN THÂN</div>
+    <div class="section-body">
+      <div class="site-scene">
+        <div class="emoji-row">&#x1F3E2; &#x1F91D; &#x1F477; &#x1F3D7;&#xFE0F; &#x1F9D1;&zwj;&#x1F4BC;</div>
+        Tình huống: Gặp gỡ đối tác tại công trình
+      </div>
+    </div>
+  </div>
+
+  <!-- VOCAB: GREETINGS -->
+  <div class="section">
+    <div class="section-title">&#x1F4DD; TỪ VỰNG: Chào hỏi &amp; Giới thiệu</div>
+    <div class="section-body">
+      <table class="vocab-table">
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F44B;</td>
+              <td>
+                <div class="vocab-en">Hello / Hi</div>
+                <div class="vocab-pron">/həˈloʊ/ /haɪ/</div>
+                <div class="vocab-vi">Xin chào</div>
+                <div class="vocab-ex">"Hello! My name is Minh."</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F305;</td>
+              <td>
+                <div class="vocab-en">Good morning</div>
+                <div class="vocab-pron">/ɡʊd ˈmɔːrnɪŋ/</div>
+                <div class="vocab-vi">Chào buổi sáng</div>
+                <div class="vocab-ex">"Good morning, Mr. Smith."</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F324;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">Good afternoon</div>
+                <div class="vocab-pron">/ɡʊd ˌæftərˈnuːn/</div>
+                <div class="vocab-vi">Chào buổi chiều</div>
+                <div class="vocab-ex">"Good afternoon, welcome!"</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F91D;</td>
+              <td>
+                <div class="vocab-en">Nice to meet you</div>
+                <div class="vocab-pron">/naɪs tuː miːt juː/</div>
+                <div class="vocab-vi">Rất vui gặp bạn</div>
+                <div class="vocab-ex">"Nice to meet you!"</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x2753;</td>
+              <td>
+                <div class="vocab-en">How are you?</div>
+                <div class="vocab-pron">/haʊ ɑːr juː/</div>
+                <div class="vocab-vi">Bạn khỏe không?</div>
+                <div class="vocab-ex">"Hi, how are you today?"</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F60A;</td>
+              <td>
+                <div class="vocab-en">I'm fine, thank you</div>
+                <div class="vocab-pron">/aɪm faɪn θæŋk juː/</div>
+                <div class="vocab-vi">Tôi khỏe, cảm ơn</div>
+                <div class="vocab-ex">"I'm fine, thank you."</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3F7;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">My name is...</div>
+                <div class="vocab-pron">/maɪ neɪm ɪz/</div>
+                <div class="vocab-vi">Tên tôi là...</div>
+                <div class="vocab-ex">"My name is Minh Nguyen."</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3E2;</td>
+              <td>
+                <div class="vocab-en">I work at...</div>
+                <div class="vocab-pron">/aɪ wɜːrk æt/</div>
+                <div class="vocab-vi">Tôi làm việc tại...</div>
+                <div class="vocab-ex">"I work at ABC Construction."</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F477;</td>
+              <td>
+                <div class="vocab-en">constructor / builder</div>
+                <div class="vocab-pron">/kənˈstrʌktər/</div>
+                <div class="vocab-vi">Nhà thầu xây dựng</div>
+                <div class="vocab-ex">"I'm a constructor in Hanoi."</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3A8;</td>
+              <td>
+                <div class="vocab-en">interior designer</div>
+                <div class="vocab-pron">/ɪnˈtɪriər dɪˈzaɪnər/</div>
+                <div class="vocab-vi">NTK nội thất</div>
+                <div class="vocab-ex">"I'm an interior designer."</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F44B;</td>
+              <td>
+                <div class="vocab-en">Goodbye / See you</div>
+                <div class="vocab-pron">/ɡʊdˈbaɪ/ /siː juː/</div>
+                <div class="vocab-vi">Tạm biệt</div>
+                <div class="vocab-ex">"Goodbye, see you next week!"</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3A9;</td>
+              <td>
+                <div class="vocab-en">How do you do?</div>
+                <div class="vocab-pron">/haʊ duː juː duː/</div>
+                <div class="vocab-vi">Xin chào (trang trọng)</div>
+                <div class="vocab-ex">"How do you do? I'm the PM."</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXERCISE 1: MATCHING -->
+  <div class="exercise">
+    <div class="exercise-title">&#x270F;&#xFE0F; Bài 1: Nối câu chào hỏi với nghĩa phù hợp</div>
+    <div class="exercise-body">
+      <table class="match-table">
+        <tr>
+          <td class="col-a">1. Good morning!</td>
+          <td class="col-b">&rarr; ___</td>
+          <td class="col-c">a. Rất vui gặp bạn</td>
+        </tr>
+        <tr>
+          <td class="col-a">2. Nice to meet you!</td>
+          <td class="col-b">&rarr; ___</td>
+          <td class="col-c">b. Bạn khỏe không?</td>
+        </tr>
+        <tr>
+          <td class="col-a">3. How are you?</td>
+          <td class="col-b">&rarr; ___</td>
+          <td class="col-c">c. Chào buổi sáng!</td>
+        </tr>
+        <tr>
+          <td class="col-a">4. I work at ABC Construction.</td>
+          <td class="col-b">&rarr; ___</td>
+          <td class="col-c">d. Tạm biệt, hẹn gặp lại!</td>
+        </tr>
+        <tr>
+          <td class="col-a">5. Goodbye, see you!</td>
+          <td class="col-b">&rarr; ___</td>
+          <td class="col-c">e. Tôi làm việc tại Cty ABC.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXERCISE 2: FILL IN -->
+  <div class="exercise">
+    <div class="exercise-title orange">&#x270F;&#xFE0F; Bài 2: Điền vào chỗ trống — Tự giới thiệu</div>
+    <div class="exercise-body orange-border">
+      <p style="font-size:11px; color:#7F8C8D; margin-bottom:8px;">Điền thông tin thật của bạn vào các chỗ trống:</p>
+      <div class="write-line">
+        <span class="write-line-label">1.</span> My name is _________________________________.
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">2.</span> I'm _________ years old.
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">3.</span> I'm a/an _________________________________ (nghề nghiệp).
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">4.</span> I work at _________________________________ (tên công ty).
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">5.</span> I live in _________________________________ (thành phố).
+      </div>
+    </div>
+  </div>
+
+  <!-- DIALOGUE PRACTICE -->
+  <div class="exercise">
+    <div class="exercise-title blue">&#x1F3AD; Bài 3: Luyện hội thoại — Gặp đối tác tại công trình</div>
+    <div class="exercise-body blue-border">
+      <div class="scenario">
+        <h4>&#x1F3D7;&#xFE0F; Tình huống:</h4>
+        <p>Bạn gặp một nhà cung cấp vật liệu nước ngoài (Mr. Smith) đến thăm công trình lần đầu.</p>
+      </div>
+      <div class="dialogue">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr><td class="speaker" style="width:70px; padding:3px 0;">You:</td><td style="padding:3px 0;">Good _____________, Mr. Smith! I'm _____________ .</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Mr. Smith:</td><td style="padding:3px 0;">Hello! Nice to meet you. I'm John Smith from Global Materials.</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">Nice to _____________ you too! I _____________ at _____________ .</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Mr. Smith:</td><td style="padding:3px 0;">Great! How are you today?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">I'm _____________, thank you. And _____________?</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Mr. Smith:</td><td style="padding:3px 0;">I'm good, thanks! Nice to be here.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tips-box">
+    <h4>&#x1F4A1; Mẹo phát âm</h4>
+    <ul>
+      <li><strong>Hello:</strong> Âm /h/ nhẹ, không phải /x/ — đặt tay trước miệng, cảm nhận hơi thở nhẹ.</li>
+      <li><strong>Work:</strong> Âm /w/ tròn môi trước — khác với /v/ (không chạm răng).</li>
+      <li><strong>Name:</strong> Âm /eɪ/ kéo dài — "nây-m", không phải "nem".</li>
+    </ul>
+  </div>
+
+  <div class="footer">Worksheet Tuần 1, Buổi 1 &bull; Trang 1/3</div>
+</div>
+
+<!-- ==================== PAGE 2: SESSION 2 ==================== -->
+<div class="page page-break">
+  <div class="header" style="background: linear-gradient(135deg, #27AE60, #2ECC71);">
+    <table cellpadding="0" cellspacing="0" border="0"><tr>
+      <td class="header-icon">&#x1F3E2;</td>
+      <td>
+        <h1>BUỔI 2 — GIỚI THIỆU CÔNG TY &amp; MÔ TẢ CÔNG VIỆC</h1>
+        <p>Tuần 1</p>
+      </td>
+    </tr></table>
+  </div>
+
+  <!-- VOCAB: COMPANY -->
+  <div class="section">
+    <div class="section-title" style="background:#27AE60;">&#x1F4DD; TỪ VỰNG: Công ty &amp; Công việc</div>
+    <div class="section-body">
+      <table class="vocab-table">
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3E2;</td>
+              <td>
+                <div class="vocab-en">company</div>
+                <div class="vocab-pron">/ˈkʌmpəni/</div>
+                <div class="vocab-vi">Công ty</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3D7;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">construction company</div>
+                <div class="vocab-pron">/kənˈstrʌkʃn ˈkʌmpəni/</div>
+                <div class="vocab-vi">Công ty xây dựng</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3A8;</td>
+              <td>
+                <div class="vocab-en">interior design firm</div>
+                <div class="vocab-pron">/ɪnˈtɪriər dɪˈzaɪn fɜːrm/</div>
+                <div class="vocab-vi">Công ty TK nội thất</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F4CB;</td>
+              <td>
+                <div class="vocab-en">project</div>
+                <div class="vocab-pron">/ˈprɒdʒekt/</div>
+                <div class="vocab-vi">Dự án</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F935;</td>
+              <td>
+                <div class="vocab-en">client / customer</div>
+                <div class="vocab-pron">/ˈklaɪənt/</div>
+                <div class="vocab-vi">Khách hàng</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F465;</td>
+              <td>
+                <div class="vocab-en">employee</div>
+                <div class="vocab-pron">/ɪmˈplɔɪiː/</div>
+                <div class="vocab-vi">Nhân viên</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F3D7;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">construction site</div>
+                <div class="vocab-pron">/kənˈstrʌkʃn saɪt/</div>
+                <div class="vocab-vi">Công trường</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F441;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">supervise</div>
+                <div class="vocab-pron">/ˈsuːpərvaɪz/</div>
+                <div class="vocab-vi">Giám sát</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F4CA;</td>
+              <td>
+                <div class="vocab-en">manage</div>
+                <div class="vocab-pron">/ˈmænɪdʒ/</div>
+                <div class="vocab-vi">Quản lý</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x270F;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">design</div>
+                <div class="vocab-pron">/dɪˈzaɪn/</div>
+                <div class="vocab-vi">Thiết kế</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F9F1;</td>
+              <td>
+                <div class="vocab-en">build</div>
+                <div class="vocab-pron">/bɪld/</div>
+                <div class="vocab-vi">Xây dựng</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F454;</td>
+              <td>
+                <div class="vocab-en">project manager</div>
+                <div class="vocab-pron">/ˈprɒdʒekt ˈmænɪdʒər/</div>
+                <div class="vocab-vi">Quản lý dự án</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRAMMAR BOX — replaced grid with table -->
+  <div class="exercise">
+    <div class="exercise-title" style="background:#8E44AD;">&#x1F4D0; Ngữ pháp: Present Simple (Thì hiện tại đơn)</div>
+    <div class="exercise-body purple-border">
+      <table class="two-col-table" style="margin-bottom:8px;">
+        <tr>
+          <td>
+            <div class="grammar-box">
+              <strong>&#x2705; Khẳng định:</strong><br>
+              I/We/They + V<br>
+              <em>I <strong>build</strong> houses.</em><br>
+              <em>We <strong>design</strong> offices.</em>
+            </div>
+          </td>
+          <td>
+            <div class="grammar-box">
+              <strong>&#x274C; Phủ định:</strong><br>
+              I/We/They + don't + V<br>
+              <em>I <strong>don't work</strong> on weekends.</em><br>
+              <em>We <strong>don't build</strong> bridges.</em>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="grammar-box">
+        <strong>&#x2753; Câu hỏi:</strong> Do you + V...? &rarr; <em>Do you <strong>design</strong> apartments?</em> — Yes, I do. / No, I don't.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCISE: COMPANY INTRO -->
+  <div class="exercise">
+    <div class="exercise-title orange">&#x270F;&#xFE0F; Bài 4: Viết bài giới thiệu công ty (điền thông tin thật)</div>
+    <div class="exercise-body orange-border">
+      <div class="write-line">
+        <span class="write-line-label">1.</span> My company is _________________________________.
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">2.</span> We are a _________________________________ company. (construction / interior design / ...)
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">3.</span> We _________________________________ . (build / design / ...)
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">4.</span> We have _________ employees.
+      </div>
+      <div class="write-line">
+        <span class="write-line-label">5.</span> I'm the _________________________________ . (project manager / designer / ...)
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCISE: DESCRIBE YOUR DAY -->
+  <div class="exercise">
+    <div class="exercise-title blue">&#x270F;&#xFE0F; Bài 5: Viết 5 câu mô tả công việc hàng ngày (Present Simple)</div>
+    <div class="exercise-body blue-border">
+      <p style="font-size:11px; color:#7F8C8D; margin-bottom:6px;">Ví dụ: "I go to the construction site every morning." / "I supervise the workers."</p>
+      <div class="write-line"><span class="write-line-label">1.</span> I _______________________________________________</div>
+      <div class="write-line"><span class="write-line-label">2.</span> I _______________________________________________</div>
+      <div class="write-line"><span class="write-line-label">3.</span> I _______________________________________________</div>
+      <div class="write-line"><span class="write-line-label">4.</span> I don't _______________________________________________</div>
+      <div class="write-line"><span class="write-line-label">5.</span> Do I _______________________________________________? &rarr; Yes / No</div>
+    </div>
+  </div>
+
+  <!-- ROLEPLAY -->
+  <div class="exercise">
+    <div class="exercise-title" style="background:#E74C3C;">&#x1F3AD; Bài 6: Roleplay — Gặp kiến trúc sư tại công trình</div>
+    <div class="exercise-body" style="border-color:#FADBD8;">
+      <div class="scenario">
+        <h4>&#x1F3D7;&#xFE0F; Tình huống:</h4>
+        <p>Một kiến trúc sư (architect) nước ngoài đến khảo sát công trình. Bạn đón tiếp và giới thiệu về công ty + dự án.</p>
+      </div>
+      <div class="dialogue">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr><td class="speaker" style="width:70px; padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (chào hỏi)</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Architect:</td><td style="padding:3px 0;">Good morning! I'm David Lee, the architect.</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (giới thiệu bản thân + công ty)</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Architect:</td><td style="padding:3px 0;">What do you do here exactly?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (mô tả công việc)</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Architect:</td><td style="padding:3px 0;">How many people are on your team?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (trả lời)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Worksheet Tuần 1, Buổi 2 &bull; Trang 2/3</div>
+</div>
+
+<!-- ==================== PAGE 3: SESSION 3 ==================== -->
+<div class="page page-break">
+  <div class="header" style="background: linear-gradient(135deg, #E67E22, #F39C12);">
+    <table cellpadding="0" cellspacing="0" border="0"><tr>
+      <td class="header-icon">&#x1F468;&zwj;&#x1F469;&zwj;&#x1F467;&zwj;&#x1F466;</td>
+      <td>
+        <h1>BUỔI 3 — GIA ĐÌNH, THỜI GIAN &amp; ÔN TẬP TUẦN 1</h1>
+        <p>Tuần 1</p>
+      </td>
+    </tr></table>
+  </div>
+
+  <!-- VOCAB: FAMILY + TIME -->
+  <div class="section">
+    <div class="section-title" style="background:#E67E22;">&#x1F4DD; TỪ VỰNG: Gia đình &amp; Thời gian</div>
+    <div class="section-body">
+      <table class="vocab-table">
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F468;&zwj;&#x1F469;&zwj;&#x1F467;&zwj;&#x1F466;</td>
+              <td>
+                <div class="vocab-en">family</div>
+                <div class="vocab-pron">/ˈfæməli/</div>
+                <div class="vocab-vi">Gia đình</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F491;</td>
+              <td>
+                <div class="vocab-en">wife / husband</div>
+                <div class="vocab-pron">/waɪf/ /ˈhʌzbənd/</div>
+                <div class="vocab-vi">Vợ / Chồng</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F466;</td>
+              <td>
+                <div class="vocab-en">son / daughter</div>
+                <div class="vocab-pron">/sʌn/ /ˈdɔːtər/</div>
+                <div class="vocab-vi">Con trai / gái</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F476;</td>
+              <td>
+                <div class="vocab-en">children</div>
+                <div class="vocab-pron">/ˈtʃɪldrən/</div>
+                <div class="vocab-vi">Con cái</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F5D3;&#xFE0F;</td>
+              <td>
+                <div class="vocab-en">Monday – Sunday</div>
+                <div class="vocab-vi">Thứ Hai – Chủ nhật</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x23F0;</td>
+              <td>
+                <div class="vocab-en">o'clock / half past</div>
+                <div class="vocab-vi">Giờ đúng / Giờ rưỡi</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F514;</td>
+              <td>
+                <div class="vocab-en">start work / finish work</div>
+                <div class="vocab-vi">Bắt đầu / Kết thúc LV</div>
+              </td>
+            </tr></table></div>
+          </td>
+          <td>
+            <div class="vocab-card"><table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="vocab-icon-cell">&#x1F4C5;</td>
+              <td>
+                <div class="vocab-en">schedule / day off</div>
+                <div class="vocab-pron">/ˈskedʒuːl/ /deɪ ɒf/</div>
+                <div class="vocab-vi">Lịch trình / Ngày nghỉ</div>
+              </td>
+            </tr></table></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXERCISE: FAMILY -->
+  <div class="exercise">
+    <div class="exercise-title orange">&#x270F;&#xFE0F; Bài 7: Viết về gia đình bạn</div>
+    <div class="exercise-body orange-border">
+      <div class="write-line"><span class="write-line-label">1.</span> I have _________ children. (số)</div>
+      <div class="write-line"><span class="write-line-label">2.</span> My _____________ is a/an _____________. (wife/husband + nghề)</div>
+      <div class="write-line"><span class="write-line-label">3.</span> My son/daughter is _________ years old.</div>
+      <div class="write-line"><span class="write-line-label">4.</span> My parents live in _____________.</div>
+    </div>
+  </div>
+
+  <!-- EXERCISE: SCHEDULE -->
+  <div class="exercise">
+    <div class="exercise-title blue">&#x270F;&#xFE0F; Bài 8: Mô tả lịch làm việc của bạn</div>
+    <div class="exercise-body blue-border">
+      <div class="write-line"><span class="write-line-label">1.</span> I start work at _________. (giờ)</div>
+      <div class="write-line"><span class="write-line-label">2.</span> I finish work at _________.</div>
+      <div class="write-line"><span class="write-line-label">3.</span> I work from _________ to _________. (thứ mấy)</div>
+      <div class="write-line"><span class="write-line-label">4.</span> _________ is my day off.</div>
+      <div class="write-line"><span class="write-line-label">5.</span> I go to the construction _________ every _________. (site + morning/afternoon)</div>
+    </div>
+  </div>
+
+  <!-- REVIEW: 2-MIN MONOLOGUE — replaced grid with table -->
+  <div class="exercise">
+    <div class="exercise-title purple">&#x1F3A4; Bài 9: Ôn tập — Bài nói 2 phút (ghi âm gửi GV)</div>
+    <div class="exercise-body purple-border">
+      <p style="font-size:11px; color:#7F8C8D; margin-bottom:8px;">Nói liên tục 2 phút theo 4 phần dưới đây. Dùng ghi âm điện thoại, gửi file cho GV.</p>
+      <table class="two-col-table">
+        <tr>
+          <td>
+            <div class="mono-box" style="background:#EBF5FB;">
+              <div class="num-badge">1</div><br>
+              <strong style="color:#2980B9;">Giới thiệu bản thân</strong><br>
+              <span style="font-size:10px; color:#555;">Tên, tuổi, nghề, TP</span>
+            </div>
+          </td>
+          <td>
+            <div class="mono-box" style="background:#D5F5E3;">
+              <div class="num-badge" style="background:#27AE60;">2</div><br>
+              <strong style="color:#27AE60;">Giới thiệu công ty</strong><br>
+              <span style="font-size:10px; color:#555;">Tên, ngành, dịch vụ, NV</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="mono-box" style="background:#FDEBD0;">
+              <div class="num-badge" style="background:#E67E22;">3</div><br>
+              <strong style="color:#E67E22;">Gia đình</strong><br>
+              <span style="font-size:10px; color:#555;">Vợ/chồng, con, nghề</span>
+            </div>
+          </td>
+          <td>
+            <div class="mono-box" style="background:#E8DAEF;">
+              <div class="num-badge" style="background:#8E44AD;">4</div><br>
+              <strong style="color:#8E44AD;">Lịch làm việc</strong><br>
+              <span style="font-size:10px; color:#555;">Giờ, ngày, công trường</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ROLEPLAY: LUNCH WITH PARTNER -->
+  <div class="exercise">
+    <div class="exercise-title" style="background:#E74C3C;">&#x1F3AD; Bài 10: Roleplay — Ăn trưa với đối tác (tổng hợp Tuần 1)</div>
+    <div class="exercise-body" style="border-color:#FADBD8;">
+      <div class="scenario">
+        <h4>&#x1F35C; Tình huống:</h4>
+        <p>Bạn ngồi ăn trưa cùng đối tác nước ngoài (Mr. Lee) gần công trường. Small talk tự nhiên!</p>
+      </div>
+      <div class="dialogue">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr><td class="speaker b" style="width:70px; padding:3px 0;">Mr. Lee:</td><td style="padding:3px 0;">So, tell me about yourself!</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (giới thiệu)</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Mr. Lee:</td><td style="padding:3px 0;">Do you have a family?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (gia đình)</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Mr. Lee:</td><td style="padding:3px 0;">What time do you usually start work?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (lịch LV)</td></tr>
+          <tr><td class="speaker b" style="padding:3px 0;">Mr. Lee:</td><td style="padding:3px 0;">Do you work on Sundays?</td></tr>
+          <tr><td class="speaker" style="padding:3px 0;">You:</td><td style="padding:3px 0;">_____________________________________________ (trả lời)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY SELF-ASSESSMENT -->
+  <div class="section">
+    <div class="section-title" style="background:#2C3E50;">&#x2B50; TỰ ĐÁNH GIÁ TUẦN 1 (Học viên tự chấm)</div>
+    <div class="section-body">
+      <table class="rating-table">
+        <tr>
+          <td class="rating-label">Phát âm rõ ràng</td>
+          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
+        </tr>
+        <tr>
+          <td class="rating-label">Nhớ từ vựng mới</td>
+          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
+        </tr>
+        <tr>
+          <td class="rating-label">Nói liên tục, ít ngập ngừng</td>
+          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
+        </tr>
+        <tr>
+          <td class="rating-label">Tự tin giao tiếp</td>
+          <td><span class="star">1</span> <span class="star">2</span> <span class="star">3</span> <span class="star">4</span> <span class="star">5</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- WEEKLY CHECKLIST -->
+  <div class="section">
+    <div class="section-title" style="background:#2C3E50;">&#x2705; CHECKLIST TUẦN 1 — Tôi đã làm được</div>
+    <div class="section-body">
+      <ul class="checklist">
+        <li><div class="checkbox"></div> Chào hỏi bằng tiếng Anh (formal + informal)</li>
+        <li><div class="checkbox"></div> Tự giới thiệu bản thân: tên, tuổi, nghề, thành phố</li>
+        <li><div class="checkbox"></div> Giới thiệu công ty: tên, ngành, dịch vụ, quy mô</li>
+        <li><div class="checkbox"></div> Nói về gia đình đơn giản</li>
+        <li><div class="checkbox"></div> Mô tả lịch làm việc hàng ngày</li>
+        <li><div class="checkbox"></div> Dùng Present Simple đúng trong câu nói</li>
+        <li><div class="checkbox"></div> Nói liên tục 2 phút về bản thân + công việc</li>
+        <li><div class="checkbox"></div> Hoàn thành bài ghi âm gửi GV</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tips-box">
+    <h4>&#x1F4A1; Tuần sau: Số đếm, Đo lường &amp; Mô tả Vật liệu Xây dựng</h4>
+    <ul>
+      <li>Xem trước từ vựng: brick, cement, sand, steel, timber, paint, glass, tile</li>
+      <li>Tập đếm từ 1–100 bằng tiếng Anh và đọc số đo (meters, square meters)</li>
+    </ul>
+  </div>
+
+  <div class="footer">Worksheet Tuần 1, Buổi 3 &bull; Trang 3/3</div>
+</div>
+
+</body>
+</html>

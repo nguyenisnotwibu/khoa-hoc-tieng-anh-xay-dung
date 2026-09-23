@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Editor — Tiếng Anh Giao tiếp</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sidebar-w:220px;
+  --toolbar-h:48px;
+  --blue:#1F4E79;--light-blue:#2980B9;--green:#27AE60;--orange:#E67E22;
+  --purple:#8E44AD;--red:#E74C3C;--dark:#2C3E50;--gray:#7F8C8D;--white:#fff;
+}
+body{font-family:'Inter',sans-serif;background:#1e1e2e;color:#cdd6f4;overflow:hidden;height:100vh;display:flex;flex-direction:column;}
+
+/* ===== TOP TOOLBAR ===== */
+.toolbar{height:var(--toolbar-h);background:#313244;display:flex;align-items:center;padding:0 12px;gap:6px;border-bottom:1px solid #45475a;flex-shrink:0;overflow-x:auto;}
+.toolbar .sep{width:1px;height:28px;background:#45475a;margin:0 4px;flex-shrink:0;}
+.tb-btn{background:none;border:1px solid transparent;color:#cdd6f4;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:14px;font-family:inherit;display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.tb-btn:hover{background:#45475a;}
+.tb-btn.active{background:#585b70;border-color:#89b4fa;}
+.tb-btn.primary{background:#89b4fa;color:#1e1e2e;font-weight:600;}
+.tb-btn.primary:hover{background:#74c7ec;}
+.tb-btn.danger{color:#f38ba8;}
+.tb-btn.danger:hover{background:rgba(243,139,168,0.15);}
+.tb-select{background:#45475a;border:1px solid #585b70;color:#cdd6f4;padding:4px 8px;border-radius:6px;font-size:13px;font-family:inherit;cursor:pointer;}
+.tb-color{width:28px;height:28px;border:2px solid #585b70;border-radius:6px;cursor:pointer;padding:0;}
+.tb-label{font-size:11px;color:#a6adc8;margin-right:2px;}
+
+/* ===== MAIN LAYOUT ===== */
+.main{display:flex;flex:1;overflow:hidden;}
+
+/* ===== SIDEBAR ===== */
+.sidebar{width:var(--sidebar-w);background:#181825;border-right:1px solid #313244;display:flex;flex-direction:column;flex-shrink:0;}
+.sidebar-header{padding:10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #313244;}
+.sidebar-header span{font-size:12px;font-weight:600;color:#a6adc8;text-transform:uppercase;letter-spacing:1px;}
+.sidebar-scroll{flex:1;overflow-y:auto;padding:8px;}
+.thumb{position:relative;margin-bottom:8px;cursor:pointer;border-radius:6px;overflow:hidden;border:2px solid transparent;transition:border-color .15s;}
+.thumb:hover{border-color:#585b70;}
+.thumb.active{border-color:#89b4fa;box-shadow:0 0 8px rgba(137,180,250,0.3);}
+.thumb-canvas{width:100%;aspect-ratio:16/9;border-radius:4px;overflow:hidden;pointer-events:none;position:relative;}
+.thumb-canvas>div{transform-origin:top left;position:absolute;top:0;left:0;}
+.thumb-num{position:absolute;top:4px;left:4px;background:rgba(0,0,0,0.6);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;}
+.thumb-actions{position:absolute;top:4px;right:4px;display:none;gap:2px;}
+.thumb:hover .thumb-actions{display:flex;}
+.thumb-act{background:rgba(0,0,0,0.7);color:#fff;border:none;width:22px;height:22px;border-radius:4px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;}
+.thumb-act:hover{background:rgba(137,180,250,0.5);}
+.sidebar-footer{padding:8px;border-top:1px solid #313244;}
+.add-slide-btn{width:100%;background:#313244;border:1px dashed #585b70;color:#a6adc8;padding:8px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;}
+.add-slide-btn:hover{background:#45475a;border-color:#89b4fa;color:#89b4fa;}
+
+/* ===== CANVAS AREA ===== */
+.canvas-area{flex:1;display:flex;align-items:center;justify-content:center;background:#11111b;overflow:hidden;position:relative;}
+.slide-frame{width:960px;height:540px;position:relative;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.5);}
+
+/* ===== SLIDE CONTENT STYLES (reused from original) ===== */
+.s{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px 50px;font-family:'Inter',sans-serif;position:relative;overflow:hidden;}
+.bg-dark{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff;}
+.bg-blue{background:linear-gradient(135deg,#1F4E79 0%,#2980B9 50%,#3498DB 100%);color:#fff;}
+.bg-green{background:linear-gradient(135deg,#1E8449 0%,#27AE60 50%,#2ECC71 100%);color:#fff;}
+.bg-orange{background:linear-gradient(135deg,#CA6F1E 0%,#E67E22 50%,#F39C12 100%);color:#fff;}
+.bg-purple{background:linear-gradient(135deg,#6C3483 0%,#8E44AD 50%,#A569BD 100%);color:#fff;}
+.bg-light-blue{background:linear-gradient(180deg,#D6EAF8 0%,#EBF5FB 100%);color:#2C3E50;}
+.bg-light-green{background:linear-gradient(180deg,#D5F5E3 0%,#EAFAF1 100%);color:#2C3E50;}
+.bg-light-orange{background:linear-gradient(180deg,#FDEBD0 0%,#FEF9E7 100%);color:#2C3E50;}
+.bg-white{background:linear-gradient(180deg,#F8F9FA 0%,#FFFFFF 100%);color:#2C3E50;}
+.bg-red{background:linear-gradient(135deg,#C0392B 0%,#E74C3C 50%,#EC7063 100%);color:#fff;}
+
+.s [contenteditable]{outline:none;cursor:text;border-radius:4px;transition:box-shadow .15s;}
+.s [contenteditable]:hover{box-shadow:0 0 0 2px rgba(137,180,250,0.3);}
+.s [contenteditable]:focus{box-shadow:0 0 0 2px rgba(137,180,250,0.6);}
+.s .slide-emoji{font-size:60px;text-align:center;margin-bottom:14px;}
+.s .slide-title{font-size:32px;font-weight:800;text-align:center;line-height:1.2;margin-bottom:10px;}
+.s .slide-subtitle{font-size:18px;font-weight:400;opacity:.85;text-align:center;margin-bottom:20px;}
+.s .session-badge{background:rgba(0,0,0,.3);padding:4px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:14px;display:inline-block;}
+.s .cards{display:grid;gap:12px;width:100%;max-width:880px;}
+.s .cards-2{grid-template-columns:1fr 1fr;}
+.s .cards-3{grid-template-columns:1fr 1fr 1fr;}
+.s .cards-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.s .card{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border-radius:12px;padding:14px;text-align:center;border:1px solid rgba(255,255,255,.2);}
+.s .card-icon{font-size:28px;margin-bottom:6px;}
+.s .card-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.s .card-text{font-size:12px;opacity:.85;line-height:1.3;}
+.s .vocab-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;margin-bottom:8px;width:100%;max-width:700px;}
+.s .vocab-row .icon{font-size:24px;flex-shrink:0;}
+.s .vocab-row .en{font-size:18px;font-weight:700;flex:1;}
+.s .vocab-row .vi{font-size:14px;opacity:.8;}
+.s .structure-box{background:rgba(255,255,255,.15);border-radius:12px;padding:18px 24px;text-align:center;margin:8px 0;max-width:700px;width:100%;border:2px solid rgba(255,255,255,.3);}
+.s .structure-formula{font-size:22px;font-weight:700;margin-bottom:6px;}
+.s .structure-example{font-size:15px;opacity:.85;font-style:italic;}
+.s .dialogue-box{background:rgba(255,255,255,.1);border-radius:12px;padding:18px;max-width:700px;width:100%;}
+.s .d-line{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.s .d-speaker{background:rgba(255,255,255,.2);border-radius:6px;padding:3px 8px;font-weight:700;font-size:12px;flex-shrink:0;min-width:70px;text-align:center;}
+.s .d-speaker.you{background:var(--green);}
+.s .d-speaker.partner{background:var(--orange);}
+.s .d-text{font-size:15px;padding-top:1px;}
+.s .tip-box{background:rgba(255,255,0,.15);border:2px solid rgba(255,255,0,.4);border-radius:12px;padding:12px 18px;max-width:600px;width:100%;text-align:left;margin-top:12px;}
+.s .tip-title{font-weight:700;margin-bottom:4px;font-size:14px;}
+.s .tip-text{font-size:13px;opacity:.9;line-height:1.4;}
+.s .highlight{background:rgba(255,255,0,.3);padding:2px 6px;border-radius:4px;font-weight:700;}
+.s .vocab-pair{display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:10px 14px;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,0,0,.06);max-width:600px;width:100%;}
+.s .vocab-pair .icon{font-size:22px;}
+.s .vocab-pair .en{font-size:16px;font-weight:700;color:var(--blue);flex:1;}
+.s .vocab-pair .vi{font-size:14px;color:var(--orange);font-weight:600;}
+.s .list-num{width:28px;height:28px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;}
+
+/* ===== BG PICKER PANEL ===== */
+.bg-panel{position:absolute;top:10px;right:10px;background:#313244;border-radius:10px;padding:12px;display:none;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.4);border:1px solid #45475a;}
+.bg-panel.show{display:block;}
+.bg-panel h4{font-size:12px;color:#a6adc8;margin-bottom:8px;text-transform:uppercase;}
+.bg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.bg-swatch{width:48px;height:27px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:border-color .15s;}
+.bg-swatch:hover,.bg-swatch.active{border-color:#89b4fa;}
+
+/* ===== PRESENTATION MODE ===== */
+.present-mode .toolbar,.present-mode .sidebar,.present-mode .bg-panel{display:none!important;}
+.present-mode .canvas-area{background:#000;}
+.present-mode .slide-frame{width:100vw;height:100vh;border-radius:0;box-shadow:none;}
+.present-mode .s{padding:40px 60px;}
+.present-mode .s .slide-title{font-size:clamp(28px,4vw,48px);}
+.present-mode .s .slide-subtitle{font-size:clamp(16px,2vw,24px);}
+.present-mode .s .slide-emoji{font-size:clamp(48px,8vw,80px);}
+.present-mode .s [contenteditable]{pointer-events:none;cursor:default;}
+.present-mode .s [contenteditable]:hover,.present-mode .s [contenteditable]:focus{box-shadow:none;}
+.present-nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:none;align-items:center;gap:16px;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);padding:10px 20px;border-radius:50px;z-index:200;}
+.present-mode .present-nav{display:flex;}
+.present-nav button{background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;}
+.present-nav button:hover{background:rgba(255,255,255,.4);}
+.present-nav span{color:#fff;font-size:14px;font-weight:600;min-width:80px;text-align:center;}
+
+/* ===== MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:300;}
+.modal-overlay.show{display:flex;}
+.modal{background:#313244;border-radius:12px;padding:24px;max-width:420px;width:90%;color:#cdd6f4;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+.modal h3{margin-bottom:12px;font-size:18px;}
+.modal p{font-size:13px;color:#a6adc8;margin-bottom:16px;line-height:1.5;}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;}
+.modal-btns button{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-family:inherit;}
+.modal-btns .cancel{background:#45475a;color:#cdd6f4;}
+.modal-btns .confirm{background:#89b4fa;color:#1e1e2e;font-weight:600;}
+
+/* Toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#a6e3a1;color:#1e1e2e;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:600;display:none;z-index:400;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.toast.show{display:block;animation:fadeInUp .3s ease;}
+@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+
+/* Scrollbar */
+.sidebar-scroll::-webkit-scrollbar{width:6px;}
+.sidebar-scroll::-webkit-scrollbar-track{background:transparent;}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:#45475a;border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbar">
+  <button class="tb-btn primary" onclick="presentMode()" title="Trình chiếu (F5)">▶ Trình chiếu</button>
+  <div class="sep"></div>
+  <button class="tb-btn" onclick="execCmd('bold')" title="In đậm (Ctrl+B)"><b>B</b></button>
+  <button class="tb-btn" onclick="execCmd('italic')" title="In nghiêng (Ctrl+I)"><i>I</i></button>
+  <button class="tb-btn" onclick="execCmd('underline')" title="Gạch chân (Ctrl+U)"><u>U</u></button>
+  <div class="sep"></div>
+  <span class="tb-label">Cỡ chữ</span>
+  <select class="tb-select" id="fontSizeSelect" onchange="changeFontSize(this.value)">
+    <option value="10px">10</option><option value="12px">12</option><option value="14px">14</option>
+    <option value="16px">16</option><option value="18px" selected>18</option><option value="20px">20</option>
+    <option value="24px">24</option><option value="28px">28</option><option value="32px">32</option>
+    <option value="36px">36</option><option value="40px">40</option><option value="48px">48</option>
+  </select>
+  <div class="sep"></div>
+  <span class="tb-label">Màu chữ</span>
+  <input type="color" class="tb-color" id="textColor" value="#ffffff" onchange="execCmd('foreColor',this.value)">
+  <div class="sep"></div>
+  <span class="tb-label">Căn</span>
+  <button class="tb-btn" onclick="execCmd('justifyLeft')" title="Trái">☰</button>
+  <button class="tb-btn" onclick="execCmd('justifyCenter')" title="Giữa">≡</button>
+  <button class="tb-btn" onclick="execCmd('justifyRight')" title="Phải">☰</button>
+  <div class="sep"></div>
+  <button class="tb-btn" onclick="toggleBgPanel()" title="Đổi nền">🎨 Nền</button>
+  <div class="sep"></div>
+  <button class="tb-btn" onclick="duplicateSlide()" title="Nhân bản slide">📋 Nhân bản</button>
+  <button class="tb-btn danger" onclick="confirmDelete()" title="Xoá slide">🗑️ Xoá</button>
+  <div style="flex:1;"></div>
+  <button class="tb-btn" onclick="exportPresentation()" title="Tải về HTML trình chiếu">💾 Xuất file</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header"><span>Slides</span><span id="slideCount">25</span></div>
+    <div class="sidebar-scroll" id="thumbList"></div>
+    <div class="sidebar-footer">
+      <button class="add-slide-btn" onclick="addSlide()">+ Thêm slide mới</button>
+    </div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="canvas-area" id="canvasArea">
+    <div class="slide-frame" id="slideFrame"></div>
+    <!-- BG PICKER -->
+    <div class="bg-panel" id="bgPanel">
+      <h4>Chọn nền slide</h4>
+      <div class="bg-grid" id="bgGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRESENT NAV -->
+<div class="present-nav" id="presentNav">
+  <button onclick="navPresent(-1)">◀</button>
+  <span id="presentCounter">1 / 25</span>
+  <button onclick="navPresent(1)">▶</button>
+  <button onclick="exitPresent()" style="margin-left:12px;font-size:13px;width:auto;padding:0 14px;">✕ Thoát</button>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h3>Xoá slide?</h3>
+    <p>Bạn có chắc muốn xoá slide này? Thao tác này không thể hoàn tác.</p>
+    <div class="modal-btns">
+      <button class="cancel" onclick="closeModal()">Huỷ</button>
+      <button class="confirm" onclick="deleteSlide()">Xoá</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== SLIDE DATA =====
+const BG_OPTIONS = [
+  {name:'Tối',cls:'bg-dark',preview:'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)'},
+  {name:'Xanh dương',cls:'bg-blue',preview:'linear-gradient(135deg,#1F4E79,#2980B9,#3498DB)'},
+  {name:'Xanh lá',cls:'bg-green',preview:'linear-gradient(135deg,#1E8449,#27AE60,#2ECC71)'},
+  {name:'Cam',cls:'bg-orange',preview:'linear-gradient(135deg,#CA6F1E,#E67E22,#F39C12)'},
+  {name:'Tím',cls:'bg-purple',preview:'linear-gradient(135deg,#6C3483,#8E44AD,#A569BD)'},
+  {name:'Đỏ',cls:'bg-red',preview:'linear-gradient(135deg,#C0392B,#E74C3C,#EC7063)'},
+  {name:'Xanh nhạt',cls:'bg-light-blue',preview:'linear-gradient(180deg,#D6EAF8,#EBF5FB)'},
+  {name:'Xanh lá nhạt',cls:'bg-light-green',preview:'linear-gradient(180deg,#D5F5E3,#EAFAF1)'},
+  {name:'Cam nhạt',cls:'bg-light-orange',preview:'linear-gradient(180deg,#FDEBD0,#FEF9E7)'},
+  {name:'Trắng',cls:'bg-white',preview:'linear-gradient(180deg,#F8F9FA,#FFFFFF)'},
+];
+
+// Build initial slides array from original content
+let slides = [];
+let currentIdx = 0;
+
+function initSlides(){
+  const defs = [
+    {bg:'bg-dark',html:`<div class="slide-emoji" contenteditable="true">🏗️ 🇬🇧</div><div class="slide-title" contenteditable="true">TIẾNG ANH GIAO TIẾP<br>Ngành Xây dựng & Nội thất</div><div class="slide-subtitle" contenteditable="true">Tuần 1: Chào hỏi • Giới thiệu • Gia đình & Thời gian</div><div style="margin-top:18px;opacity:.6;font-size:12px;" contenteditable="true">Giai đoạn 1: Xây nền giao tiếp (Tuần 1–6)</div>`},
+    {bg:'bg-blue',html:`<div class="session-badge" contenteditable="true">BUỔI 1 / 3</div><div class="slide-emoji" contenteditable="true">👋 🤝</div><div class="slide-title" contenteditable="true">CHÀO HỎI & GIỚI THIỆU BẢN THÂN</div><div class="slide-subtitle" contenteditable="true">Greetings & Self-Introduction</div><div class="cards cards-4" style="margin-top:14px;"><div class="card"><div class="card-icon">👂</div><div class="card-text" contenteditable="true">Nghe hội thoại</div></div><div class="card"><div class="card-icon">📝</div><div class="card-text" contenteditable="true">Từ vựng chào hỏi</div></div><div class="card"><div class="card-icon">🗣️</div><div class="card-text" contenteditable="true">Cấu trúc giới thiệu</div></div><div class="card"><div class="card-icon">🎭</div><div class="card-text" contenteditable="true">Roleplay thực tế</div></div></div>`},
+    {bg:'bg-dark',html:`<div class="slide-emoji" contenteditable="true">🏗️</div><div class="slide-title" contenteditable="true">TÌNH HUỐNG THỰC TẾ</div><div class="structure-box"><div style="font-size:48px;margin-bottom:10px;" contenteditable="true">👷 🤝 🧑‍💼</div><div class="structure-formula" contenteditable="true">Gặp nhà cung cấp vật liệu<br>tại công trình</div><div class="structure-example" contenteditable="true">Bạn cần: chào hỏi → giới thiệu tên + công ty → hỏi thăm</div></div>`},
+    {bg:'bg-light-blue',html:`<div class="slide-title" style="color:var(--blue);" contenteditable="true">🗣️ Chào hỏi — Greetings</div><div class="slide-subtitle" style="color:var(--gray);" contenteditable="true">Informal (thân mật) vs Formal (trang trọng)</div><div style="display:flex;gap:16px;width:100%;max-width:780px;"><div style="flex:1;"><div style="background:var(--green);color:#fff;padding:8px;border-radius:8px 8px 0 0;text-align:center;font-weight:700;font-size:14px;">😊 INFORMAL</div><div style="background:#fff;padding:12px;border-radius:0 0 8px 8px;"><div class="vocab-pair" style="margin:0 0 6px;box-shadow:none;padding:6px;"><span class="icon">👋</span><span class="en" style="font-size:15px;" contenteditable="true">Hello! / Hi!</span></div><div class="vocab-pair" style="margin:0 0 6px;box-shadow:none;padding:6px;"><span class="icon">😊</span><span class="en" style="font-size:15px;" contenteditable="true">How are you?</span></div><div class="vocab-pair" style="margin:0;box-shadow:none;padding:6px;"><span class="icon">👋</span><span class="en" style="font-size:15px;" contenteditable="true">See you! / Bye!</span></div></div></div><div style="flex:1;"><div style="background:var(--blue);color:#fff;padding:8px;border-radius:8px 8px 0 0;text-align:center;font-weight:700;font-size:14px;">🎩 FORMAL</div><div style="background:#fff;padding:12px;border-radius:0 0 8px 8px;"><div class="vocab-pair" style="margin:0 0 6px;box-shadow:none;padding:6px;"><span class="icon">🌅</span><span class="en" style="font-size:15px;" contenteditable="true">Good morning!</span></div><div class="vocab-pair" style="margin:0 0 6px;box-shadow:none;padding:6px;"><span class="icon">🤝</span><span class="en" style="font-size:15px;" contenteditable="true">How do you do?</span></div><div class="vocab-pair" style="margin:0;box-shadow:none;padding:6px;"><span class="icon">🎩</span><span class="en" style="font-size:15px;" contenteditable="true">Goodbye!</span></div></div></div></div>`},
+    {bg:'bg-blue',html:`<div class="slide-title" contenteditable="true">📝 CỤM TỪ CHÀO HỎI QUAN TRỌNG</div><div class="vocab-row"><span class="icon">👋</span><span class="en" contenteditable="true">Hello! / Hi!</span><span class="vi" contenteditable="true">Xin chào!</span></div><div class="vocab-row"><span class="icon">🌅</span><span class="en" contenteditable="true">Good morning / afternoon / evening</span><span class="vi" contenteditable="true">Chào buổi sáng / chiều / tối</span></div><div class="vocab-row"><span class="icon">🤝</span><span class="en" contenteditable="true">Nice to meet you!</span><span class="vi" contenteditable="true">Rất vui gặp bạn!</span></div><div class="vocab-row"><span class="icon">❓</span><span class="en" contenteditable="true">How are you?</span><span class="vi" contenteditable="true">Bạn khỏe không?</span></div><div class="vocab-row"><span class="icon">😊</span><span class="en" contenteditable="true">I'm fine, thank you!</span><span class="vi" contenteditable="true">Tôi khỏe, cảm ơn!</span></div><div class="vocab-row"><span class="icon">👋</span><span class="en" contenteditable="true">Goodbye! / See you later!</span><span class="vi" contenteditable="true">Tạm biệt! / Hẹn gặp lại!</span></div>`},
+    {bg:'bg-dark',html:`<div class="slide-title" contenteditable="true">🏷️ CẤU TRÚC GIỚI THIỆU BẢN THÂN</div><div class="structure-box"><div class="structure-formula" contenteditable="true">My name is ___________.</div><div class="structure-example" contenteditable="true">"My name is Minh Nguyen."</div></div><div class="structure-box"><div class="structure-formula" contenteditable="true">I'm _____ years old.</div><div class="structure-example" contenteditable="true">"I'm 43 years old."</div></div><div class="structure-box"><div class="structure-formula" contenteditable="true">I'm a / an ___________.</div><div class="structure-example" contenteditable="true">"I'm a constructor." / "I'm an interior designer."</div></div><div class="structure-box"><div class="structure-formula" contenteditable="true">I work at ___________.</div><div class="structure-example" contenteditable="true">"I work at Hoang Anh Construction."</div></div>`},
+    {bg:'bg-blue',html:`<div class="slide-title" contenteditable="true">🎭 HỘI THOẠI MẪU: Gặp đối tác</div><div class="dialogue-box"><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">Good morning! I'm Minh from ABC Construction.</span></div><div class="d-line"><span class="d-speaker partner">Mr. Smith</span><span class="d-text" contenteditable="true">Hello, Minh! I'm John Smith from Global Materials. Nice to meet you!</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">Nice to meet you too! How are you today?</span></div><div class="d-line"><span class="d-speaker partner">Mr. Smith</span><span class="d-text" contenteditable="true">I'm fine, thank you! This is a great site.</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">Thank you! Welcome to our construction site!</span></div></div><div class="tip-box"><div class="tip-title" contenteditable="true">💡 Mẹo phát âm</div><div class="tip-text" contenteditable="true"><strong>Hello:</strong> /h/ nhẹ, hơi thở ra — không phải /x/<br><strong>Work:</strong> /w/ tròn môi trước — khác với /v/</div></div>`},
+    {bg:'bg-light-blue',html:`<div class="slide-title" style="color:var(--blue);" contenteditable="true">✏️ LUYỆN TẬP: Giới thiệu bản thân</div><div class="slide-subtitle" style="color:var(--gray);" contenteditable="true">Điền thông tin thật của bạn và luyện nói 30 giây</div><div style="background:#fff;border-radius:14px;padding:22px;max-width:600px;width:100%;box-shadow:0 4px 20px rgba(0,0,0,.08);text-align:left;"><div style="font-size:17px;margin-bottom:10px;color:var(--blue);" contenteditable="true"><strong>1.</strong> My name is ______________.</div><div style="font-size:17px;margin-bottom:10px;color:var(--blue);" contenteditable="true"><strong>2.</strong> I'm ___ years old.</div><div style="font-size:17px;margin-bottom:10px;color:var(--blue);" contenteditable="true"><strong>3.</strong> I'm a/an ______________.</div><div style="font-size:17px;margin-bottom:10px;color:var(--blue);" contenteditable="true"><strong>4.</strong> I work at ______________.</div><div style="font-size:17px;color:var(--blue);" contenteditable="true"><strong>5.</strong> I live in ______________.</div></div>`},
+    {bg:'bg-dark',html:`<div class="slide-title" contenteditable="true">📋 BÀI TẬP VỀ NHÀ — Buổi 1</div><div class="cards cards-3" style="margin-top:14px;"><div class="card"><div class="card-icon">🎤</div><div class="card-title" contenteditable="true">Ghi âm 30s</div><div class="card-text" contenteditable="true">Tự giới thiệu bản thân, gửi file cho GV trước buổi 2</div></div><div class="card"><div class="card-icon">📱</div><div class="card-title" contenteditable="true">ELSA Speak</div><div class="card-text" contenteditable="true">Luyện phát âm 10 phút/ngày, tập 5 câu chào hỏi</div></div><div class="card"><div class="card-icon">📝</div><div class="card-title" contenteditable="true">Học từ vựng</div><div class="card-text" contenteditable="true">Ôn 12 từ/cụm từ chào hỏi & giới thiệu buổi 1</div></div></div>`},
+    {bg:'bg-green',html:`<div class="session-badge" contenteditable="true">BUỔI 2 / 3</div><div class="slide-emoji" contenteditable="true">🏢 💼</div><div class="slide-title" contenteditable="true">GIỚI THIỆU CÔNG TY<br>& MÔ TẢ CÔNG VIỆC</div><div class="slide-subtitle" contenteditable="true">Company Introduction & Job Description</div><div class="cards cards-4" style="margin-top:14px;"><div class="card"><div class="card-icon">🏢</div><div class="card-text" contenteditable="true">Từ vựng công ty</div></div><div class="card"><div class="card-icon">📐</div><div class="card-text" contenteditable="true">Present Simple</div></div><div class="card"><div class="card-icon">🗣️</div><div class="card-text" contenteditable="true">Bài nói 1 phút</div></div><div class="card"><div class="card-icon">🎭</div><div class="card-text" contenteditable="true">Đón KTS tại site</div></div></div>`},
+    {bg:'bg-green',html:`<div class="slide-title" contenteditable="true">📝 TỪ VỰNG: Công ty & Công việc</div><div class="vocab-row"><span class="icon">🏢</span><span class="en" contenteditable="true">company</span><span class="vi" contenteditable="true">Công ty</span></div><div class="vocab-row"><span class="icon">🏗️</span><span class="en" contenteditable="true">construction company</span><span class="vi" contenteditable="true">Công ty xây dựng</span></div><div class="vocab-row"><span class="icon">📋</span><span class="en" contenteditable="true">project</span><span class="vi" contenteditable="true">Dự án</span></div><div class="vocab-row"><span class="icon">🤵</span><span class="en" contenteditable="true">client / customer</span><span class="vi" contenteditable="true">Khách hàng</span></div><div class="vocab-row"><span class="icon">👥</span><span class="en" contenteditable="true">employee</span><span class="vi" contenteditable="true">Nhân viên</span></div><div class="vocab-row"><span class="icon">🏗️</span><span class="en" contenteditable="true">construction site</span><span class="vi" contenteditable="true">Công trường</span></div>`},
+    {bg:'bg-light-green',html:`<div class="slide-title" style="color:var(--green);" contenteditable="true">📝 TỪ VỰNG: Hành động công việc</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:700px;width:100%;"><div class="vocab-pair"><span class="icon">👁️</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">supervise</span><br><span class="vi" contenteditable="true">Giám sát</span></div></div><div class="vocab-pair"><span class="icon">📊</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">manage</span><br><span class="vi" contenteditable="true">Quản lý</span></div></div><div class="vocab-pair"><span class="icon">✏️</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">design</span><br><span class="vi" contenteditable="true">Thiết kế</span></div></div><div class="vocab-pair"><span class="icon">🧱</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">build</span><br><span class="vi" contenteditable="true">Xây dựng</span></div></div><div class="vocab-pair"><span class="icon">👔</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">project manager</span><br><span class="vi" contenteditable="true">Quản lý dự án</span></div></div><div class="vocab-pair"><span class="icon">📐</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">architect</span><br><span class="vi" contenteditable="true">Kiến trúc sư</span></div></div></div>`},
+    {bg:'bg-purple',html:`<div class="slide-title" contenteditable="true">📐 NGỮ PHÁP: Present Simple</div><div class="slide-subtitle" contenteditable="true">Thì hiện tại đơn — dùng cho việc làm hàng ngày</div><div class="cards cards-3"><div class="card"><div class="card-title" contenteditable="true">✅ Khẳng định</div><div class="card-text" style="font-size:14px;" contenteditable="true">I/We + <strong>V</strong><br><br><em>"I <strong>build</strong> houses."</em><br><em>"We <strong>design</strong> offices."</em></div></div><div class="card"><div class="card-title" contenteditable="true">❌ Phủ định</div><div class="card-text" style="font-size:14px;" contenteditable="true">I/We + <strong>don't</strong> + V<br><br><em>"I <strong>don't work</strong> on weekends."</em></div></div><div class="card"><div class="card-title" contenteditable="true">❓ Câu hỏi</div><div class="card-text" style="font-size:14px;" contenteditable="true"><strong>Do</strong> + you + V + ...?<br><br><em>"<strong>Do</strong> you <strong>design</strong> apartments?"</em></div></div></div>`},
+    {bg:'bg-dark',html:`<div class="slide-title" contenteditable="true">🗣️ LUYỆN NÓI: Giới thiệu công ty (1 phút)</div><div class="structure-box"><div class="structure-formula" contenteditable="true">My company is <span class="highlight">_________</span>.</div></div><div class="structure-box"><div class="structure-formula" contenteditable="true">We are a <span class="highlight">_________</span> company.</div></div><div class="structure-box"><div class="structure-formula" contenteditable="true">We <span class="highlight">build / design / ...</span> .</div></div><div class="structure-box"><div class="structure-formula" contenteditable="true">We have <span class="highlight">___</span> employees.</div></div><div style="margin-top:12px;font-size:14px;opacity:.7;" contenteditable="true">Luyện nói 3 lần → GV sửa phát âm & ngữ pháp</div>`},
+    {bg:'bg-green',html:`<div class="slide-title" contenteditable="true">🎭 ROLEPLAY: Đón KTS tại công trình</div><div class="dialogue-box"><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">Good morning! Welcome to our site. I'm [tên], the project manager.</span></div><div class="d-line"><span class="d-speaker partner">Architect</span><span class="d-text" contenteditable="true">Good morning! I'm David Lee, the architect. Nice to meet you!</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">Nice to meet you too! My company is [tên cty]. We build [loại CT].</span></div><div class="d-line"><span class="d-speaker partner">Architect</span><span class="d-text" contenteditable="true">Great! How many people are on your team?</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">We have [số] employees. I supervise the construction team.</span></div></div><div style="margin-top:12px;font-size:14px;opacity:.8;" contenteditable="true">🔄 Đổi vai → Lặp lại 2–3 lần</div>`},
+    {bg:'bg-dark',html:`<div class="slide-title" contenteditable="true">📋 BÀI TẬP VỀ NHÀ — Buổi 2</div><div class="cards cards-3" style="margin-top:14px;"><div class="card"><div class="card-icon">🎤</div><div class="card-title" contenteditable="true">Ghi âm 1 phút</div><div class="card-text" contenteditable="true">Giới thiệu công ty: tên, ngành, dịch vụ, số NV</div></div><div class="card"><div class="card-icon">✏️</div><div class="card-title" contenteditable="true">Viết 5 câu</div><div class="card-text" contenteditable="true">Mô tả công việc hàng ngày bằng Present Simple</div></div><div class="card"><div class="card-icon">📱</div><div class="card-title" contenteditable="true">ELSA + Ôn từ</div><div class="card-text" contenteditable="true">Luyện 10 phút, chuẩn bị ảnh gia đình/công trình</div></div></div>`},
+    {bg:'bg-orange',html:`<div class="session-badge" contenteditable="true">BUỔI 3 / 3</div><div class="slide-emoji" contenteditable="true">👨‍👩‍👧‍👦 ⏰</div><div class="slide-title" contenteditable="true">GIA ĐÌNH, THỜI GIAN<br>& ÔN TẬP TUẦN 1</div><div class="slide-subtitle" contenteditable="true">Family, Time & Week 1 Review</div><div class="cards cards-4" style="margin-top:14px;"><div class="card"><div class="card-icon">👨‍👩‍👧‍👦</div><div class="card-text" contenteditable="true">Từ vựng gia đình</div></div><div class="card"><div class="card-icon">⏰</div><div class="card-text" contenteditable="true">Thời gian & lịch LV</div></div><div class="card"><div class="card-icon">🎤</div><div class="card-text" contenteditable="true">Monologue 2 phút</div></div><div class="card"><div class="card-icon">🍜</div><div class="card-text" contenteditable="true">Roleplay ăn trưa</div></div></div>`},
+    {bg:'bg-orange',html:`<div class="slide-title" contenteditable="true">👨‍👩‍👧‍👦 TỪ VỰNG: Gia đình</div><div class="vocab-row"><span class="icon">👨‍👩‍👧‍👦</span><span class="en" contenteditable="true">family</span><span class="vi" contenteditable="true">Gia đình</span></div><div class="vocab-row"><span class="icon">💑</span><span class="en" contenteditable="true">wife / husband</span><span class="vi" contenteditable="true">Vợ / Chồng</span></div><div class="vocab-row"><span class="icon">👦</span><span class="en" contenteditable="true">son / daughter</span><span class="vi" contenteditable="true">Con trai / Con gái</span></div><div class="vocab-row"><span class="icon">👶</span><span class="en" contenteditable="true">children</span><span class="vi" contenteditable="true">Con cái</span></div><div class="vocab-row"><span class="icon">👴👵</span><span class="en" contenteditable="true">parents</span><span class="vi" contenteditable="true">Bố mẹ</span></div><div class="structure-box" style="margin-top:12px;"><div class="structure-formula" style="font-size:17px;" contenteditable="true">I have __ children. My wife is a ___. My son is __ years old.</div></div>`},
+    {bg:'bg-light-orange',html:`<div class="slide-title" style="color:var(--orange);" contenteditable="true">⏰ TỪ VỰNG: Thời gian & Lịch làm việc</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:700px;width:100%;"><div class="vocab-pair"><span class="icon">🗓️</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">Monday – Sunday</span><br><span class="vi" contenteditable="true">Thứ Hai – Chủ nhật</span></div></div><div class="vocab-pair"><span class="icon">🌅</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">morning / afternoon</span><br><span class="vi" contenteditable="true">Sáng / Chiều</span></div></div><div class="vocab-pair"><span class="icon">⏰</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">o'clock / half past</span><br><span class="vi" contenteditable="true">Giờ đúng / Giờ rưỡi</span></div></div><div class="vocab-pair"><span class="icon">📅</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">schedule</span><br><span class="vi" contenteditable="true">Lịch trình</span></div></div><div class="vocab-pair"><span class="icon">🔔</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">start / finish work</span><br><span class="vi" contenteditable="true">Bắt đầu / Kết thúc LV</span></div></div><div class="vocab-pair"><span class="icon">🏖️</span><div style="flex:1;"><span class="en" style="font-size:15px;" contenteditable="true">day off / overtime</span><br><span class="vi" contenteditable="true">Ngày nghỉ / Làm thêm giờ</span></div></div></div><div class="structure-box" style="margin-top:10px;background:#fff;border:2px solid var(--orange);"><div class="structure-formula" style="font-size:15px;color:var(--dark);" contenteditable="true">I start work at <span style="color:var(--orange);">7 AM</span>. I work from <span style="color:var(--orange);">Monday</span> to <span style="color:var(--orange);">Saturday</span>.</div></div>`},
+    {bg:'bg-dark',html:`<div class="slide-title" contenteditable="true">🎯 LUYỆN PHÁT ÂM — Trọng điểm</div><div class="cards cards-3"><div class="card"><div class="card-title" contenteditable="true" style="font-size:24px;">/θ/</div><div class="card-text" style="font-size:14px;" contenteditable="true"><strong>three, Thursday, thank</strong><br><br>Đặt lưỡi giữa 2 hàm răng, thổi hơi ra nhẹ</div></div><div class="card"><div class="card-title" contenteditable="true" style="font-size:24px;">/r/ vs /l/</div><div class="card-text" style="font-size:14px;" contenteditable="true"><strong>really ≠ early</strong><br><br>/r/: lưỡi cuộn lại<br>/l/: lưỡi chạm vòm miệng</div></div><div class="card"><div class="card-title" contenteditable="true" style="font-size:24px;">↗ ↘</div><div class="card-text" style="font-size:14px;" contenteditable="true"><strong>Ngữ điệu</strong><br><br>Câu hỏi ↗ lên<br>Câu trả lời ↘ xuống</div></div></div>`},
+    {bg:'bg-orange',html:`<div class="slide-title" contenteditable="true">🎤 ÔN TẬP: Bài nói 2 phút</div><div class="slide-subtitle" contenteditable="true">Nói liên tục theo 4 phần — Ghi âm gửi GV</div><div class="cards cards-2" style="max-width:600px;"><div class="card" style="background:rgba(255,255,255,.2);"><div style="font-size:30px;margin-bottom:6px;">1️⃣</div><div class="card-title" contenteditable="true">Giới thiệu bản thân</div><div class="card-text" contenteditable="true">Tên, tuổi, nghề nghiệp, thành phố</div></div><div class="card" style="background:rgba(255,255,255,.2);"><div style="font-size:30px;margin-bottom:6px;">2️⃣</div><div class="card-title" contenteditable="true">Giới thiệu công ty</div><div class="card-text" contenteditable="true">Tên, ngành, dịch vụ, quy mô</div></div><div class="card" style="background:rgba(255,255,255,.2);"><div style="font-size:30px;margin-bottom:6px;">3️⃣</div><div class="card-title" contenteditable="true">Gia đình</div><div class="card-text" contenteditable="true">Vợ/chồng, con cái, nghề</div></div><div class="card" style="background:rgba(255,255,255,.2);"><div style="font-size:30px;margin-bottom:6px;">4️⃣</div><div class="card-title" contenteditable="true">Lịch làm việc</div><div class="card-text" contenteditable="true">Giờ, ngày, công trường</div></div></div><div style="margin-top:12px;font-size:14px;opacity:.85;" contenteditable="true">🎯 Mục tiêu: Nói liên tục 2 phút, không dừng quá 3 lần</div>`},
+    {bg:'bg-dark',html:`<div class="slide-emoji" contenteditable="true">🍜</div><div class="slide-title" contenteditable="true">🎭 ROLEPLAY: Ăn trưa với đối tác</div><div class="dialogue-box"><div class="d-line"><span class="d-speaker partner">Mr. Lee</span><span class="d-text" contenteditable="true">So, tell me about yourself!</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">[Giới thiệu bản thân + công ty]</span></div><div class="d-line"><span class="d-speaker partner">Mr. Lee</span><span class="d-text" contenteditable="true">Do you have a family?</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">[Nói về gia đình]</span></div><div class="d-line"><span class="d-speaker partner">Mr. Lee</span><span class="d-text" contenteditable="true">What time do you start work?</span></div><div class="d-line"><span class="d-speaker you">You</span><span class="d-text" contenteditable="true">[Mô tả lịch làm việc]</span></div></div><div style="margin-top:10px;font-size:13px;opacity:.7;" contenteditable="true">Tình huống thực tế: small talk tự nhiên tại nhà hàng gần công trường</div>`},
+    {bg:'bg-blue',html:`<div class="slide-title" contenteditable="true">✅ TỔNG KẾT TUẦN 1</div><div class="cards cards-2" style="max-width:700px;"><div class="card"><div class="card-icon">📝</div><div class="card-title" contenteditable="true">30+ từ vựng mới</div><div class="card-text" contenteditable="true">Chào hỏi, công ty, gia đình, thời gian</div></div><div class="card"><div class="card-icon">📐</div><div class="card-title" contenteditable="true">Present Simple</div><div class="card-text" contenteditable="true">Khẳng định, phủ định, câu hỏi</div></div><div class="card"><div class="card-icon">🗣️</div><div class="card-title" contenteditable="true">Nói liên tục 2 phút</div><div class="card-text" contenteditable="true">Giới thiệu + công ty + gia đình + lịch LV</div></div><div class="card"><div class="card-icon">🎭</div><div class="card-title" contenteditable="true">3 tình huống roleplay</div><div class="card-text" contenteditable="true">Gặp đối tác, đón KTS, ăn trưa</div></div></div>`},
+    {bg:'bg-dark',html:`<div class="slide-emoji" contenteditable="true">🔜</div><div class="slide-title" contenteditable="true">TUẦN 2 SẮP TỚI</div><div class="slide-subtitle" contenteditable="true">Số đếm, Đo lường & Mô tả Vật liệu Xây dựng</div><div class="cards cards-3" style="margin-top:14px;"><div class="card"><div class="card-icon">🔢</div><div class="card-title" contenteditable="true">Số đếm</div><div class="card-text" contenteditable="true">1–100, đơn vị đo: meters, square meters</div></div><div class="card"><div class="card-icon">🧱</div><div class="card-title" contenteditable="true">Vật liệu XD</div><div class="card-text" contenteditable="true">brick, cement, sand, steel, timber, paint</div></div><div class="card"><div class="card-icon">🗣️</div><div class="card-title" contenteditable="true">Mô tả vật liệu</div><div class="card-text" contenteditable="true">"We need 500 bricks for this wall."</div></div></div><div style="margin-top:22px;font-size:16px;opacity:.8;" contenteditable="true">🎯 Chuẩn bị: xem trước từ vựng vật liệu trong worksheet!</div>`},
+    {bg:'bg-dark',html:`<div class="slide-emoji" contenteditable="true">🏗️ ⭐ 🇬🇧</div><div class="slide-title" contenteditable="true">THANK YOU!</div><div class="slide-subtitle" contenteditable="true">Không sợ sai — Giao tiếp được là thắng!</div><div style="margin-top:18px;font-size:14px;opacity:.6;" contenteditable="true">Tiếng Anh Giao tiếp<br>Tiếng Anh Giao tiếp — Ngành Xây dựng & Nội thất</div>`},
+  ];
+  slides = defs.map((d,i) => ({id:'s'+(i+1), bg:d.bg, html:d.html}));
+}
+
+// ===== RENDER =====
+function renderAll(){
+  renderThumbs();
+  renderSlide();
+  document.getElementById('slideCount').textContent = slides.length;
+}
+
+function renderSlide(){
+  const s = slides[currentIdx];
+  const frame = document.getElementById('slideFrame');
+  frame.innerHTML = `<div class="s ${s.bg}" id="activeSlide">${s.html}</div>`;
+  // Listen for edits
+  frame.querySelectorAll('[contenteditable]').forEach(el => {
+    el.addEventListener('input', () => saveCurrentSlide());
+  });
+  updateBgPanel();
+}
+
+function saveCurrentSlide(){
+  const el = document.getElementById('activeSlide');
+  if(el) slides[currentIdx].html = el.innerHTML;
+  updateThumb(currentIdx);
+}
+
+function renderThumbs(){
+  const list = document.getElementById('thumbList');
+  list.innerHTML = '';
+  slides.forEach((s,i) => {
+    const div = document.createElement('div');
+    div.className = 'thumb' + (i===currentIdx?' active':'');
+    div.onclick = () => goToSlide(i);
+    div.innerHTML = `
+      <div class="thumb-canvas"><div class="s ${s.bg}" style="width:960px;height:540px;transform:scale(${(220-16)/960});">${s.html}</div></div>
+      <div class="thumb-num">${i+1}</div>
+      <div class="thumb-actions">
+        <button class="thumb-act" onclick="event.stopPropagation();moveSlide(${i},-1)" title="Lên">▲</button>
+        <button class="thumb-act" onclick="event.stopPropagation();moveSlide(${i},1)" title="Xuống">▼</button>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function updateThumb(i){
+  const thumbs = document.querySelectorAll('.thumb');
+  if(thumbs[i]){
+    const canvas = thumbs[i].querySelector('.thumb-canvas');
+    const s = slides[i];
+    canvas.innerHTML = `<div class="s ${s.bg}" style="width:960px;height:540px;transform:scale(${(220-16)/960});">${s.html}</div>`;
+  }
+}
+
+function goToSlide(i){
+  saveCurrentSlide();
+  currentIdx = Math.max(0,Math.min(slides.length-1,i));
+  renderAll();
+}
+
+// ===== SLIDE ACTIONS =====
+function addSlide(){
+  const newSlide = {id:'s'+Date.now(), bg:'bg-dark', html:`<div class="slide-title" contenteditable="true">Slide mới</div><div class="slide-subtitle" contenteditable="true">Nhấn vào để chỉnh sửa nội dung</div>`};
+  slides.splice(currentIdx+1, 0, newSlide);
+  currentIdx++;
+  renderAll();
+  showToast('Đã thêm slide mới');
+}
+
+function duplicateSlide(){
+  const copy = {...slides[currentIdx], id:'s'+Date.now(), html:slides[currentIdx].html};
+  slides.splice(currentIdx+1, 0, copy);
+  currentIdx++;
+  renderAll();
+  showToast('Đã nhân bản slide');
+}
+
+function confirmDelete(){
+  if(slides.length <= 1){showToast('Không thể xoá slide cuối cùng');return;}
+  document.getElementById('deleteModal').classList.add('show');
+}
+function closeModal(){document.getElementById('deleteModal').classList.remove('show');}
+function deleteSlide(){
+  closeModal();
+  slides.splice(currentIdx,1);
+  if(currentIdx >= slides.length) currentIdx = slides.length-1;
+  renderAll();
+  showToast('Đã xoá slide');
+}
+
+function moveSlide(i,dir){
+  const j = i + dir;
+  if(j < 0 || j >= slides.length) return;
+  [slides[i], slides[j]] = [slides[j], slides[i]];
+  if(currentIdx === i) currentIdx = j;
+  else if(currentIdx === j) currentIdx = i;
+  renderAll();
+}
+
+// ===== FORMATTING =====
+function execCmd(cmd, val){
+  document.execCommand(cmd, false, val || null);
+  saveCurrentSlide();
+}
+
+function changeFontSize(size){
+  const sel = window.getSelection();
+  if(!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+  if(range.collapsed) return;
+  const span = document.createElement('span');
+  span.style.fontSize = size;
+  range.surroundContents(span);
+  saveCurrentSlide();
+}
+
+// ===== BG PICKER =====
+function toggleBgPanel(){document.getElementById('bgPanel').classList.toggle('show');}
+function updateBgPanel(){
+  const grid = document.getElementById('bgGrid');
+  grid.innerHTML = '';
+  BG_OPTIONS.forEach(bg => {
+    const d = document.createElement('div');
+    d.className = 'bg-swatch' + (slides[currentIdx].bg===bg.cls?' active':'');
+    d.style.background = bg.preview;
+    d.title = bg.name;
+    d.onclick = () => {
+      slides[currentIdx].bg = bg.cls;
+      renderSlide();
+      renderThumbs();
+    };
+    grid.appendChild(d);
+  });
+}
+
+// ===== PRESENTATION MODE =====
+let presenting = false;
+function presentMode(){
+  presenting = true;
+  document.body.classList.add('present-mode');
+  updatePresentCounter();
+  if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
+}
+function exitPresent(){
+  presenting = false;
+  document.body.classList.remove('present-mode');
+  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+}
+function navPresent(dir){
+  saveCurrentSlide();
+  currentIdx = Math.max(0,Math.min(slides.length-1,currentIdx+dir));
+  renderSlide();
+  renderThumbs();
+  updatePresentCounter();
+}
+function updatePresentCounter(){
+  document.getElementById('presentCounter').textContent = (currentIdx+1)+' / '+slides.length;
+}
+document.addEventListener('fullscreenchange', () => {
+  if(!document.fullscreenElement && presenting) exitPresent();
+});
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e => {
+  if(presenting){
+    if(e.key==='Escape'){exitPresent();e.preventDefault();}
+    if(e.key==='ArrowRight'||e.key===' '){navPresent(1);e.preventDefault();}
+    if(e.key==='ArrowLeft'){navPresent(-1);e.preventDefault();}
+    return;
+  }
+  if(e.key==='F5'){e.preventDefault();presentMode();}
+  // Only handle arrow nav when not editing text
+  const ae = document.activeElement;
+  if(ae && ae.getAttribute('contenteditable')==='true') return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){goToSlide(currentIdx+1);}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){goToSlide(currentIdx-1);}
+});
+
+// ===== EXPORT =====
+function exportPresentation(){
+  saveCurrentSlide();
+  // Build standalone HTML
+  let slideHTML = '';
+  slides.forEach((s,i) => {
+    slideHTML += `<div class="slide ${s.bg}${i===0?' active':''}" id="s${i+1}">\n  <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 60px;">\n    ${s.html.replace(/ contenteditable="true"/g,'')}\n  </div>\n</div>\n`;
+  });
+  const output = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slides — Tiếng Anh Giao tiếp</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+:root{--blue:#1F4E79;--light-blue:#2980B9;--green:#27AE60;--orange:#E67E22;--purple:#8E44AD;--red:#E74C3C;--dark:#2C3E50;--gray:#7F8C8D;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#1a1a2e;overflow:hidden;height:100vh;width:100vw;}
+.slides-wrapper{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:none;opacity:0;transition:opacity .4s ease;}
+.slide.active{display:block;opacity:1;}
+.bg-dark{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff;}
+.bg-blue{background:linear-gradient(135deg,#1F4E79,#2980B9,#3498DB);color:#fff;}
+.bg-green{background:linear-gradient(135deg,#1E8449,#27AE60,#2ECC71);color:#fff;}
+.bg-orange{background:linear-gradient(135deg,#CA6F1E,#E67E22,#F39C12);color:#fff;}
+.bg-purple{background:linear-gradient(135deg,#6C3483,#8E44AD,#A569BD);color:#fff;}
+.bg-red{background:linear-gradient(135deg,#C0392B,#E74C3C,#EC7063);color:#fff;}
+.bg-light-blue{background:linear-gradient(180deg,#D6EAF8,#EBF5FB);color:#2C3E50;}
+.bg-light-green{background:linear-gradient(180deg,#D5F5E3,#EAFAF1);color:#2C3E50;}
+.bg-light-orange{background:linear-gradient(180deg,#FDEBD0,#FEF9E7);color:#2C3E50;}
+.bg-white{background:linear-gradient(180deg,#F8F9FA,#FFFFFF);color:#2C3E50;}
+.slide-emoji{font-size:clamp(48px,8vw,80px);text-align:center;margin-bottom:14px;}
+.slide-title{font-size:clamp(28px,4vw,48px);font-weight:800;text-align:center;line-height:1.2;margin-bottom:10px;}
+.slide-subtitle{font-size:clamp(16px,2vw,24px);font-weight:400;opacity:.85;text-align:center;margin-bottom:20px;}
+.session-badge{background:rgba(0,0,0,.3);padding:6px 20px;border-radius:30px;font-size:14px;font-weight:600;margin-bottom:14px;display:inline-block;}
+.cards{display:grid;gap:16px;width:100%;max-width:1000px;}
+.cards-2{grid-template-columns:1fr 1fr;}.cards-3{grid-template-columns:1fr 1fr 1fr;}.cards-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.card{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border-radius:16px;padding:20px;text-align:center;border:1px solid rgba(255,255,255,.2);}
+.card-icon{font-size:36px;margin-bottom:8px;}.card-title{font-size:18px;font-weight:700;margin-bottom:6px;}.card-text{font-size:14px;opacity:.85;line-height:1.4;}
+.vocab-row{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.12);border-radius:12px;padding:14px 20px;margin-bottom:10px;width:100%;max-width:800px;}
+.vocab-row .icon{font-size:30px;flex-shrink:0;}.vocab-row .en{font-size:22px;font-weight:700;flex:1;}.vocab-row .vi{font-size:16px;opacity:.8;}
+.structure-box{background:rgba(255,255,255,.15);border-radius:14px;padding:24px 30px;text-align:center;margin:12px 0;max-width:800px;width:100%;border:2px solid rgba(255,255,255,.3);}
+.structure-formula{font-size:clamp(22px,3vw,32px);font-weight:700;margin-bottom:8px;}.structure-example{font-size:18px;opacity:.85;font-style:italic;}
+.dialogue-box{background:rgba(255,255,255,.1);border-radius:16px;padding:24px;max-width:800px;width:100%;}
+.d-line{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.d-speaker{background:rgba(255,255,255,.2);border-radius:8px;padding:4px 10px;font-weight:700;font-size:14px;flex-shrink:0;min-width:80px;text-align:center;}
+.d-speaker.you{background:var(--green);}.d-speaker.partner{background:var(--orange);}
+.d-text{font-size:18px;padding-top:2px;}
+.tip-box{background:rgba(255,255,0,.15);border:2px solid rgba(255,255,0,.4);border-radius:14px;padding:16px 24px;max-width:700px;width:100%;text-align:left;margin-top:16px;}
+.tip-title{font-weight:700;margin-bottom:6px;font-size:16px;}.tip-text{font-size:15px;opacity:.9;line-height:1.5;}
+.highlight{background:rgba(255,255,0,.3);padding:2px 8px;border-radius:4px;font-weight:700;}
+.vocab-pair{display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:12px 18px;margin-bottom:8px;box-shadow:0 2px 10px rgba(0,0,0,.06);max-width:700px;width:100%;}
+.vocab-pair .icon{font-size:28px;}.vocab-pair .en{font-size:20px;font-weight:700;color:var(--blue);flex:1;}.vocab-pair .vi{font-size:16px;color:var(--orange);font-weight:600;}
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);padding:10px 20px;border-radius:50px;z-index:100;}
+.nav-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.nav-btn:hover{background:rgba(255,255,255,.4);}
+.nav-counter{color:#fff;font-size:14px;font-weight:600;min-width:80px;text-align:center;}
+@media(max-width:768px){.cards-2,.cards-3,.cards-4{grid-template-columns:1fr 1fr;}.card{padding:14px;}}
+</style>
+</head>
+<body>
+<div class="slides-wrapper">
+${slideHTML}
+</div>
+<div class="nav"><button class="nav-btn" onclick="changeSlide(-1)">◀</button><span class="nav-counter" id="counter">1 / ${slides.length}</span><button class="nav-btn" onclick="changeSlide(1)">▶</button></div>
+<script>
+let current=0;const sl=document.querySelectorAll('.slide'),total=sl.length,counter=document.getElementById('counter');
+function showSlide(n){sl.forEach(s=>{s.classList.remove('active');s.style.display='none';});sl[n].style.display='block';requestAnimationFrame(()=>sl[n].classList.add('active'));counter.textContent=(n+1)+' / '+total;}
+function changeSlide(d){current=Math.max(0,Math.min(total-1,current+d));showSlide(current);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1);}if(e.key==='Home'){current=0;showSlide(0);}if(e.key==='End'){current=total-1;showSlide(current);}});
+let tx=0;document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50)changeSlide(d>0?1:-1);});
+showSlide(0);
+<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([output], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Slides_English_Fun_Zone.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Đã xuất file trình chiếu!');
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===== INIT =====
+initSlides();
+renderAll();
+
+// Build BG grid
+const bgGrid = document.getElementById('bgGrid');
+BG_OPTIONS.forEach(bg => {
+  const d = document.createElement('div');
+  d.className = 'bg-swatch';
+  d.style.background = bg.preview;
+  d.title = bg.name;
+  bgGrid.appendChild(d);
+});
+updateBgPanel();
+
+// Close bg panel on click outside
+document.addEventListener('click', e => {
+  const panel = document.getElementById('bgPanel');
+  if(panel.classList.contains('show') && !panel.contains(e.target) && !e.target.closest('[onclick*="toggleBgPanel"]')){
+    panel.classList.remove('show');
+  }
+});
+
+// Auto-save to localStorage
+function autoSave(){
+  try{
+    saveCurrentSlide();
+    const data = JSON.stringify({slides, currentIdx});
+    localStorage.setItem('efz_slides', data);
+  }catch(e){}
+}
+function autoLoad(){
+  try{
+    const data = localStorage.getItem('efz_slides');
+    if(data){
+      const parsed = JSON.parse(data);
+      if(parsed.slides && parsed.slides.length){
+        slides = parsed.slides;
+        currentIdx = parsed.currentIdx || 0;
+        return true;
+      }
+    }
+  }catch(e){}
+  return false;
+}
+if(autoLoad()) renderAll();
+setInterval(autoSave, 3000);
+</script>
+</body>
+</html>

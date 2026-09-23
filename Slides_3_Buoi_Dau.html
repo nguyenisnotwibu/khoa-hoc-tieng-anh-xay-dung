@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slides 3 Buổi Đầu — Tiếng Anh Giao tiếp Xây dựng</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+  :root {
+    --blue: #1F4E79;
+    --light-blue: #2980B9;
+    --green: #27AE60;
+    --orange: #E67E22;
+    --purple: #8E44AD;
+    --red: #E74C3C;
+    --dark: #2C3E50;
+    --gray: #7F8C8D;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: var(--dark);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Slide container */
+  .slides-wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 60px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .slide.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* Slide backgrounds */
+  .bg-blue { background: linear-gradient(135deg, #1F4E79 0%, #2980B9 50%, #3498DB 100%); color: white; }
+  .bg-green { background: linear-gradient(135deg, #1E8449 0%, #27AE60 50%, #2ECC71 100%); color: white; }
+  .bg-orange { background: linear-gradient(135deg, #CA6F1E 0%, #E67E22 50%, #F39C12 100%); color: white; }
+  .bg-white { background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%); color: var(--dark); }
+  .bg-dark { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; }
+  .bg-purple { background: linear-gradient(135deg, #6C3483 0%, #8E44AD 50%, #A569BD 100%); color: white; }
+  .bg-light-blue { background: linear-gradient(180deg, #D6EAF8 0%, #EBF5FB 100%); color: var(--dark); }
+  .bg-light-green { background: linear-gradient(180deg, #D5F5E3 0%, #EAFAF1 100%); color: var(--dark); }
+  .bg-light-orange { background: linear-gradient(180deg, #FDEBD0 0%, #FEF9E7 100%); color: var(--dark); }
+
+  /* Typography */
+  .slide-title {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .slide-subtitle {
+    font-size: clamp(16px, 2vw, 24px);
+    font-weight: 400;
+    opacity: 0.85;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .slide-emoji {
+    font-size: clamp(48px, 8vw, 80px);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Content layouts */
+  .content-center {
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+  }
+  .content-full {
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cards-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .card-white {
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: none;
+  }
+  .card-icon { font-size: 36px; margin-bottom: 8px; }
+  .card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .card-text { font-size: 14px; opacity: 0.85; line-height: 1.4; }
+
+  /* Vocab display */
+  .vocab-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 800px;
+  }
+  .vocab-row .icon { font-size: 30px; flex-shrink: 0; }
+  .vocab-row .en { font-size: 22px; font-weight: 700; flex: 1; }
+  .vocab-row .vi { font-size: 16px; opacity: 0.8; }
+
+  /* White vocab cards */
+  .vocab-pair {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    max-width: 700px;
+    width: 100%;
+  }
+  .vocab-pair .icon { font-size: 28px; }
+  .vocab-pair .en { font-size: 20px; font-weight: 700; color: var(--blue); flex: 1; }
+  .vocab-pair .pron { font-size: 13px; color: var(--gray); font-style: italic; }
+  .vocab-pair .vi { font-size: 16px; color: var(--orange); font-weight: 600; }
+
+  /* Dialogue */
+  .dialogue-box {
+    background: rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 800px;
+    width: 100%;
+  }
+  .d-line {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .d-speaker {
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: center;
+  }
+  .d-speaker.you { background: var(--green); }
+  .d-speaker.partner { background: var(--orange); }
+  .d-text { font-size: 18px; padding-top: 2px; }
+
+  /* Structure box */
+  .structure-box {
+    background: rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 24px 30px;
+    text-align: center;
+    margin: 12px 0;
+    max-width: 800px;
+    width: 100%;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .structure-formula {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .structure-example {
+    font-size: 18px;
+    opacity: 0.85;
+    font-style: italic;
+  }
+
+  /* Tips */
+  .tip-box {
+    background: rgba(255,255,0,0.15);
+    border: 2px solid rgba(255,255,0,0.4);
+    border-radius: 14px;
+    padding: 16px 24px;
+    max-width: 700px;
+    width: 100%;
+    text-align: left;
+    margin-top: 16px;
+  }
+  .tip-title { font-weight: 700; margin-bottom: 6px; font-size: 16px; }
+  .tip-text { font-size: 15px; opacity: 0.9; line-height: 1.5; }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    z-index: 100;
+  }
+  .nav-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.4); }
+  .nav-counter {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  /* Session divider */
+  .session-badge {
+    background: rgba(0,0,0,0.3);
+    padding: 6px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  /* List items */
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    padding: 8px 0;
+  }
+  .list-num {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Highlight text */
+  .highlight {
+    background: rgba(255,255,0,0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .slide { padding: 20px 24px; }
+    .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr 1fr; }
+    .vocab-row .en { font-size: 18px; }
+    .card { padding: 14px; }
+    .card-title { font-size: 15px; }
+    .card-text { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="slides-wrapper">
+
+<!-- ====================== SLIDE 1: TITLE ====================== -->
+<div class="slide bg-dark active" id="s1">
+  <div class="content-center">
+    <div class="slide-emoji">🏗️ 🇬🇧</div>
+    <div class="slide-title">TIẾNG ANH GIAO TIẾP<br>Ngành Xây dựng & Nội thất</div>
+    <div class="slide-subtitle">Tuần 1: Chào hỏi • Giới thiệu • Gia đình & Thời gian</div>
+    <div style="margin-top:24px; opacity:0.6; font-size:14px;">Giai đoạn 1: Xây nền giao tiếp (Tuần 1–6)</div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 2: SESSION 1 COVER ====================== -->
+<div class="slide bg-blue" id="s2">
+  <div class="content-center">
+    <div class="session-badge">BUỔI 1 / 3</div>
+    <div class="slide-emoji">👋 🤝</div>
+    <div class="slide-title">CHÀO HỎI & GIỚI THIỆU BẢN THÂN</div>
+    <div class="slide-subtitle">Greetings & Self-Introduction</div>
+    <div class="cards cards-4" style="margin-top:20px;">
+      <div class="card"><div class="card-icon">👂</div><div class="card-text">Nghe hội thoại</div></div>
+      <div class="card"><div class="card-icon">📝</div><div class="card-text">Từ vựng chào hỏi</div></div>
+      <div class="card"><div class="card-icon">🗣️</div><div class="card-text">Cấu trúc giới thiệu</div></div>
+      <div class="card"><div class="card-icon">🎭</div><div class="card-text">Roleplay thực tế</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 3: SCENARIO ====================== -->
+<div class="slide bg-dark" id="s3">
+  <div class="content-center">
+    <div class="slide-emoji">🏗️</div>
+    <div class="slide-title">TÌNH HUỐNG THỰC TẾ</div>
+    <div style="max-width:700px; margin:0 auto;">
+      <div class="structure-box">
+        <div style="font-size:60px; margin-bottom:12px;">👷 🤝 🧑‍💼</div>
+        <div class="structure-formula">Gặp nhà cung cấp vật liệu<br>tại công trình</div>
+        <div class="structure-example">Bạn cần: chào hỏi → giới thiệu tên + công ty → hỏi thăm</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 4: GREETINGS VOCAB 1 ====================== -->
+<div class="slide bg-light-blue" id="s4">
+  <div class="content-center">
+    <div class="slide-title" style="color:var(--blue);">🗣️ Chào hỏi — Greetings</div>
+    <div class="slide-subtitle" style="color:var(--gray);">Informal (thân mật) vs Formal (trang trọng)</div>
+    <div style="display:flex; gap:20px; width:100%; max-width:900px;">
+      <div style="flex:1;">
+        <div style="background:var(--green); color:white; padding:10px; border-radius:10px 10px 0 0; text-align:center; font-weight:700;">😊 INFORMAL</div>
+        <div style="background:white; padding:16px; border-radius:0 0 10px 10px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+          <div class="vocab-pair" style="margin:0 0 8px 0; box-shadow:none; padding:8px;">
+            <span class="icon">👋</span><span class="en" style="font-size:18px;">Hello! / Hi!</span>
+          </div>
+          <div class="vocab-pair" style="margin:0 0 8px 0; box-shadow:none; padding:8px;">
+            <span class="icon">😊</span><span class="en" style="font-size:18px;">How are you?</span>
+          </div>
+          <div class="vocab-pair" style="margin:0; box-shadow:none; padding:8px;">
+            <span class="icon">👋</span><span class="en" style="font-size:18px;">See you! / Bye!</span>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div style="background:var(--blue); color:white; padding:10px; border-radius:10px 10px 0 0; text-align:center; font-weight:700;">🎩 FORMAL</div>
+        <div style="background:white; padding:16px; border-radius:0 0 10px 10px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+          <div class="vocab-pair" style="margin:0 0 8px 0; box-shadow:none; padding:8px;">
+            <span class="icon">🌅</span><span class="en" style="font-size:18px;">Good morning!</span>
+          </div>
+          <div class="vocab-pair" style="margin:0 0 8px 0; box-shadow:none; padding:8px;">
+            <span class="icon">🤝</span><span class="en" style="font-size:18px;">How do you do?</span>
+          </div>
+          <div class="vocab-pair" style="margin:0; box-shadow:none; padding:8px;">
+            <span class="icon">🎩</span><span class="en" style="font-size:18px;">Goodbye!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 5: KEY PHRASES ====================== -->
+<div class="slide bg-blue" id="s5">
+  <div class="content-center">
+    <div class="slide-title">📝 CỤM TỪ CHÀO HỎI QUAN TRỌNG</div>
+    <div class="vocab-row"><span class="icon">👋</span><span class="en">Hello! / Hi!</span><span class="vi">Xin chào!</span></div>
+    <div class="vocab-row"><span class="icon">🌅</span><span class="en">Good morning / afternoon / evening</span><span class="vi">Chào buổi sáng / chiều / tối</span></div>
+    <div class="vocab-row"><span class="icon">🤝</span><span class="en">Nice to meet you!</span><span class="vi">Rất vui gặp bạn!</span></div>
+    <div class="vocab-row"><span class="icon">❓</span><span class="en">How are you?</span><span class="vi">Bạn khỏe không?</span></div>
+    <div class="vocab-row"><span class="icon">😊</span><span class="en">I'm fine, thank you!</span><span class="vi">Tôi khỏe, cảm ơn!</span></div>
+    <div class="vocab-row"><span class="icon">👋</span><span class="en">Goodbye! / See you later!</span><span class="vi">Tạm biệt! / Hẹn gặp lại!</span></div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 6: SELF-INTRO STRUCTURE ====================== -->
+<div class="slide bg-dark" id="s6">
+  <div class="content-center">
+    <div class="slide-title">🏷️ CẤU TRÚC GIỚI THIỆU BẢN THÂN</div>
+    <div class="structure-box">
+      <div class="structure-formula">My name is ___________.</div>
+      <div class="structure-example">"My name is Minh Nguyen."</div>
+    </div>
+    <div class="structure-box">
+      <div class="structure-formula">I'm _____ years old.</div>
+      <div class="structure-example">"I'm 43 years old."</div>
+    </div>
+    <div class="structure-box">
+      <div class="structure-formula">I'm a / an ___________.</div>
+      <div class="structure-example">"I'm a constructor." / "I'm an interior designer."</div>
+    </div>
+    <div class="structure-box">
+      <div class="structure-formula">I work at ___________.</div>
+      <div class="structure-example">"I work at Hoang Anh Construction."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 7: DIALOGUE 1 ====================== -->
+<div class="slide bg-blue" id="s7">
+  <div class="content-center">
+    <div class="slide-title">🎭 HỘI THOẠI MẪU: Gặp đối tác</div>
+    <div class="dialogue-box">
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">Good morning! I'm Minh from ABC Construction.</span></div>
+      <div class="d-line"><span class="d-speaker partner">Mr. Smith</span><span class="d-text">Hello, Minh! I'm John Smith from Global Materials. Nice to meet you!</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">Nice to meet you too! How are you today?</span></div>
+      <div class="d-line"><span class="d-speaker partner">Mr. Smith</span><span class="d-text">I'm fine, thank you! This is a great site.</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">Thank you! Welcome to our construction site!</span></div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-title">💡 Mẹo phát âm</div>
+      <div class="tip-text"><strong>Hello:</strong> /h/ nhẹ, hơi thở ra — không phải /x/<br><strong>Work:</strong> /w/ tròn môi trước — khác với /v/</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 8: PRACTICE ====================== -->
+<div class="slide bg-light-blue" id="s8">
+  <div class="content-center">
+    <div class="slide-title" style="color:var(--blue);">✏️ LUYỆN TẬP: Giới thiệu bản thân</div>
+    <div class="slide-subtitle" style="color:var(--gray);">Điền thông tin thật của bạn và luyện nói 30 giây</div>
+    <div style="background:white; border-radius:16px; padding:28px; max-width:700px; width:100%; box-shadow:0 4px 20px rgba(0,0,0,0.08); text-align:left;">
+      <div style="font-size:20px; margin-bottom:12px; color:var(--blue);">
+        <strong>1.</strong> My name is <span style="border-bottom:2px dashed var(--orange); padding:0 40px;"> </span>.
+      </div>
+      <div style="font-size:20px; margin-bottom:12px; color:var(--blue);">
+        <strong>2.</strong> I'm <span style="border-bottom:2px dashed var(--orange); padding:0 20px;"> </span> years old.
+      </div>
+      <div style="font-size:20px; margin-bottom:12px; color:var(--blue);">
+        <strong>3.</strong> I'm a/an <span style="border-bottom:2px dashed var(--orange); padding:0 40px;"> </span>.
+      </div>
+      <div style="font-size:20px; margin-bottom:12px; color:var(--blue);">
+        <strong>4.</strong> I work at <span style="border-bottom:2px dashed var(--orange); padding:0 40px;"> </span>.
+      </div>
+      <div style="font-size:20px; color:var(--blue);">
+        <strong>5.</strong> I live in <span style="border-bottom:2px dashed var(--orange); padding:0 40px;"> </span>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 9: SESSION 1 HOMEWORK ====================== -->
+<div class="slide bg-dark" id="s9">
+  <div class="content-center">
+    <div class="slide-title">📋 BÀI TẬP VỀ NHÀ — Buổi 1</div>
+    <div class="cards cards-3" style="margin-top:16px;">
+      <div class="card">
+        <div class="card-icon">🎤</div>
+        <div class="card-title">Ghi âm 30s</div>
+        <div class="card-text">Tự giới thiệu bản thân, gửi file cho GV trước buổi 2</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <div class="card-title">ELSA Speak</div>
+        <div class="card-text">Luyện phát âm 10 phút/ngày, tập 5 câu chào hỏi</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">Học từ vựng</div>
+        <div class="card-text">Ôn 12 từ/cụm từ chào hỏi & giới thiệu buổi 1</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 10: SESSION 2 COVER ====================== -->
+<div class="slide bg-green" id="s10">
+  <div class="content-center">
+    <div class="session-badge">BUỔI 2 / 3</div>
+    <div class="slide-emoji">🏢 💼</div>
+    <div class="slide-title">GIỚI THIỆU CÔNG TY<br>& MÔ TẢ CÔNG VIỆC</div>
+    <div class="slide-subtitle">Company Introduction & Job Description</div>
+    <div class="cards cards-4" style="margin-top:20px;">
+      <div class="card"><div class="card-icon">🏢</div><div class="card-text">Từ vựng công ty</div></div>
+      <div class="card"><div class="card-icon">📐</div><div class="card-text">Present Simple</div></div>
+      <div class="card"><div class="card-icon">🗣️</div><div class="card-text">Bài nói 1 phút</div></div>
+      <div class="card"><div class="card-icon">🎭</div><div class="card-text">Đón KTS tại site</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 11: COMPANY VOCAB ====================== -->
+<div class="slide bg-green" id="s11">
+  <div class="content-center">
+    <div class="slide-title">📝 TỪ VỰNG: Công ty & Công việc</div>
+    <div class="vocab-row"><span class="icon">🏢</span><span class="en">company</span><span class="vi">Công ty</span></div>
+    <div class="vocab-row"><span class="icon">🏗️</span><span class="en">construction company</span><span class="vi">Công ty xây dựng</span></div>
+    <div class="vocab-row"><span class="icon">📋</span><span class="en">project</span><span class="vi">Dự án</span></div>
+    <div class="vocab-row"><span class="icon">🤵</span><span class="en">client / customer</span><span class="vi">Khách hàng</span></div>
+    <div class="vocab-row"><span class="icon">👥</span><span class="en">employee</span><span class="vi">Nhân viên</span></div>
+    <div class="vocab-row"><span class="icon">🏗️</span><span class="en">construction site</span><span class="vi">Công trường</span></div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 12: MORE VOCAB ====================== -->
+<div class="slide bg-light-green" id="s12">
+  <div class="content-center">
+    <div class="slide-title" style="color:var(--green);">📝 TỪ VỰNG: Hành động công việc</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:800px; width:100%;">
+      <div class="vocab-pair"><span class="icon">👁️</span><div style="flex:1;"><span class="en" style="font-size:18px;">supervise</span><br><span class="vi">Giám sát</span></div></div>
+      <div class="vocab-pair"><span class="icon">📊</span><div style="flex:1;"><span class="en" style="font-size:18px;">manage</span><br><span class="vi">Quản lý</span></div></div>
+      <div class="vocab-pair"><span class="icon">✏️</span><div style="flex:1;"><span class="en" style="font-size:18px;">design</span><br><span class="vi">Thiết kế</span></div></div>
+      <div class="vocab-pair"><span class="icon">🧱</span><div style="flex:1;"><span class="en" style="font-size:18px;">build</span><br><span class="vi">Xây dựng</span></div></div>
+      <div class="vocab-pair"><span class="icon">👔</span><div style="flex:1;"><span class="en" style="font-size:18px;">project manager</span><br><span class="vi">Quản lý dự án</span></div></div>
+      <div class="vocab-pair"><span class="icon">📐</span><div style="flex:1;"><span class="en" style="font-size:18px;">architect</span><br><span class="vi">Kiến trúc sư</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 13: PRESENT SIMPLE ====================== -->
+<div class="slide bg-purple" id="s13">
+  <div class="content-center">
+    <div class="slide-title">📐 NGỮ PHÁP: Present Simple</div>
+    <div class="slide-subtitle">Thì hiện tại đơn — dùng cho việc làm hàng ngày</div>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title">✅ Khẳng định</div>
+        <div class="card-text" style="font-size:16px;">I/We + <strong>V</strong><br><br><em>"I <strong>build</strong> houses."</em><br><em>"We <strong>design</strong> offices."</em></div>
+      </div>
+      <div class="card">
+        <div class="card-title">❌ Phủ định</div>
+        <div class="card-text" style="font-size:16px;">I/We + <strong>don't</strong> + V<br><br><em>"I <strong>don't work</strong> on weekends."</em></div>
+      </div>
+      <div class="card">
+        <div class="card-title">❓ Câu hỏi</div>
+        <div class="card-text" style="font-size:16px;"><strong>Do</strong> + you + V + ...?<br><br><em>"<strong>Do</strong> you <strong>design</strong> apartments?"</em></div>
+      </div>
+    </div>
+    <div class="tip-box" style="margin-top:16px;">
+      <div class="tip-title">💡 Lưu ý</div>
+      <div class="tip-text">Chỉ học phần dùng ngay trong giao tiếp — không đi sâu lý thuyết ngữ pháp!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 14: COMPANY INTRO PRACTICE ====================== -->
+<div class="slide bg-dark" id="s14">
+  <div class="content-center">
+    <div class="slide-title">🗣️ LUYỆN NÓI: Giới thiệu công ty (1 phút)</div>
+    <div class="structure-box">
+      <div class="structure-formula" style="font-size:22px;">My company is <span class="highlight">_________</span>.</div>
+    </div>
+    <div class="structure-box">
+      <div class="structure-formula" style="font-size:22px;">We are a <span class="highlight">_________</span> company.</div>
+    </div>
+    <div class="structure-box">
+      <div class="structure-formula" style="font-size:22px;">We <span class="highlight">build / design / ...</span> .</div>
+    </div>
+    <div class="structure-box">
+      <div class="structure-formula" style="font-size:22px;">We have <span class="highlight">___</span> employees.</div>
+    </div>
+    <div style="margin-top:16px; font-size:16px; opacity:0.7;">Luyện nói 3 lần → GV sửa phát âm & ngữ pháp</div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 15: ROLEPLAY 2 ====================== -->
+<div class="slide bg-green" id="s15">
+  <div class="content-center">
+    <div class="slide-title">🎭 ROLEPLAY: Đón KTS tại công trình</div>
+    <div class="dialogue-box">
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">Good morning! Welcome to our site. I'm [tên], the project manager.</span></div>
+      <div class="d-line"><span class="d-speaker partner">Architect</span><span class="d-text">Good morning! I'm David Lee, the architect. Nice to meet you!</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">Nice to meet you too! My company is [tên cty]. We build [loại CT].</span></div>
+      <div class="d-line"><span class="d-speaker partner">Architect</span><span class="d-text">Great! How many people are on your team?</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">We have [số] employees. I supervise the construction team.</span></div>
+    </div>
+    <div style="margin-top:16px; font-size:16px; opacity:0.8;">🔄 Đổi vai → Lặp lại 2–3 lần</div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 16: SESSION 2 HOMEWORK ====================== -->
+<div class="slide bg-dark" id="s16">
+  <div class="content-center">
+    <div class="slide-title">📋 BÀI TẬP VỀ NHÀ — Buổi 2</div>
+    <div class="cards cards-3" style="margin-top:16px;">
+      <div class="card">
+        <div class="card-icon">🎤</div>
+        <div class="card-title">Ghi âm 1 phút</div>
+        <div class="card-text">Giới thiệu công ty: tên, ngành, dịch vụ, số NV</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">✏️</div>
+        <div class="card-title">Viết 5 câu</div>
+        <div class="card-text">Mô tả công việc hàng ngày bằng Present Simple</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <div class="card-title">ELSA + Ôn từ</div>
+        <div class="card-text">Luyện 10 phút, chuẩn bị ảnh gia đình/công trình</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 17: SESSION 3 COVER ====================== -->
+<div class="slide bg-orange" id="s17">
+  <div class="content-center">
+    <div class="session-badge">BUỔI 3 / 3</div>
+    <div class="slide-emoji">👨‍👩‍👧‍👦 ⏰</div>
+    <div class="slide-title">GIA ĐÌNH, THỜI GIAN<br>& ÔN TẬP TUẦN 1</div>
+    <div class="slide-subtitle">Family, Time & Week 1 Review</div>
+    <div class="cards cards-4" style="margin-top:20px;">
+      <div class="card"><div class="card-icon">👨‍👩‍👧‍👦</div><div class="card-text">Từ vựng gia đình</div></div>
+      <div class="card"><div class="card-icon">⏰</div><div class="card-text">Thời gian & lịch LV</div></div>
+      <div class="card"><div class="card-icon">🎤</div><div class="card-text">Monologue 2 phút</div></div>
+      <div class="card"><div class="card-icon">🍜</div><div class="card-text">Roleplay ăn trưa</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 18: FAMILY VOCAB ====================== -->
+<div class="slide bg-orange" id="s18">
+  <div class="content-center">
+    <div class="slide-title">👨‍👩‍👧‍👦 TỪ VỰNG: Gia đình</div>
+    <div class="vocab-row"><span class="icon">👨‍👩‍👧‍👦</span><span class="en">family</span><span class="vi">Gia đình</span></div>
+    <div class="vocab-row"><span class="icon">💑</span><span class="en">wife / husband</span><span class="vi">Vợ / Chồng</span></div>
+    <div class="vocab-row"><span class="icon">👦</span><span class="en">son / daughter</span><span class="vi">Con trai / Con gái</span></div>
+    <div class="vocab-row"><span class="icon">👶</span><span class="en">children</span><span class="vi">Con cái</span></div>
+    <div class="vocab-row"><span class="icon">👴👵</span><span class="en">parents</span><span class="vi">Bố mẹ</span></div>
+    <div class="structure-box" style="margin-top:16px;">
+      <div class="structure-formula" style="font-size:20px;">I have __ children. My wife is a ___. My son is __ years old.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 19: TIME VOCAB ====================== -->
+<div class="slide bg-light-orange" id="s19">
+  <div class="content-center">
+    <div class="slide-title" style="color:var(--orange);">⏰ TỪ VỰNG: Thời gian & Lịch làm việc</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:800px; width:100%;">
+      <div class="vocab-pair"><span class="icon">🗓️</span><div style="flex:1;"><span class="en" style="font-size:18px;">Monday – Sunday</span><br><span class="vi">Thứ Hai – Chủ nhật</span></div></div>
+      <div class="vocab-pair"><span class="icon">🌅</span><div style="flex:1;"><span class="en" style="font-size:18px;">morning / afternoon</span><br><span class="vi">Sáng / Chiều</span></div></div>
+      <div class="vocab-pair"><span class="icon">⏰</span><div style="flex:1;"><span class="en" style="font-size:18px;">o'clock / half past</span><br><span class="vi">Giờ đúng / Giờ rưỡi</span></div></div>
+      <div class="vocab-pair"><span class="icon">📅</span><div style="flex:1;"><span class="en" style="font-size:18px;">schedule</span><br><span class="vi">Lịch trình</span></div></div>
+      <div class="vocab-pair"><span class="icon">🔔</span><div style="flex:1;"><span class="en" style="font-size:18px;">start / finish work</span><br><span class="vi">Bắt đầu / Kết thúc LV</span></div></div>
+      <div class="vocab-pair"><span class="icon">🏖️</span><div style="flex:1;"><span class="en" style="font-size:18px;">day off / overtime</span><br><span class="vi">Ngày nghỉ / Làm thêm giờ</span></div></div>
+    </div>
+    <div class="structure-box" style="margin-top:14px; background:white; border:2px solid var(--orange);">
+      <div class="structure-formula" style="font-size:18px; color:var(--dark);">I start work at <span style="color:var(--orange);">7 AM</span>. I work from <span style="color:var(--orange);">Monday</span> to <span style="color:var(--orange);">Saturday</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 20: PRONUNCIATION ====================== -->
+<div class="slide bg-dark" id="s20">
+  <div class="content-center">
+    <div class="slide-title">🎯 LUYỆN PHÁT ÂM — Trọng điểm</div>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title" style="font-size:28px;">/θ/</div>
+        <div class="card-text" style="font-size:16px;">
+          <strong>three, Thursday, thank</strong><br><br>
+          Đặt lưỡi giữa 2 hàm răng, thổi hơi ra nhẹ
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:28px;">/r/ vs /l/</div>
+        <div class="card-text" style="font-size:16px;">
+          <strong>really ≠ early</strong><br><br>
+          /r/: lưỡi cuộn lại<br>/l/: lưỡi chạm vòm miệng
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:28px;">↗ ↘</div>
+        <div class="card-text" style="font-size:16px;">
+          <strong>Ngữ điệu</strong><br><br>
+          Câu hỏi ↗ lên<br>Câu trả lời ↘ xuống
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 21: MONOLOGUE ====================== -->
+<div class="slide bg-orange" id="s21">
+  <div class="content-center">
+    <div class="slide-title">🎤 ÔN TẬP: Bài nói 2 phút</div>
+    <div class="slide-subtitle">Nói liên tục theo 4 phần — Ghi âm gửi GV</div>
+    <div class="cards cards-2" style="max-width:700px;">
+      <div class="card" style="background:rgba(255,255,255,0.2);">
+        <div style="font-size:36px; margin-bottom:8px;">1️⃣</div>
+        <div class="card-title">Giới thiệu bản thân</div>
+        <div class="card-text">Tên, tuổi, nghề nghiệp, thành phố</div>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.2);">
+        <div style="font-size:36px; margin-bottom:8px;">2️⃣</div>
+        <div class="card-title">Giới thiệu công ty</div>
+        <div class="card-text">Tên, ngành, dịch vụ, quy mô</div>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.2);">
+        <div style="font-size:36px; margin-bottom:8px;">3️⃣</div>
+        <div class="card-title">Gia đình</div>
+        <div class="card-text">Vợ/chồng, con cái, nghề</div>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.2);">
+        <div style="font-size:36px; margin-bottom:8px;">4️⃣</div>
+        <div class="card-title">Lịch làm việc</div>
+        <div class="card-text">Giờ, ngày, công trường</div>
+      </div>
+    </div>
+    <div style="margin-top:16px; font-size:16px; opacity:0.85;">🎯 Mục tiêu: Nói liên tục 2 phút, không dừng quá 3 lần</div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 22: ROLEPLAY LUNCH ====================== -->
+<div class="slide bg-dark" id="s22">
+  <div class="content-center">
+    <div class="slide-emoji">🍜</div>
+    <div class="slide-title">🎭 ROLEPLAY: Ăn trưa với đối tác</div>
+    <div class="dialogue-box">
+      <div class="d-line"><span class="d-speaker partner">Mr. Lee</span><span class="d-text">So, tell me about yourself!</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">[Giới thiệu bản thân + công ty]</span></div>
+      <div class="d-line"><span class="d-speaker partner">Mr. Lee</span><span class="d-text">Do you have a family?</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">[Nói về gia đình]</span></div>
+      <div class="d-line"><span class="d-speaker partner">Mr. Lee</span><span class="d-text">What time do you start work?</span></div>
+      <div class="d-line"><span class="d-speaker you">You</span><span class="d-text">[Mô tả lịch làm việc]</span></div>
+    </div>
+    <div style="margin-top:12px; font-size:15px; opacity:0.7;">Tình huống thực tế: small talk tự nhiên tại nhà hàng gần công trường</div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 23: WEEK SUMMARY ====================== -->
+<div class="slide bg-blue" id="s23">
+  <div class="content-center">
+    <div class="slide-title">✅ TỔNG KẾT TUẦN 1</div>
+    <div class="cards cards-2" style="max-width:800px;">
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">30+ từ vựng mới</div>
+        <div class="card-text">Chào hỏi, công ty, gia đình, thời gian</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">Present Simple</div>
+        <div class="card-text">Khẳng định, phủ định, câu hỏi</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗣️</div>
+        <div class="card-title">Nói liên tục 2 phút</div>
+        <div class="card-text">Giới thiệu + công ty + gia đình + lịch LV</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎭</div>
+        <div class="card-title">3 tình huống roleplay</div>
+        <div class="card-text">Gặp đối tác, đón KTS, ăn trưa</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 24: NEXT WEEK ====================== -->
+<div class="slide bg-dark" id="s24">
+  <div class="content-center">
+    <div class="slide-emoji">🔜</div>
+    <div class="slide-title">TUẦN 2 SẮP TỚI</div>
+    <div class="slide-subtitle">Số đếm, Đo lường & Mô tả Vật liệu Xây dựng</div>
+    <div class="cards cards-3" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-icon">🔢</div>
+        <div class="card-title">Số đếm</div>
+        <div class="card-text">1–100, đơn vị đo: meters, square meters</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧱</div>
+        <div class="card-title">Vật liệu XD</div>
+        <div class="card-text">brick, cement, sand, steel, timber, paint</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗣️</div>
+        <div class="card-title">Mô tả vật liệu</div>
+        <div class="card-text">"We need 500 bricks for this wall."</div>
+      </div>
+    </div>
+    <div style="margin-top:30px; font-size:18px; opacity:0.8;">🎯 Chuẩn bị: xem trước từ vựng vật liệu trong worksheet!</div>
+  </div>
+</div>
+
+<!-- ====================== SLIDE 25: THANK YOU ====================== -->
+<div class="slide bg-dark" id="s25">
+  <div class="content-center">
+    <div class="slide-emoji">🏗️ ⭐ 🇬🇧</div>
+    <div class="slide-title">THANK YOU!</div>
+    <div class="slide-subtitle">Không sợ sai — Giao tiếp được là thắng!</div>
+    <div style="margin-top:24px; font-size:16px; opacity:0.6;">
+      Tiếng Anh Giao tiếp<br>
+      Tiếng Anh Giao tiếp — Ngành Xây dựng & Nội thất
+    </div>
+  </div>
+</div>
+
+</div><!-- /slides-wrapper -->
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">◀</button>
+  <span class="nav-counter" id="counter">1 / 25</span>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">▶</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+
+  function showSlide(n) {
+    slides.forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+    slides[n].style.display = 'flex';
+    requestAnimationFrame(() => { slides[n].classList.add('active'); });
+    counter.textContent = (n + 1) + ' / ' + total;
+  }
+
+  function changeSlide(dir) {
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    showSlide(current);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+    if (e.key === 'Home') { current = 0; showSlide(0); }
+    if (e.key === 'End') { current = total - 1; showSlide(current); }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+  });
+
+  showSlide(0);
+</script>
+
+</body>
+</html>
