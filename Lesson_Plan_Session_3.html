@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 3 — Construction Site Vocabulary & Directions</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.7;
+    color: #2d3748;
+    background: #f7fafc;
+    padding: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    color: #1a365d;
+    font-size: 1.8em;
+    border-bottom: 3px solid #e67e22;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .meta { color: #718096; font-size: 0.95em; margin-bottom: 20px; text-align: center; }
+  .info-box {
+    background: #ebf8ff; border-left: 4px solid #3182ce;
+    padding: 14px 18px; margin-bottom: 24px; border-radius: 0 6px 6px 0; font-size: 0.95em;
+  }
+  h2 {
+    color: #fff; font-size: 1.3em; margin-top: 32px; margin-bottom: 14px;
+    padding: 10px 16px; background: linear-gradient(135deg, #e67e22, #d35400); border-radius: 8px;
+  }
+  h3 { color: #2b6cb0; font-size: 1.1em; margin-top: 18px; margin-bottom: 8px; }
+  p { margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 0.95em; }
+  th { background: #2b6cb0; color: white; padding: 10px 12px; text-align: left; }
+  td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+  tr:nth-child(even) td { background: #f7fafc; }
+  tr:hover td { background: #ebf8ff; }
+  .viet { color: #718096; font-style: italic; }
+  ul, ol { margin: 8px 0 12px 24px; }
+  li { margin-bottom: 6px; }
+
+  /* Audio button */
+  .speak-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #3182ce; color: white; border: none; border-radius: 20px;
+    padding: 4px 12px; font-size: 0.82em; cursor: pointer; transition: all 0.2s;
+    vertical-align: middle;
+  }
+  .speak-btn:hover { background: #2b6cb0; transform: scale(1.05); }
+  .speak-btn:active { transform: scale(0.95); }
+  .speak-btn::before { content: '🔊'; font-size: 1em; }
+
+  /* Vocabulary card grid */
+  .vocab-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px; margin: 16px 0;
+  }
+  .vocab-card {
+    background: white; border: 2px solid #e2e8f0; border-radius: 10px;
+    padding: 14px; text-align: center; transition: all 0.2s;
+    cursor: pointer; position: relative;
+  }
+  .vocab-card:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49,130,206,0.15); transform: translateY(-2px); }
+  .vocab-card .icon { font-size: 2.2em; margin-bottom: 6px; display: block; }
+  .vocab-card .word { font-weight: 700; color: #1a365d; font-size: 1.05em; }
+  .vocab-card .viet-small { font-size: 0.85em; color: #a0aec0; font-style: italic; }
+  .vocab-card .example { font-size: 0.82em; color: #4a5568; margin-top: 6px; background: #f7fafc; padding: 6px 8px; border-radius: 6px; text-align: left; }
+
+  /* Dialogue box */
+  .dialogue {
+    background: #f0fff4; border-left: 4px solid #38a169;
+    padding: 16px 20px; margin: 14px 0; border-radius: 0 8px 8px 0;
+  }
+  .dialogue .line { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+  .dialogue .line:last-child { margin-bottom: 0; }
+  .dialogue .speaker {
+    font-weight: 700; min-width: 60px; padding: 2px 8px; border-radius: 12px;
+    text-align: center; font-size: 0.85em; flex-shrink: 0;
+  }
+  .speaker-a { background: #bee3f8; color: #2b6cb0; }
+  .speaker-b { background: #c6f6d5; color: #276749; }
+  .dialogue .text { flex: 1; }
+
+  /* Grammar box */
+  .grammar-box {
+    background: linear-gradient(135deg, #667eea11, #764ba211);
+    border: 2px solid #667eea; border-radius: 10px;
+    padding: 18px 20px; margin: 16px 0;
+  }
+  .grammar-box h3 { color: #553c9a; margin-top: 0; }
+  .grammar-pattern {
+    font-size: 1.2em; font-weight: 700; color: #553c9a;
+    background: white; padding: 12px 18px; border-radius: 8px;
+    margin: 10px 0; text-align: center; letter-spacing: 0.5px;
+    border: 2px dashed #b794f4;
+  }
+  .grammar-example {
+    background: white; padding: 10px 14px; border-radius: 6px;
+    margin: 6px 0; border-left: 3px solid #9f7aea;
+  }
+
+  /* Site map SVG */
+  .site-map-container {
+    background: white; border: 2px solid #e2e8f0; border-radius: 10px;
+    padding: 16px; margin: 16px 0; text-align: center;
+  }
+  .site-map-container svg { max-width: 100%; height: auto; }
+
+  /* Interactive exercise */
+  .exercise-box {
+    background: white; border: 2px solid #e2e8f0; border-radius: 10px;
+    padding: 18px; margin: 14px 0;
+  }
+  .gap-input {
+    border: none; border-bottom: 2px solid #3182ce; background: #ebf8ff;
+    padding: 4px 8px; font-size: 1em; width: 130px; text-align: center;
+    border-radius: 4px 4px 0 0; color: #2d3748; font-family: inherit;
+  }
+  .gap-input:focus { outline: none; border-bottom-color: #e67e22; background: #fef3e2; }
+  .word-bank {
+    display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0;
+  }
+  .word-chip {
+    background: #ebf8ff; color: #2b6cb0; border: 1px solid #90cdf4;
+    padding: 4px 14px; border-radius: 20px; font-size: 0.9em; cursor: pointer;
+    transition: all 0.2s; user-select: none;
+  }
+  .word-chip:hover { background: #3182ce; color: white; }
+  .word-chip.used { background: #e2e8f0; color: #a0aec0; border-color: #cbd5e0; cursor: default; }
+
+  /* Check button */
+  .check-btn {
+    background: linear-gradient(135deg, #38a169, #2f855a); color: white;
+    border: none; border-radius: 8px; padding: 10px 28px; font-size: 1em;
+    cursor: pointer; font-weight: 600; transition: all 0.2s; margin-top: 10px;
+  }
+  .check-btn:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(56,161,105,0.3); }
+
+  /* Role play card */
+  .roleplay-card {
+    background: linear-gradient(135deg, #fefcbf, #fef3e2);
+    border: 2px solid #d69e2e; border-radius: 10px;
+    padding: 18px; margin: 14px 0;
+  }
+  .roleplay-card h3 { color: #975a16; margin-top: 0; }
+
+  /* Preposition visual */
+  .prep-visual {
+    display: flex; align-items: center; gap: 12px; justify-content: center;
+    background: white; padding: 10px; border-radius: 8px; margin: 4px 0;
+    font-size: 1.3em;
+  }
+
+  .answer-key {
+    background: #fefce8; border: 2px dashed #d69e2e;
+    padding: 12px 16px; margin: 12px 0; border-radius: 6px;
+  }
+  .answer-key summary { cursor: pointer; font-weight: 700; color: #b7791f; }
+
+  .teacher-tip {
+    background: #fff5f5; border-left: 4px solid #e53e3e;
+    padding: 10px 14px; margin: 10px 0; border-radius: 0 6px 6px 0; font-size: 0.93em;
+  }
+
+  .note-box {
+    background: #faf5ff; border-left: 4px solid #805ad5;
+    padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0;
+  }
+
+  /* Result feedback */
+  .result { display: none; padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-weight: 600; }
+  .result.correct { display: block; background: #c6f6d5; color: #276749; }
+  .result.wrong { display: block; background: #fed7d7; color: #9b2c2c; }
+
+  /* Assessment table */
+  .assessment-table td:first-child { font-weight: 600; }
+  .assessment-table td:nth-child(2) { color: #276749; }
+  .assessment-table td:nth-child(3) { color: #9b2c2c; }
+
+  hr { border: none; border-top: 2px solid #e2e8f0; margin: 28px 0; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    body { padding: 12px; }
+    h1 { font-size: 1.3em; }
+    .vocab-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .vocab-card .icon { font-size: 1.6em; }
+    table { font-size: 0.85em; }
+    td, th { padding: 6px 8px; }
+    .grammar-pattern { font-size: 1em; }
+  }
+  @media print {
+    body { background: white; }
+    .speak-btn { display: none; }
+    .check-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Session 3 — The Construction Site:<br>Vocabulary & Directions</h1>
+<div class="meta">English for Construction & Interior Design</div>
+
+<div class="info-box">
+  <strong>Level:</strong> Elementary / Pre-Intermediate &nbsp;|&nbsp;
+  <strong>Duration:</strong> 60–75 min &nbsp;|&nbsp;
+  <strong>Teacher:</strong> Native English speaker<br>
+  <strong>Student:</strong> Working professional, 43, construction/interior fit-out<br>
+  <strong>Note:</strong> Use Vietnamese translations for key vocabulary only. Speak slowly and clearly.
+</div>
+
+<!-- ===================== VOCABULARY SECTION ===================== -->
+<h2>🏗️ Part 1 — Construction Site Vocabulary</h2>
+
+<h3>A. Places on a Construction Site</h3>
+<div class="vocab-grid">
+  <div class="vocab-card" onclick="speakWord('construction site')">
+    <span class="icon">🏗️</span>
+    <div class="word">construction site</div>
+    <div class="viet-small">công trường</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('construction site')">Listen</button>
+    <div class="example">"Welcome to our <b>construction site</b>."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('entrance')">
+    <span class="icon">🚪</span>
+    <div class="word">entrance / exit</div>
+    <div class="viet-small">lối vào / lối ra</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('entrance, exit')">Listen</button>
+    <div class="example">"The main <b>entrance</b> is over there."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('site office')">
+    <span class="icon">🏢</span>
+    <div class="word">site office</div>
+    <div class="viet-small">văn phòng công trường</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('site office')">Listen</button>
+    <div class="example">"Let's go to the <b>site office</b> first."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('storage room')">
+    <span class="icon">📦</span>
+    <div class="word">storage room</div>
+    <div class="viet-small">phòng kho</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('storage room')">Listen</button>
+    <div class="example">"The materials are in the <b>storage room</b>."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('parking area')">
+    <span class="icon">🅿️</span>
+    <div class="word">parking area</div>
+    <div class="viet-small">bãi đỗ xe</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('parking area')">Listen</button>
+    <div class="example">"You can park in the <b>parking area</b>."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('ground floor')">
+    <span class="icon">🏠</span>
+    <div class="word">ground floor</div>
+    <div class="viet-small">tầng trệt</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('ground floor')">Listen</button>
+    <div class="example">"The showroom is on the <b>ground floor</b>."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('rooftop')">
+    <span class="icon">🔝</span>
+    <div class="word">rooftop</div>
+    <div class="viet-small">mái / sân thượng</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('rooftop')">Listen</button>
+    <div class="example">"We're working on the <b>rooftop</b> today."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('staircase')">
+    <span class="icon">🪜</span>
+    <div class="word">staircase</div>
+    <div class="viet-small">cầu thang</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('staircase')">Listen</button>
+    <div class="example">"Take the <b>staircase</b> to the second floor."</div>
+  </div>
+</div>
+
+<h3>B. Tools & Materials</h3>
+<div class="vocab-grid">
+  <div class="vocab-card" onclick="speakWord('cement')">
+    <span class="icon">🧱</span>
+    <div class="word">cement</div>
+    <div class="viet-small">xi măng</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('cement')">Listen</button>
+    <div class="example">"We need more <b>cement</b> for the wall."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('brick')">
+    <span class="icon">🟫</span>
+    <div class="word">brick</div>
+    <div class="viet-small">gạch</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('brick')">Listen</button>
+    <div class="example">"The <b>bricks</b> are next to the entrance."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('steel')">
+    <span class="icon">🔩</span>
+    <div class="word">steel</div>
+    <div class="viet-small">thép</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('steel')">Listen</button>
+    <div class="example">"The <b>steel</b> arrived this morning."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('paint')">
+    <span class="icon">🎨</span>
+    <div class="word">paint</div>
+    <div class="viet-small">sơn</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('paint')">Listen</button>
+    <div class="example">"What color <b>paint</b> does the client want?"</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('tile')">
+    <span class="icon">🔲</span>
+    <div class="word">tile</div>
+    <div class="viet-small">gạch lát / gạch ốp</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('tile')">Listen</button>
+    <div class="example">"We're installing <b>tiles</b> in the bathroom."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('drill')">
+    <span class="icon">🔧</span>
+    <div class="word">drill</div>
+    <div class="viet-small">máy khoan</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('drill')">Listen</button>
+    <div class="example">"Pass me the <b>drill</b>, please."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('ladder')">
+    <span class="icon">🪜</span>
+    <div class="word">ladder</div>
+    <div class="viet-small">thang</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('ladder')">Listen</button>
+    <div class="example">"The <b>ladder</b> is behind the storage room."</div>
+  </div>
+  <div class="vocab-card" onclick="speakWord('hard hat')">
+    <span class="icon">⛑️</span>
+    <div class="word">helmet / hard hat</div>
+    <div class="viet-small">mũ bảo hộ</div>
+    <button class="speak-btn" onclick="event.stopPropagation();speakWord('hard hat')">Listen</button>
+    <div class="example">"Everyone must wear a <b>helmet</b> on site."</div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ===================== SITE MAP ===================== -->
+<h2>🗺️ Part 2 — Construction Site Map</h2>
+<p>Look at this site map. Use it for the exercises below.</p>
+
+<div class="site-map-container">
+<svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg" style="font-family:'Segoe UI',Arial,sans-serif">
+  <!-- Background -->
+  <rect x="0" y="0" width="700" height="420" rx="10" fill="#f0f5e9" stroke="#a0aec0" stroke-width="2"/>
+  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#2d3748">🏗️ CONSTRUCTION SITE MAP</text>
+
+  <!-- Fence -->
+  <rect x="20" y="40" width="660" height="360" rx="6" fill="none" stroke="#718096" stroke-width="2" stroke-dasharray="8,4"/>
+
+  <!-- Entrance -->
+  <rect x="300" y="375" width="100" height="30" rx="4" fill="#e67e22" stroke="#d35400" stroke-width="1.5"/>
+  <text x="350" y="395" text-anchor="middle" font-size="11" font-weight="700" fill="white">🚪 ENTRANCE</text>
+
+  <!-- Parking Area -->
+  <rect x="40" y="300" width="150" height="70" rx="6" fill="#bee3f8" stroke="#3182ce" stroke-width="1.5"/>
+  <text x="115" y="330" text-anchor="middle" font-size="11" font-weight="600" fill="#2b6cb0">🅿️ Parking Area</text>
+  <text x="115" y="350" text-anchor="middle" font-size="9" fill="#4a90d9">(bãi đỗ xe)</text>
+
+  <!-- Site Office -->
+  <rect x="40" y="180" width="130" height="80" rx="6" fill="#fefcbf" stroke="#d69e2e" stroke-width="1.5"/>
+  <text x="105" y="215" text-anchor="middle" font-size="11" font-weight="600" fill="#975a16">🏢 Site Office</text>
+  <text x="105" y="235" text-anchor="middle" font-size="9" fill="#b7791f">(văn phòng)</text>
+
+  <!-- Main Building -->
+  <rect x="230" y="100" width="240" height="180" rx="8" fill="#fed7d7" stroke="#e53e3e" stroke-width="2"/>
+  <text x="350" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="#9b2c2c">🏗️ MAIN BUILDING</text>
+  <text x="350" y="200" text-anchor="middle" font-size="10" fill="#c53030">(tòa nhà chính)</text>
+  <text x="350" y="145" text-anchor="middle" font-size="10" fill="#e53e3e">Ground Floor + 2nd Floor</text>
+  <text x="350" y="230" text-anchor="middle" font-size="10" fill="#e53e3e">Staircase inside ↕️</text>
+
+  <!-- Storage Room -->
+  <rect x="520" y="180" width="140" height="80" rx="6" fill="#e9d8fd" stroke="#805ad5" stroke-width="1.5"/>
+  <text x="590" y="215" text-anchor="middle" font-size="11" font-weight="600" fill="#553c9a">📦 Storage Room</text>
+  <text x="590" y="235" text-anchor="middle" font-size="9" fill="#6b46c1">(phòng kho)</text>
+
+  <!-- Scaffolding -->
+  <rect x="520" y="80" width="140" height="70" rx="6" fill="#c6f6d5" stroke="#38a169" stroke-width="1.5"/>
+  <text x="590" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#276749">🪜 Scaffolding</text>
+  <text x="590" y="128" text-anchor="middle" font-size="9" fill="#38a169">(giàn giáo)</text>
+
+  <!-- Cement Mixer area -->
+  <rect x="230" y="310" width="120" height="60" rx="6" fill="#feebc8" stroke="#dd6b20" stroke-width="1.5"/>
+  <text x="290" y="335" text-anchor="middle" font-size="10" font-weight="600" fill="#c05621">⚙️ Cement Mixer</text>
+  <text x="290" y="352" text-anchor="middle" font-size="9" fill="#dd6b20">(máy trộn)</text>
+
+  <!-- Materials area -->
+  <rect x="400" y="310" width="130" height="60" rx="6" fill="#fbd38d" stroke="#d69e2e" stroke-width="1.5"/>
+  <text x="465" y="330" text-anchor="middle" font-size="10" font-weight="600" fill="#975a16">🧱 Bricks & Steel</text>
+  <text x="465" y="348" text-anchor="middle" font-size="9" fill="#b7791f">(gạch & thép)</text>
+
+  <!-- Ladder -->
+  <rect x="40" y="80" width="100" height="60" rx="6" fill="#c6f6d5" stroke="#38a169" stroke-width="1.5"/>
+  <text x="90" y="105" text-anchor="middle" font-size="10" font-weight="600" fill="#276749">🪜 Ladder</text>
+  <text x="90" y="122" text-anchor="middle" font-size="9" fill="#38a169">(thang)</text>
+
+  <!-- Directional arrows -->
+  <text x="350" y="60" text-anchor="middle" font-size="10" fill="#718096">⬆️ North</text>
+</svg>
+</div>
+
+<hr>
+
+<!-- ===================== GRAMMAR: PREPOSITIONS ===================== -->
+<h2>📐 Part 3 — Grammar: Prepositions of Place</h2>
+
+<div class="grammar-box">
+  <h3>📌 Key Sentence Pattern</h3>
+  <div class="grammar-pattern">
+    The [thing] + is + [preposition] + the [place].
+  </div>
+  <div class="grammar-example">
+    <strong>Example:</strong> "The storage room <strong>is next to</strong> the office."
+    <button class="speak-btn" onclick="speakWord('The storage room is next to the office')">Listen</button>
+  </div>
+  <div class="grammar-example">
+    <strong>Example:</strong> "The ladder <strong>is behind</strong> the storage room."
+    <button class="speak-btn" onclick="speakWord('The ladder is behind the storage room')">Listen</button>
+  </div>
+</div>
+
+<table>
+  <tr><th>Preposition</th><th>Vietnamese</th><th>Visual</th><th>Example</th><th></th></tr>
+  <tr>
+    <td><strong>next to</strong></td><td class="viet">bên cạnh</td>
+    <td><div class="prep-visual">◼️ ◻️</div></td>
+    <td>"The office is <b>next to</b> the entrance."</td>
+    <td><button class="speak-btn" onclick="speakWord('next to. The office is next to the entrance.')">Listen</button></td>
+  </tr>
+  <tr>
+    <td><strong>behind</strong></td><td class="viet">phía sau</td>
+    <td><div class="prep-visual">◻️ ← ◼️</div></td>
+    <td>"The parking area is <b>behind</b> the building."</td>
+    <td><button class="speak-btn" onclick="speakWord('behind. The parking area is behind the building.')">Listen</button></td>
+  </tr>
+  <tr>
+    <td><strong>in front of</strong></td><td class="viet">phía trước</td>
+    <td><div class="prep-visual">◼️ → ◻️</div></td>
+    <td>"The cement mixer is <b>in front of</b> the building."</td>
+    <td><button class="speak-btn" onclick="speakWord('in front of. The cement mixer is in front of the building.')">Listen</button></td>
+  </tr>
+  <tr>
+    <td><strong>between</strong></td><td class="viet">giữa</td>
+    <td><div class="prep-visual">◻️ ◼️ ◻️</div></td>
+    <td>"The building is <b>between</b> the office and the storage."</td>
+    <td><button class="speak-btn" onclick="speakWord('between. The building is between the office and the storage room.')">Listen</button></td>
+  </tr>
+  <tr>
+    <td><strong>on the left</strong></td><td class="viet">bên trái</td>
+    <td><div class="prep-visual">⬅️ ◼️</div></td>
+    <td>"The office is <b>on the left</b>."</td>
+    <td><button class="speak-btn" onclick="speakWord('on the left. The office is on the left.')">Listen</button></td>
+  </tr>
+  <tr>
+    <td><strong>on the right</strong></td><td class="viet">bên phải</td>
+    <td><div class="prep-visual">◼️ ➡️</div></td>
+    <td>"The storage room is <b>on the right</b>."</td>
+    <td><button class="speak-btn" onclick="speakWord('on the right. The storage room is on the right.')">Listen</button></td>
+  </tr>
+  <tr>
+    <td><strong>at the end of</strong></td><td class="viet">ở cuối</td>
+    <td><div class="prep-visual">... ◼️</div></td>
+    <td>"The scaffolding is <b>at the end of</b> the corridor."</td>
+    <td><button class="speak-btn" onclick="speakWord('at the end of. The scaffolding is at the end of the corridor.')">Listen</button></td>
+  </tr>
+</table>
+
+<div class="grammar-box">
+  <h3>📌 Giving Directions — Key Phrases</h3>
+  <div class="grammar-pattern" style="font-size:1em;">
+    Go straight → Turn left / Turn right → It's on your left / right
+  </div>
+  <table style="margin:10px 0;">
+    <tr><th>English</th><th>Vietnamese</th><th></th></tr>
+    <tr><td>Go straight</td><td class="viet">Đi thẳng</td><td><button class="speak-btn" onclick="speakWord('Go straight')">Listen</button></td></tr>
+    <tr><td>Turn left / Turn right</td><td class="viet">Rẽ trái / Rẽ phải</td><td><button class="speak-btn" onclick="speakWord('Turn left. Turn right.')">Listen</button></td></tr>
+    <tr><td>Go past the…</td><td class="viet">Đi qua cái…</td><td><button class="speak-btn" onclick="speakWord('Go past the parking area')">Listen</button></td></tr>
+    <tr><td>It's on your left / right</td><td class="viet">Nó ở bên trái / phải của bạn</td><td><button class="speak-btn" onclick="speakWord('It is on your left. It is on your right.')">Listen</button></td></tr>
+    <tr><td>It's at the end of…</td><td class="viet">Nó ở cuối…</td><td><button class="speak-btn" onclick="speakWord('It is at the end of the hallway')">Listen</button></td></tr>
+  </table>
+</div>
+
+<hr>
+
+<!-- ===================== EXERCISE 1: MATCHING ===================== -->
+<h2>✏️ Part 4 — Exercise: Label the Site</h2>
+<p><strong>Instructions:</strong> Read the description, choose the correct answer.</p>
+
+<div class="exercise-box" id="exercise1">
+  <div id="matchQuestions"></div>
+  <button class="check-btn" onclick="checkExercise1()">✅ Check Answers</button>
+  <div id="exercise1Result" class="result"></div>
+</div>
+
+<hr>
+
+<!-- ===================== EXERCISE 2: GAP FILL ===================== -->
+<h2>✏️ Part 5 — Exercise: Fill in the Blanks</h2>
+
+<div class="exercise-box">
+  <p><strong>Complete the dialogue with the correct words:</strong></p>
+  <div class="word-bank" id="wordBank">
+    <span class="word-chip" onclick="useWord(this)">Go</span>
+    <span class="word-chip" onclick="useWord(this)">turn</span>
+    <span class="word-chip" onclick="useWord(this)">near</span>
+    <span class="word-chip" onclick="useWord(this)">close</span>
+    <span class="word-chip" onclick="useWord(this)">warehouse</span>
+  </div>
+
+  <div class="dialogue" style="margin-top:12px;">
+    <div class="line">
+      <span class="speaker speaker-a">Worker</span>
+      <span class="text">Excuse me, where is the <input class="gap-input" id="gap1" placeholder="(1)"> ?</span>
+    </div>
+    <div class="line">
+      <span class="speaker speaker-b">Supervisor</span>
+      <span class="text"><input class="gap-input" id="gap2" placeholder="(2)"> straight, then <input class="gap-input" id="gap3" placeholder="(3)"> right. It's <input class="gap-input" id="gap4" placeholder="(4)"> the parking area.</span>
+    </div>
+    <div class="line">
+      <span class="speaker speaker-a">Worker</span>
+      <span class="text">Is it far?</span>
+    </div>
+    <div class="line">
+      <span class="speaker speaker-b">Supervisor</span>
+      <span class="text">No, it's very <input class="gap-input" id="gap5" placeholder="(5)">. About 50 meters.</span>
+    </div>
+  </div>
+
+  <button class="check-btn" onclick="checkGapFill()">✅ Check Answers</button>
+  <div id="gapResult" class="result"></div>
+</div>
+
+<hr>
+
+<!-- ===================== DIALOGUE PRACTICE ===================== -->
+<h2>🗣️ Part 6 — Dialogue Practice: Asking for Directions</h2>
+<p><strong>Instructions:</strong> Practice this dialogue. Click 🔊 to hear each line. Then try speaking it yourself!</p>
+
+<div class="dialogue">
+  <div class="line">
+    <span class="speaker speaker-a">Worker A</span>
+    <span class="text">Excuse me, where is the storage room? <span class="viet">(Xin lỗi, phòng kho ở đâu?)</span>
+      <button class="speak-btn" onclick="speakWord('Excuse me, where is the storage room?')">Listen</button>
+    </span>
+  </div>
+  <div class="line">
+    <span class="speaker speaker-b">Worker B</span>
+    <span class="text">Go straight, then turn left. It's next to the office. <span class="viet">(Đi thẳng, rồi rẽ trái. Nó ở cạnh văn phòng.)</span>
+      <button class="speak-btn" onclick="speakWord('Go straight, then turn left. It is next to the office.')">Listen</button>
+    </span>
+  </div>
+  <div class="line">
+    <span class="speaker speaker-a">Worker A</span>
+    <span class="text">And where can I find the cement mixer? <span class="viet">(Và tôi có thể tìm máy trộn bê tông ở đâu?)</span>
+      <button class="speak-btn" onclick="speakWord('And where can I find the cement mixer?')">Listen</button>
+    </span>
+  </div>
+  <div class="line">
+    <span class="speaker speaker-b">Worker B</span>
+    <span class="text">It's in front of the main building, near the scaffolding. <span class="viet">(Nó ở phía trước tòa nhà chính, gần giàn giáo.)</span>
+      <button class="speak-btn" onclick="speakWord('It is in front of the main building, near the scaffolding.')">Listen</button>
+    </span>
+  </div>
+  <div class="line">
+    <span class="speaker speaker-a">Worker A</span>
+    <span class="text">Thank you!
+      <button class="speak-btn" onclick="speakWord('Thank you!')">Listen</button>
+    </span>
+  </div>
+  <div class="line">
+    <span class="speaker speaker-b">Worker B</span>
+    <span class="text">No problem. Be careful — wear your hard hat! <span class="viet">(Không có gì. Cẩn thận — đội mũ bảo hộ nhé!)</span>
+      <button class="speak-btn" onclick="speakWord('No problem. Be careful, wear your hard hat!')">Listen</button>
+    </span>
+  </div>
+</div>
+
+<button class="speak-btn" style="padding:8px 20px;font-size:1em;margin:10px 0;" onclick="playFullDialogue()">🔊 Play Full Dialogue</button>
+
+<hr>
+
+<!-- ===================== ROLE-PLAY ===================== -->
+<h2>🎭 Part 7 — Role-Play: Site Tour</h2>
+
+<div class="roleplay-card">
+  <h3>📋 Situation</h3>
+  <p><strong>Student role:</strong> You are a <b>site supervisor</b> (giám sát công trường).</p>
+  <p><strong>Teacher role:</strong> A new worker on the first day.</p>
+  <p><em>"Show me around the construction site. Tell me where things are."</em></p>
+  <button class="speak-btn" style="padding:6px 16px;font-size:0.95em;" onclick="speakWord('You are a site supervisor. I am a new worker on my first day. Show me around the construction site. Tell me where things are.')">🔊 Hear the instructions</button>
+</div>
+
+<h3>Teacher Prompts (use these questions):</h3>
+<div class="exercise-box">
+  <ul>
+    <li>"Where is the storage room?" <button class="speak-btn" onclick="speakWord('Where is the storage room?')">Listen</button></li>
+    <li>"How do I get to the parking area?" <button class="speak-btn" onclick="speakWord('How do I get to the parking area?')">Listen</button></li>
+    <li>"Where can I find a hard hat?" <button class="speak-btn" onclick="speakWord('Where can I find a hard hat?')">Listen</button></li>
+    <li>"Is the scaffolding near here?" <button class="speak-btn" onclick="speakWord('Is the scaffolding near here?')">Listen</button></li>
+    <li>"Where should I put the bricks?" <button class="speak-btn" onclick="speakWord('Where should I put the bricks?')">Listen</button></li>
+    <li>"What is next to the office?" <button class="speak-btn" onclick="speakWord('What is next to the office?')">Listen</button></li>
+  </ul>
+</div>
+
+<details class="answer-key">
+  <summary>✅ Sample Answers the Student Should Produce</summary>
+  <ul>
+    <li>"The storage room is <b>behind</b> the main building. Go straight and turn right." <button class="speak-btn" onclick="speakWord('The storage room is behind the main building. Go straight and turn right.')">Listen</button></li>
+    <li>"The parking area is <b>on the left</b>. Go past the office." <button class="speak-btn" onclick="speakWord('The parking area is on the left. Go past the office.')">Listen</button></li>
+    <li>"The hard hats are <b>in</b> the storage room, <b>next to</b> the safety vests." <button class="speak-btn" onclick="speakWord('The hard hats are in the storage room, next to the safety vests.')">Listen</button></li>
+    <li>"The scaffolding is <b>in front of</b> Building A. Go past the parking area." <button class="speak-btn" onclick="speakWord('The scaffolding is in front of Building A. Go past the parking area.')">Listen</button></li>
+    <li>"Put the bricks <b>near</b> the cement mixer. It's <b>between</b> the office and the warehouse." <button class="speak-btn" onclick="speakWord('Put the bricks near the cement mixer. It is between the office and the warehouse.')">Listen</button></li>
+    <li>"The entrance is <b>next to</b> the office." <button class="speak-btn" onclick="speakWord('The entrance is next to the office.')">Listen</button></li>
+  </ul>
+</details>
+
+<h3>Assessment Criteria</h3>
+<table class="assessment-table">
+  <tr><th>Criteria</th><th>✅ Good</th><th>⚠️ Needs Practice</th></tr>
+  <tr><td>Uses site vocabulary</td><td>Names 5+ places/items</td><td>Names fewer than 3</td></tr>
+  <tr><td>Uses prepositions</td><td>3+ different prepositions</td><td>Only "in" or "on"</td></tr>
+  <tr><td>Gives clear directions</td><td>Listener can follow</td><td>Incomplete or confusing</td></tr>
+  <tr><td>Pronunciation</td><td>Understandable</td><td>Needs significant correction</td></tr>
+</table>
+
+<hr>
+
+<!-- ===================== HOMEWORK ===================== -->
+<h2>📝 Homework</h2>
+
+<div class="exercise-box">
+  <p><strong>Task 1 — Vocabulary:</strong> Write each new word 3 times with its Vietnamese meaning. Practice saying each word aloud.</p>
+  <p><strong>Task 2 — Sentences:</strong> Write 5 sentences describing where things are at your real workplace. Use at least 3 different prepositions.</p>
+  <p style="background:#f7fafc;padding:8px 12px;border-radius:6px;"><em>Example: "The cement mixer is <b>in front of</b> Building B. The storage room is <b>behind</b> the office."</em></p>
+  <p><strong>Task 3 — Speaking:</strong> Record yourself reading the dialogue from Part 6 (both roles). Send the recording to the teacher.</p>
+</div>
+
+<div class="note-box">
+  <strong>Next session preview:</strong> <em>"Next time, we will learn about safety on the construction site — safety equipment, warning signs, and how to report problems."</em>
+  <button class="speak-btn" style="margin-left:6px;" onclick="speakWord('Next time, we will learn about safety on the construction site. Safety equipment, warning signs, and how to report problems.')">Listen</button>
+  <br><span class="viet">(Lần tới chúng ta sẽ học về an toàn trên công trường — thiết bị an toàn, biển cảnh báo, và cách báo cáo sự cố.)</span>
+</div>
+
+<hr>
+<p style="text-align:center; color:#a0aec0; font-size:0.85em; margin-top:20px;">
+  Prepared by Thầy Vũ Nguyên — English for Construction & Interior Design
+</p>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+// ===== Web Speech API =====
+function speakWord(text) {
+  if (!('speechSynthesis' in window)) { alert('Your browser does not support audio.'); return; }
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.85;
+  u.pitch = 1;
+  // Try to use a good English voice
+  var voices = window.speechSynthesis.getVoices();
+  var enVoice = voices.find(function(v){ return v.lang.startsWith('en') && v.name.indexOf('Google') >= 0; })
+    || voices.find(function(v){ return v.lang.startsWith('en-US'); })
+    || voices.find(function(v){ return v.lang.startsWith('en'); });
+  if (enVoice) u.voice = enVoice;
+  window.speechSynthesis.speak(u);
+}
+// Preload voices
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = function(){ window.speechSynthesis.getVoices(); };
+}
+
+// ===== Full Dialogue Playback =====
+function playFullDialogue() {
+  var lines = [
+    'Excuse me, where is the storage room?',
+    'Go straight, then turn left. It is next to the office.',
+    'And where can I find the cement mixer?',
+    'It is in front of the main building, near the scaffolding.',
+    'Thank you!',
+    'No problem. Be careful, wear your hard hat!'
+  ];
+  window.speechSynthesis.cancel();
+  var i = 0;
+  function playNext() {
+    if (i >= lines.length) return;
+    var u = new SpeechSynthesisUtterance(lines[i]);
+    u.lang = 'en-US';
+    u.rate = 0.82;
+    var voices = window.speechSynthesis.getVoices();
+    var enVoice = voices.find(function(v){ return v.lang.startsWith('en') && v.name.indexOf('Google') >= 0; })
+      || voices.find(function(v){ return v.lang.startsWith('en-US'); });
+    if (enVoice) u.voice = enVoice;
+    u.onend = function(){ i++; setTimeout(playNext, 600); };
+    window.speechSynthesis.speak(u);
+  }
+  playNext();
+}
+
+// ===== Exercise 1: Matching =====
+var matchData = [
+  { q: '"This is where you park your car."', a: 'parking area', opts: ['parking area','staircase','storage room','entrance'] },
+  { q: '"You go up these to reach the second floor."', a: 'staircase', opts: ['drill','staircase','rooftop','ladder'] },
+  { q: '"Workers keep materials here — cement, bricks, paint."', a: 'storage room', opts: ['site office','entrance','storage room','parking area'] },
+  { q: '"You must wear this on your head for safety."', a: 'helmet / hard hat', opts: ['tile','helmet / hard hat','drill','ladder'] },
+  { q: '"You use this machine to make holes in the wall."', a: 'drill', opts: ['cement','steel','drill','paint'] },
+  { q: '"This is the door where you come in."', a: 'entrance', opts: ['exit','entrance','staircase','rooftop'] },
+  { q: '"The manager works here and keeps documents."', a: 'site office', opts: ['site office','ground floor','storage room','parking area'] },
+  { q: '"Workers are putting these on the bathroom floor."', a: 'tiles', opts: ['bricks','cement','steel','tiles'] }
+];
+
+(function buildMatchExercise(){
+  var container = document.getElementById('matchQuestions');
+  var html = '';
+  matchData.forEach(function(item, idx){
+    var shuffled = item.opts.slice().sort(function(){return Math.random()-0.5;});
+    html += '<div style="margin-bottom:14px;padding:10px;background:#f7fafc;border-radius:8px;">';
+    html += '<p><strong>' + (idx+1) + '.</strong> ' + item.q + '</p>';
+    html += '<select id="match' + idx + '" style="padding:6px 12px;border-radius:6px;border:1px solid #cbd5e0;font-size:0.95em;min-width:160px;">';
+    html += '<option value="">— Choose —</option>';
+    shuffled.forEach(function(opt){
+      html += '<option value="' + opt + '">' + opt + '</option>';
+    });
+    html += '</select></div>';
+  });
+  container.innerHTML = html;
+})();
+
+function checkExercise1() {
+  var score = 0;
+  matchData.forEach(function(item, idx){
+    var sel = document.getElementById('match' + idx);
+    if (sel.value === item.a) {
+      score++;
+      sel.style.borderColor = '#38a169';
+      sel.style.background = '#c6f6d5';
+    } else {
+      sel.style.borderColor = '#e53e3e';
+      sel.style.background = '#fed7d7';
+    }
+  });
+  var el = document.getElementById('exercise1Result');
+  if (score === matchData.length) {
+    el.className = 'result correct';
+    el.textContent = '🎉 Excellent! ' + score + '/' + matchData.length + ' correct!';
+  } else {
+    el.className = 'result wrong';
+    el.textContent = '📝 ' + score + '/' + matchData.length + ' correct. Try again!';
+  }
+}
+
+// ===== Exercise 2: Gap Fill =====
+var gapAnswers = { gap1: 'warehouse', gap2: 'go', gap3: 'turn', gap4: 'near', gap5: 'close' };
+
+function useWord(chip) {
+  if (chip.classList.contains('used')) return;
+  // Find first empty gap
+  for (var i = 1; i <= 5; i++) {
+    var inp = document.getElementById('gap' + i);
+    if (!inp.value) {
+      inp.value = chip.textContent;
+      chip.classList.add('used');
+      return;
+    }
+  }
+}
+
+function checkGapFill() {
+  var score = 0;
+  for (var i = 1; i <= 5; i++) {
+    var inp = document.getElementById('gap' + i);
+    var correct = gapAnswers['gap' + i];
+    if (inp.value.trim().toLowerCase() === correct.toLowerCase()) {
+      score++;
+      inp.style.borderBottomColor = '#38a169';
+      inp.style.background = '#c6f6d5';
+    } else {
+      inp.style.borderBottomColor = '#e53e3e';
+      inp.style.background = '#fed7d7';
+    }
+  }
+  var el = document.getElementById('gapResult');
+  if (score === 5) {
+    el.className = 'result correct';
+    el.textContent = '🎉 Perfect! All 5 answers correct!';
+  } else {
+    el.className = 'result wrong';
+    el.textContent = '📝 ' + score + '/5 correct. Answers: 1. warehouse, 2. Go, 3. turn, 4. near, 5. close';
+  }
+}
+</script>
+
+</body>
+</html>
